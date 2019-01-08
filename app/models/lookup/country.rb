@@ -29,18 +29,17 @@ module Lookup
     end
 
     def self.curl_cmd
-      # not yet working
       "curl -o public/countries.csv -G 'https://query.wikidata.org/sparql' \
          --header 'Accept: text/csv' \
          --data-urlencode query='
            SELECT DISTINCT ?iso2 ?qid ?osm_relid ?itemLabel
            WHERE {
            ?item wdt:P297 _:b0.
-           BIND(strafter(STR(?item), 'http://www.wikidata.org/entity/') as ?qid).
+           BIND(strafter(STR(?item), \"http://www.wikidata.org/entity/\") as ?qid).
            OPTIONAL { ?item wdt:P1448 ?name .}
            OPTIONAL { ?item wdt:P297  ?iso2 .}
            OPTIONAL { ?item wdt:P402  ?osm_relid .}
-           SERVICE wikibase:label { bd:serviceParam wikibase:language 'en,[AUTO_LANGUAGE]' . }
+           SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . }
            }
            ORDER BY ?itemLabel"
     end
