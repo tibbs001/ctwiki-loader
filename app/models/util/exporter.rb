@@ -81,7 +81,7 @@ module Util
         if !qcode.blank?
           f << "#{new_line}LAST#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
         else
-          f << "#{new_line}LAST#{tab}P281#{tab}#{facility.zip}" if !facility.zip.blank? and facility.zip.count("a-zA-Z") == 0
+          f << "#{new_line}LAST#{tab}P281#{tab}\"#{facility.zip}\"" if !facility.zip.blank? and facility.zip.count("a-zA-Z") == 0
         end
       }
     end
