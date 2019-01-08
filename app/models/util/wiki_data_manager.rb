@@ -135,5 +135,24 @@ module Util
       return raw_results.select{|x| x[:description] != 'delete me' }
     end
 
+    def study_already_loaded?(nct_id)
+      # better to use wikidata API, but couldn't find the way to do it
+      system('rm public/check_if_study_already_loaded')
+      system(curl_to_find_nct_id(nct_id))
+      File.open('public/check_if_study_already_loaded').first != "itemLabel\r\n"
+    end
+
+    def curl_to_find_nct_id(nct_id)
+      existing_nct_id="'NCT02856984'"
+      query = "
+         SELECT ?itemLabel WHERE { ?item wdt:P3098 \"#{nct_id}\" . \
+         SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . } \
+         } "
+
+      " curl -o public/check_if_study_already_loaded -G 'https://query.wikidata.org/sparql' \
+         --header 'Accept: text/csv' \
+         --data-urlencode query='#{query}' "
+    end
+
   end
 end

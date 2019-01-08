@@ -9,36 +9,39 @@ module Util
 ', :tab=>'	'} if delimiters.blank?
       @new_line = delimiters[:new_line]
       @tab = delimiters[:tab]
+      mgr = Util::WikiDataManager.new
       File.open("public/data.txt", "w+") do |f|
-        self.zika_studies[0..9].each do |id|
+        self.zika_studies.each do |id|
         #Study.all[0..9].each do |id|
-          @study=Study.where('nct_id=?', id).first
+          if !mgr.study_already_loaded?(id)
+            @study=Study.where('nct_id=?', id).first
 
-          f << 'CREATE'
-          f << "#{new_line}LAST#{tab}Len#{tab}\"#{study.brief_title}\""   # Label
-          f << "#{new_line}LAST#{tab}Den#{tab}\"clinical trial\""     # Description
+            f << 'CREATE'
+            f << "#{new_line}LAST#{tab}Len#{tab}\"#{study.brief_title}\""   # Label
+            f << "#{new_line}LAST#{tab}Den#{tab}\"clinical trial\""     # Description
 
-          if !study.calculated_value.has_single_facility
-            f << "#{new_line}LAST#{tab}P31#{tab}Q6934595"   # instance of a multi-center clinical trial
-          else
-            f << "#{new_line}LAST#{tab}P31#{tab}Q30612"     # instance of a clinical trial
+            if !study.calculated_value.has_single_facility
+              f << "#{new_line}LAST#{tab}P31#{tab}Q6934595"   # instance of a multi-center clinical trial
+            else
+              f << "#{new_line}LAST#{tab}P31#{tab}Q30612"     # instance of a clinical trial
+            end
+            f << "#{new_line}LAST#{tab}P3098#{tab}\"#{study.nct_id}\""
+            #  seems title needs to specify language & is an object
+            f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.official_title}\"" if study.official_title
+            f << "#{new_line}LAST#{tab}P1813#{tab}en:\"#{study.acronym}\"" if study.acronym
+            f << "#{new_line}LAST#{tab}P580#{tab}+#{study.quickstatement_date(study.start_date)}" if study.start_date
+            f << "#{new_line}LAST#{tab}P582#{tab}+#{study.quickstatement_date(study.primary_completion_date)}" if study.primary_completion_date
+            f << "#{new_line}LAST#{tab}P1132#{tab}#{study.enrollment}"  if study.enrollment
+            assign_min_max_age(f)
+            assign_phase_qcodes(f)
+            assign_condition_qcodes(f)
+            assign_country_qcodes(f)
+            assign_facility_qcodes(f)
+            assign_intervention_qcodes(f)
+            assign_pubmed_ids(f)
+            assign_sponsor_qcodes(f)
+            f << " #{new_line}#{new_line}"
           end
-          f << "#{new_line}LAST#{tab}P3098#{tab}\"#{study.nct_id}\""
-          #  seems title needs to specify language & is an object
-          f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.official_title}\"" if study.official_title
-          f << "#{new_line}LAST#{tab}P1813#{tab}en:\"#{study.acronym}\"" if study.acronym
-          f << "#{new_line}LAST#{tab}P580#{tab}+#{study.quickstatement_date(study.start_date)}" if study.start_date
-          f << "#{new_line}LAST#{tab}P582#{tab}+#{study.quickstatement_date(study.primary_completion_date)}" if study.primary_completion_date
-          f << "#{new_line}LAST#{tab}P1132#{tab}#{study.enrollment}"  if study.enrollment
-          assign_min_max_age(f)
-          assign_phase_qcodes(f)
-          assign_condition_qcodes(f)
-          assign_country_qcodes(f)
-          assign_facility_qcodes(f)
-          assign_intervention_qcodes(f)
-          assign_pubmed_ids(f)
-          assign_sponsor_qcodes(f)
-          f << " #{new_line}#{new_line}"
         end
       end
 
