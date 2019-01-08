@@ -1,0 +1,89 @@
+CREATE
+LAST	P31	Q30612
+LAST	P3098	"NCT00720980"
+LAST	P1476	en:"Granuloma Annulare Treated With Rifampin, Ofloxacin, and Minocycline Combination Therapy"
+LAST	P580	+2008-05-31T00:00:00Z/11	/* start date */
+LAST	P582	+2008-05-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	6	/* enrollment */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	"NCT01967693"
+LAST	P1476	en:"Characterization of Laryngeal Contact Granulomas: Retrospective Analysis of Symptoms, Promotive Factors and Therapy"
+LAST	P580	+2008-03-31T00:00:00Z/11	/* start date */
+LAST	P582	+2012-08-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	42	/* enrollment */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	"NCT02358304"
+LAST	P1476	en:"Treatment of Aggressive Central Giant Cell Granuloma"
+LAST	P580	+2007-09-30T00:00:00Z/11	/* start date */
+LAST	P582	+2015-02-28T00:00:00Z/11	/* primary completion date */
+LAST	P1132	24	/* enrollment */
+LAST	P6099	Q42824440	/* Phase 2 */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	en:"NCT02116608"
+LAST	P1476	en:"Treatment of Tracheostomy Granulomas"
+LAST	P580	2014-09-30T00:00:00Z/11	/* start date */
+LAST	P582	2022-01-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	20	/* enrollment */
+LAST	P6099	Q42825046	/* Phase 4 */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	en:"NCT01678053"
+LAST	P1476	en:"A Randomized Controlled Trial Comparing Proton Pump Inhibitor Therapy With and Without Interarytenoid Botulinum Toxin Injection for Vocal Fold Granuloma"
+LAST	P580	2012-09-30T00:00:00Z/11	/* start date */
+LAST	P582	2015-01-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	0	/* enrollment */
+LAST	P6099	Q42824440	/* Phase 2 */
+
+CREATE
+LAST	P31	Q6934595
+LAST	P3098	en:"NCT01567215"
+LAST	P1476	en:"Treatment of Granuloma Umbilical in Newborn Babies - Comparison of Treatment With Silver Nitrate Versus Alcohol Swaps Versus Steroid Creme Group IV"
+LAST	P580	2012-05-31T00:00:00Z/11	/* start date */
+LAST	P582	2014-02-28T00:00:00Z/11	/* primary completion date */
+LAST	P1132	90	/* enrollment */
+LAST	P6099	Q42824440	/* Phase 2 */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	en:"NCT00567658"
+LAST	P1476	en:"Effect of Aggressive Acid Suppression With Esomeprazole on Vocal Cord Granulomas: Randomized Placebo-Controlled Trial"
+LAST	P580	2008-02-29T00:00:00Z/11	/* start date */
+LAST	P582	2010-01-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	0	/* enrollment */
+LAST	P6099	Q42824827	/* Phase 3 */
+LAST	P912	Q7914455	/* Vanderbilt University Medical Center */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	en:"NCT02824419"
+LAST	P1476	en:"Imaging of Active Granulomas With [18F]FDG and Selected Inflammatory PET Tracers in Pulmonary Sarcoidosis"
+LAST	P580	2016-05-31T00:00:00Z/11	/* start date */
+LAST	P582	2017-05-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	10	/* enrollment */
+LAST	P6099	Q42824440	/* Phase 2 */
+LAST	P6099	Q42824827	/* Phase 3 */
+
+CREATE
+LAST	P31	Q6934595
+LAST	P3098	en:"NCT01662765"
+LAST	P1476	en:"Conservative Versus Surgical Treatment of Umbilical Pilonidal Sinus Disease: A Prospective, Randomised, and Multicenter Clinical Trial"
+LAST	P580	2003-11-30T00:00:00Z/11	/* start date */
+LAST	P582	2010-05-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	84	/* enrollment */
+
+CREATE
+LAST	P31	Q30612
+LAST	P3098	en:"NCT01369251"
+LAST	P1476	en:"Simple Hygiene Versus Alcohol Based Usual Care for Umbilical Cord: a Randomized Clinical Trial"
+LAST	P580	2011-05-31T00:00:00Z/11	/* start date */
+LAST	P582	2012-12-31T00:00:00Z/11	/* primary completion date */
+LAST	P1132	400	/* enrollment */
+LAST	P6099	Q42824827	/* Phase 3 */
+

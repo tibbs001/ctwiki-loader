@@ -1,0 +1,3 @@
+class BrowseIntervention < StudyRelationship
+
+end

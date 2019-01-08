@@ -1,0 +1,481 @@
+#  Synteract, Inc.
+#  Naofumi Takehara
+  Cardiac Regeneration Technologies, LLC
+  Dental Wellness Trust (DWT)
+  Iva Hauptmannova
+  Jennifer McCallister MD
+  Ability Pediatric Physical Therapy, LLC
+  Morton Plant Mease Health Care
+  John Douglas French Foundation
+  Lelo Inc.
+  Brazilian Research in Intensive Care Network (BRICNet)
+  New World Development Company Limited
+  Medical Action Myanmar (MAM)
+  Joshua A. Lile, Ph.D.
+  Union hospital of Fujian Medical University
+  Wisconsin Institute for Neurologic and Sleep Disorders S.C.
+  Oihane Lapuente Ocamica
+  Brian Primack
+  Breezy Industries Ltd.
+  Jethro Hu
+  Monik Mariano Pinto
+  University Hospital St Luc, Brussels
+  Holland Particle Therapy Centre (HollandPTC)
+  Finabiotech
+  DNA Genotek (has supplied the kits)
+  Medical Research Foundation - Memorial University
+  Juan Carlos Sanchez Garcia
+  Federal Economic Development Agency for Southern Ontario
+  Pennsylvania Bureau of Autism Services
+  Shaoguan People's Hospital
+  Knowledge Media Institute, University Koblenz-Landau
+  Mundipharma SAS
+  Guiyang No.1 People's Hospital
+  Dr Yan Beauverd
+  Marin Employment Connection
+  W. Dalton Dietrich
+  South Carolina School for the Deaf and the Blind
+  Shannon K. Laughlin-Tommaso
+  Virobay Inc.
+  Seth Disner
+  Asociacion Latinoamericana de Torax
+  National reference center for thalassemia
+  Ji Kon Ryu
+  Michael B. Atkins, MD
+  Rehabilitace MUDr. Hasan Mezian s.r.o.
+  Tarsa Therapeutics, Inc.
+  Seoul National University Medical Center
+  Maryam Ekramzadeh, PhD
+  Raisio Plc
+  Aerovance, Inc.
+  The Coordination Unit in the Orkdal region (SIO)
+  ZonMw: The Netherlands Organisation for Health Research and Development
+  Lidia Decembrino
+  Karen Brage
+  The Second Affiliated Hospital of Shantou University Medical College
+  Merck Childhood Asthma Network (MCAN)
+  Hospital Morales Meseger, Murcia, España
+  Gert Meijer
+  Lawrence Livermore National Laboratory at University of California
+  Orthopedic Hospital Vienna Speising
+  Safak Baran Yilmaz
+  Met Ghamr Cancer Center
+  mProve
+  Tianjin Central Hospital of Obstetrics and Gynecology
+  Maurizio Eugenio Landolina
+  TransCom Global Ltd. (CRO)
+  Maria Vittoria Hospital
+  ADDMEDICA SASA
+  TTY Biopharm
+  Health and Nutrition Development Society
+  Agenus Inc.
+  Krankenhaus der Barmherzigen Schwestern Ried
+  The New York Society for the Prevention of Cruelty to Children
+  BioMAS Ltd
+  North West Lung Centre
+  Jeffrey Yachnin M.D., PhD.
+  Maatschap Cardiologie Zwolle
+  Dr. Oliva Giorgio
+  Adriane Aver Vanin
+  Clinic for Sexology and Center for Psychiatry Copenhagen Denmark
+  Centre Hospitalier Universiatire Lyon
+  Henry DeGroot, M.D.
+  The Danish Research Centre for Chemical Sensitivities
+  Michelson Diagnostics Ltd.
+  Pedro Luis Sánchez Fernández
+  Beijing Biohealthcare Biotechnology Co.,Ltd
+  Victorian Cytology Service
+  Daisy Hassani
+  Chiang Rai Public Health Office
+  Uroplasty, Inc
+  Neurop Inc.
+  Gardia Medical
+  Hudlegene på Holtet DA
+  Allgemeines Krankenhaus Celle, Celle, Germany
+  CIBER-BBN: Networking Research Center for Bioengineering.
+  VA Caribbean Healthcare System
+  Suvankar Majumdar
+  Research Center for Vitamins and Vaccines
+  sarah mohamed hassan
+  FCB-Pharmicell Co Ltd.
+  EMD Serono Research & Development Institute, Inc.
+  Psychiatric Services Aargau AG
+  Laboratoires Takeda
+  L'Agence des Nouvelles Interventions Sociales et de Santé
+  Zhanjiang Cancer Hospital
+  Cheng Hsin Rehabilitation Medical Center
+  Olive Fertility Centre
+  Dr. Gisèle PICKERING (MCU, PH) Center of clinical pharmacology/CIC Inserm-1405 - Main investigator - Coordinating center
+  Professor David Lalloo
+  Nottinghamshire County Teaching Primary Care Trust
+  Xiongjing Jiang
+  UBS Optimus Fund
+  Centre Hospitalier F.H. Manhès
+  Mehiläinen Oy healthcare service company (Finland)
+  Norwegian Seafood Center
+  TSI Health Sciences, Inc.
+  OrbusNeich Medical (Shenzhen), Co. Ltd.
+  Scottish Cancer Trials Breast Group
+  Salvador Navarro-Soto
+  Ningbo Beilun District Traditional Chinese Medicine Hospital
+  National Problem Gambling Clinic
+  SC Liver Research Consortium, LLC
+  Roxall Medizin
+  Association Tunisienne de lutte Contre le Cancer
+  MSDAVENIR
+  Turk Telekomunikasyon A.Ş., Istanbul, Turkey
+  Validia Kuntoutus Oy
+  Deutsche Gesellschaft für Angiologie, Gesellschaft für Gefäßmedizin e.V.
+  Laurel Ridge Treatment Center
+  Child and Adolescent Psychiatry Weissenau, Centre for Psychiatry in South-Württemberg, Germany
+  Medicpen AB
+  HemaQuest Pharmaceuticals Inc.
+  Mexican National Institute for Women
+  Boys Town Research Hospital
+  Canadian Scleroderma Research Group
+  World Autism Center, American Federation of Medical Synergetics
+  The First Affiliated Hospital of Xiamen University
+  NeuroWave Systems Inc.
+  vakgroeppublichealth
+  Roubaix hospital
+  Alison Gernand
+  Birmingham VA Medical Center/University of Alabama School of Medicine, USA
+  Centre de Référence National du Kératocône
+  Hülya Özbeşer
+  Marco Loggia
+  Shanxi Coal Central Hospital
+  Andrew C. Meltzer, MD
+  Beijing Pearl Biotechnology Limited Liability Company
+  Ospedale Monaldi di Napoli
+  CCTU- Cancer Theme
+  New York Center for Orthognathic and Maxillofacial Surgery
+  Idorsia Pharmaceuticals Ltd.
+  Special Research Fund, Belgium
+  Michigan Gastroenterology Institute
+  Afﬁliated Hospital of North Sichuan Medical College
+  People's Hospital of Quzhou
+  NantCell, Inc.
+  Jeppe Juhl and Ovita Juhls Memorial Grant
+  Sword Health, SA
+  Hospital Bernardino Rivadavia Buenos Aires
+  Hospital de Mendaro
+  Clinical Research International Limited
+  Raj Shekhar
+  Advance Shockwave Technology GmbH
+  Robert L. Sainburg
+  PXL University College
+  TotipotentSC Scientific Product Pvt. Ltd.
+  Chronix Biomedical Corporation
+  Actuate Therapeutics Inc.
+  Applied Speciation and Consulting LLC, WA, USA
+  Methodology and quality of life unit in oncology, University hospital of Besancon
+  Parkinson's Disease Society of the United Kingdom
+  Xiangyang No.1 People's Hospital
+  Sintesi Research Srl
+  Validia Rehabilitation Center
+  Centre Suisse de Recherches Scientifiques en Côte d'Ivoire
+  iFIT Prosthetics, LLC
+  Lars K. Møller
+  Carol Vassiliadis Family
+  Quinn Capers
+  Laboratory of Applied Neuroscience, Federal University of Pernambuco, Recife, Brazil
+  Sherine Adel Nasry
+  Josephine Ford Cancer Center
+  Medicortex Finland Oy
+  Istituti Clinici Zucchi
+  khalid abd aziz mohamed
+  TCRCure Biotech Co., Ltd
+  Chicago Asthma Consortium
+  Orthopedic Specialty Institute
+  Restech- Respiratory Technology Corporation
+  Asahi Intecc USA Inc
+  Lumendi, LLC
+  JOTEC GmbH
+  CordCell
+  Visualase, Inc.
+  Diamyd Therapeutics AB
+  South Boston Community Health Center
+  Shreyas Hospital & Sushrut Assisted Conception Clinic, Kolhapur
+  Dongguan Kanghua Hospital
+  Dr. Christoph Stephan, Frankfurt/M
+  Canada: Beatrice Hunter Cancer Research Institute
+  CSSS de Gatineau
+  OSF St. Francis Medical Center
+  CapitalBio Group Corporation
+  Gruppo Italiano Mammella (GIM)
+  Arabella I Leet MD
+  Nisa Hastanesi
+  Braun Aesculap
+  Robert Hotchkiss
+  Harbin Chest Hospital
+  Hal C Charles
+  Dokter Moens Maarten (primary investigator)
+  M. Meine
+  Hospital of Chartres- France
+  UE LifeSciences Inc.
+  Canyon Pharmaceuticals, Inc.
+  CH Montluçon
+  Instituto Tecnologico Servicios Sanitarios, in MD Anderson Cancer Center, Madrid
+  Hôpital de District Sanitaire Dandé
+  Yubari Kibounomori
+  Tinnitus Research Initiative
+  Jan-Cil Switzerland
+  MyCartis, Ghent, Belgium
+  Medley Pharmaceutical Industry SA
+  University of Nagasaki.
+  The First Affiliated Hospital with Nanjing Medical University
+  Energy Action Scotland
+  Red Maple Trials Inc.
+  EngenderHealth Inc.
+  Pneumacare Ltd
+  ResearchPoint
+  Long Island Vitreoretinal Consultants
+  Marin Golčić
+  Mohammed M Milhem
+  STEBA LABORATORIES LTD.
+  The first hospital of Harbin City
+  Nucletron
+  Neogenis Laboratories
+  Mylan Pharmaceuticals
+  Alchemia Oncology
+  Advocate Hospital System
+  Clinical Trial Unit Ente Ospedaliero Cantonale
+  B.I.R.D. (Israel-U.S. Binational Industrial Research and Development)
+  QT Ultrasound LLC
+  Herrmann-Klaus-Stiftung, Switzerland
+  Immunology ICHV Sion Switzerland
+  URC-ECO Clinical trial unit on health Economics, Hotel-Dieu Hospital
+  Bard Peripheral Vascular, Inc.
+  Neurovalens Ltd.
+  The Norwegian Dry Eye Clinic
+  Australasian Kidney Trials Network
+  Manmeet Ahluwalia, MD
+  Lucas Vieira dos Santos
+  Biopharmica Limited
+  F. Stephen Hodi, MD
+  Asofarma de México S.A de C.V.
+  Inova Sports Medicine
+  Julia Finkel
+  Hospital La Fuenfría
+  Garlapati Komali
+  NYC RING, Director
+  Quest PharmaTech Inc.
+  The Danish Working Environment Authority
+  The Fourth Affiliated Hospital of China Medical University
+  Lake Of The Woods District Hospital
+  C8Sciences
+  Institut national de la santé et de la recherche médicale, U930,TOURS
+  The National Collaborative Pediatric Critical Care Research Network
+  GLIA LLC
+  Philippine Department of Social Welfare and Development
+  Csolnoky Ferenc County Hospital
+  T. Franklin Williams Scholars
+  Carruthers Dermatology Centre
+  Karakter Kinder- en Jeugdpsychiatrie
+  Bubba Nicholson
+  Baseline Study LLC
+  Cardio Research Enschede BV
+  JW Medical Systems Ltd
+  Ahmed Aljomah
+  Symic Biomedical, Inc.
+  Dongguan city hospital of TCM
+  The Foundation of Hope for Research and Treatment of Mental Illness
+  The Danish Institute for Health Services Research
+  Associate Professor Helen Marshall
+  John Granton
+  Arla Food Ingredients Group P/S
+  SNBL Clinical Pharmacology Center, Inc.
+  OseoAnvar
+  Firmenich Bjørge Biomarine As
+  Ludwig-Boltzmann Institut fuer Rheumatologie, Balneologie und Rehabilitation
+  Ligartis GmbH
+  AnchorDx Medical Co., Ltd.
+  Labor Limbach, Heidelberg, Germany
+  Texas Transplant Institute
+  Sideris Pharmaceuticals
+  Glasgow City Council Social Work
+  Antares Pharma Inc.
+  Merck Ltd., Thailand
+  Baqiyatallah Research Center for Gastroenterology and Liver Diseases
+  Yoshino Neurology Clinic
+  Medigreen Biotechnology Corp.
+  Fujian Longhua Pharmaceutical Co. Ltd
+  Seoul Metropolitan Government Health and Welfare Office
+  INSERM U1061 Montpellier
+  Arogyavaram Medical Centre
+  De Haar Research Foundation
+  School of Medicine and School of Biosciences, Cardiff University, Cardiff, UK
+  Ovid Therapeutics Inc.
+  University of Heidelberg Medical Center
+  Evdokia Anagnostou
+  Lixte Biotechnology Holdings, Inc.
+  Ironshore Pharmaceuticals and Development, Inc
+  Calliditas Therapeutics AB
+  Arithmos srl
+  MJHS Institute For Innovation in Palliative Care
+  Dalian Holley Kingkong Pharmaceutical Co., Ltd
+  Sequenom Laboratories
+  Federfarma Salerno
+  french society for emergency medicine
+  The Davis Foundations
+  Hossein Esmaielzadeh
+  Else Kröner-Fresenius-Stiftung (Foundation)
+  Talon Surgical
+  Dongguan donghua hospital
+  BTL Industries Ltd.
+  Biodroga Inc.
+  North Carolina Office of Rural Health and Community Care
+  Miller Foundation
+  Niti Medical Technologies Ltd.
+  Aurinia Pharmaceuticals Inc.
+  iBeat Inc.
+  European Network for the Study of Adrenal Tumors (ENS@T)
+  The Gurdon Institute
+  St. Lucas Andreas Ziekenhuis Hospital
+  Maco Pharma S.A.S.
+  Institut national de la santé et de la recherche médicale unité U1235 FRANCE
+  Society for Essential Health Action and Training, New Delhi, India
+  Alberta Innovation and Science
+  Dr Willem Basson
+  Piramal Imaging SA
+  Jeffrey Goldberger
+  PRo-IV
+  the first affiliated hospital of Jiamusi university
+  Botanix Pharmaceuticals
+  VA Brain Rehabilitation Research Center
+  Joacim Stalfors
+  Technical Research Centre of Finland
+  Vitae Pharmaceuticals Inc., an Allergan affiliate
+  Mercia Pharma Inc.
+  Tri Phuoc Biotechnology., JSC
+  Wissenschaftlicher Fonds WFR
+  Promotion santé Valais
+  Carla Chibwesha, MD
+  Acurable Ltd.
+  Thomas G. Brott, M.D.
+  DASAIMS Forskningsinitiativ
+  Bader Faiyaz Zuberi
+  Targovax Oy
+  Phoenix Children's Hospital Center for Cancer & Blood Disorders
+  Future Sciene Technology
+  Children’s hospital of Shanxi
+  Klinik Bad Fallingbostel
+  Headway Norfolk and Waveney
+  Société Guaranteed Gluten Free (GGF)
+  Vodafone UK Foundation
+  Department of Ophthalmology and Optometry St John's Hospital and Clinics
+  Cells for Cells, Chile
+  Centre de radiothérapie Bayard
+  Brain Tumor Research Charity Grant
+  Camilla Storm Slumstrup
+  Cura Biotech LLC
+  Kyle Hancock
+  DJO Incorporated
+  Refocus Group, Inc.
+  GALMED GmbH, Halle, Germany
+  Langerhans Foundation, the Netherlands
+  Instituto Sexológico Murciano
+  Team Arbejdsliv
+  The First Hospital of Quanzhou Affiliated to Fujian Medical University
+  H. van Ameringen Foundation
+  Hospital de Reabilitação de Anomalias Craniofaciais (HRAC) - Brazil
+  Alaska State Public Health Laboratories
+  Helse Nord-Trøndelag HF
+  Yongping Zhai
+  Daiichi Pharmaceuticals
+  Yae Township Hospital, Mon State
+  Janet Vittone
+  MicroOptx
+  Skinfrared LLC
+  Far Easter Memorial Hospital
+  Federally Qualified Community Health Centers
+  Christophe De Block
+  Jawaharlal Nehru Medical College Women's and Children's Health Research Unit
+  Miao-Li General Hospital, Miao-Li City, Taiwan
+  Dimension Research
+  Glycadia
+  Shaine Morris
+  Buenaventura Coroleu
+  Healingstone Co., Ltd.
+  Kramer Consulting, LLC
+  Fundación FES
+  Volkszahnklinik Basel
+  Provincial Public Health Office, Phetchabun
+  Arjuna Natural Extracts Ltd.
+  Instituto Universitario de Ciencias de la Salud Fundación H.A. Barceló
+  Klinik Fallingbostel Rehabilitation Center
+  Autolus Limited
+  Concure Oncology-Breast Microseed Inc.
+  Stiftung Besser Hören
+  California Cancer Consortium
+  St. Joseph's Healthcare Foundation
+  Bio-Inova Life Sciences International
+  Johnny Froekjaer
+  Evolutec Group
+  IPCA Laboratories Ltd.
+  Allergy Centre Vienna West
+  Center of Synergetics, Universität Stuttgart, Germany
+  Laboratoire Psychopathologie et Processus de Santé
+  Mxm-Obelia
+  Chek-Med Systems, Inc.
+  Fédération de l'Âge d'Or du Québec (FADOQ) Region Lanaudiere Quebec
+  Gerhard Pejcl Medizintechnik GmbH
+  Japan Early Diabetes Intervention Study Group
+  General Hospital of Jinan Military Region
+  emocha
+  Spanish Society of Cardiology
+  UMRS 953, Epidemiological Research Unit on Perinatal and Women's and Children's Health, INSERM
+  Erik Kulstad, MD
+  Milton S. Hershey Medical Center
+  Axelar AB
+  Berufsgenossenschaftlichen Unfallklinik Tuebingen
+  Anna Taddio
+  Igor Renato Louro Bruno de Abreu
+  Medical Research and Training Centre, Mali
+  Peregrine Ophthalmic
+  Prof. Dr. med. Bernd Lemke
+  G.J. de Borst
+  Hospital de Elche
+  Carolyn Hettrich
+  Spectranetics Corporation
+  GA Carru
+  Safaricom Limited, Kenya
+  Lung Clinic Heckeshorn
+  Fondation Université de Bordeaux
+  Barnes Retina Institute
+  Charsire Biotechnology Corp.
+  National Science Concil
+  Statking Consulting, Inc.
+  Maxiumus
+  Clearwater Clinical
+  Marilyn MacKay-Lyons
+  Tudu hospital
+  Healthy Smiles for Kids of Orange County
+  Changchun Deng
+  Lovelace Scientific Resources, Inc
+  DiaVacs, Inc.
+  Lior Shapira
+  Fundación DISA, Canary Islands, Spain
+  Ilsan-Paik Hospital
+  Central Hospital of Zi Bo
+  KCAS Bio
+  Faraday Pharmaceuticals, Inc.
+  Institut für Pharmakoökonomie und Arzneimittellogistik e.V.
+  Kent E. Wallner, M.D.
+  Manon Gantenbein
+  Vascular Concepts Limited
+  Corbridge Group Philippines, Inc.
+  Jamia Hamdard University
+  Children hospital of Hunan Province
+  Michael Donnino
+  Archer Daniels Midland Co.
+  RMT Medical Technologies, Ltd.
+  Reference Centre for Hereditary Immunodeficiency: CEREDIH
+  The People Hospital of Baoan Shenzhen
+  Saint Carollo General Hospital
+  George A. Kaysen, M.D.
+  Almac Discovery
+  Broncus Medical Inc
+  Indiana University Melvin and Bren Simon Cancer Center
+  Division of Cardiovascular Surgery, St. Jadwiga Provincial Clinical Hospital, Rzeszów, Poland
+  Northwestern Medicine Central DuPage Hospital

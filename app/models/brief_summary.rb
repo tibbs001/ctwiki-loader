@@ -1,0 +1,3 @@
+class BriefSummary < StudyRelationship
+
+end

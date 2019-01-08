@@ -1,0 +1,3 @@
+class Design < StudyRelationship
+
+end

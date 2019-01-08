@@ -1,0 +1,20 @@
+default: &default
+  encoding: utf8
+  adapter: postgresql
+  min_messages: warning
+  pool: <%= [Integer(ENV.fetch("MAX_THREADS", 5)), Integer(ENV.fetch("DB_POOL", 5))].max %>
+  timeout: 5000
+  username: <%= ENV.fetch("WIKI_DB_SUPER_USERNAME", "") %>
+
+development:
+  <<: *default
+  url:  "postgres://wiki@localhost:5432/aact"
+
+test:
+  <<: *default
+  database: aact_back_test
+
+production:
+  <<: *default
+  url:  "postgres://wiki@localhost:5432/aact"
+

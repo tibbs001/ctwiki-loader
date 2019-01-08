@@ -1,0 +1,3 @@
+class BrowseCondition < StudyRelationship
+
+end
