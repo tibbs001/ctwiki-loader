@@ -4,9 +4,9 @@ module Util
     attr_accessor :study, :new_line, :tab
 
     def run(delimiters=nil)
-      #delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
-      delimiters = {:new_line=>'
-', :tab=>'	'} if delimiters.blank?
+      delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
+      #delimiters = {:new_line=>'
+#', :tab=>'	'} if delimiters.blank?
       @new_line = delimiters[:new_line]
       @tab = delimiters[:tab]
       mgr = Util::WikiDataManager.new
