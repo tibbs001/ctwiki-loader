@@ -7,7 +7,9 @@ module Lookup
         'scientific article',
         'athlete',
         'family name',
-
+        'river in sweden',
+        'tribe of plants',
+        'television series',
       ]
     end
 
@@ -67,63 +69,68 @@ module Lookup
 
     def self.names_to_ignore
       [
+        'lfce',
         'back to life'                  ,  # 'collaborator defined for study NCT03616639  Ignore'
+        'careggi hospital',
+        'chen-yu chen',
         'christian nickel'              ,  # 'Q26272221 actor
         'tony eissa'                    ,  # 'Q22688616 actor
-        'Sunil Rao'                     ,  # 'Q7640340 actor
-        'Tracie Collins, MD, MPH'       ,  # 'Q23932108 actor
-        'Joseph Hazelton'               ,  # 'Q6283869 American actor
-        'Michael Rosenbaum'             ,  # 'Q311613 American actor
-        'Jeffrey Kramer, MD'            ,  # 'Q6176107 American actor and producer
-        'Marc Breton'                   ,  # 'Q3287847 French actor
-        'Andreas Guenther'              ,  # 'Q497666 German actor
-        'Abdulkadir Tunc'               ,  # 'Q15043411 Turkish actor
-        'Campbell Grant'                ,  # 'Q2935481 US-American animator and dubbi
-        'Linda Carlson'                 ,  # 'Q11832719 actress
-        'Lisa Brenner'                  ,  # 'Q461378 American actress
-        'Chloe Scott'                   ,  # 'Q47067499 American pornographic actress
-        'Kaitlyn Kelly, MD'             ,  # 'Q437226 American pornographic actress
-        'Kirsten Williams'              ,  # 'Q6416126 Canadian actress
-        'Ditte Hansen'                  ,  # 'Q12308738 Danish actress
-        'MindFrame, Inc.'               ,  # 'Q42607297 movie theater in Dubuque, Iowa
-        'David Minor, MD'               ,  # 'Q43199624 movie theater in Eugene, Orego
-        'Envida, Maastricht, The Netherlands'       ,  # 'Q24250852 (1806-1859) soldier and public
-        'Sally Falk'                    ,  # 'Q7405128 American anthropologist
-        'Holger Thiele'                 ,  # 'Q562164 American astronomer
-        'Oscar Goodman, Jr.'            ,  # 'Q515259 American attorney and politici
-        'Bill McGhee'                   ,  # 'Q4910107 American baseball player
-        'Jerry Zimmerman'               ,  # 'Q6184702 American baseball players
-        'Justin Watts'                  ,  # 'Q16233655 American basketball player
-        'Lindsey Miller'                ,  # 'Q6552896 American judge
-        'Grant Jones'                   ,  # 'Q5596289 American landscape architect
-        'James Baumgartner, MD'         ,  # 'Q6133274 American logician
-        'Benjamin Movsas, M.D.'         ,  # 'Q4889047 American physician
-        'Ronald Hoffman'                ,  # 'Q7364939 American physician
-        'Paul Carlson'                  ,  # 'Q15491063 American physician
-        'Kathryn Stephenson'            ,  # 'Q6377129 American physician
-        'Stephen Trokel'                ,  # 'Q1599537 American physicist
-        'Chen Xiangmei'                 ,  # 'Q545822 American politician
-        'Andrew Brenner'                ,  # 'Q4756413 American politician
-        'Caroline Nilsson'              ,  # 'Q18685243 American politician
-        'Chloe Scott'                   ,  # 'Q47067499 American pornographic actress
-        'Kaitlyn Kelly, MD'             ,  # 'Q437226 American pornographic actress
-        'Natalie Allen'                 ,  # 'Q17438529 American presenter, anchor and
-        'Mary Fristad'                  ,  # 'Q45882355 American psychologist and acad
-        'Stefan G. Hofmann'             ,  # 'Q37837264 American Psychology professor
-        'Kelly Tanner'                  ,  # 'Q16194830 American stock car racing driv
-        'Adam Friedman'                 ,  # 'Q2823944 American television producer a
-        'Sharon Walsh'                  ,  # 'Q461080 American tennis player
-        'Jeffrey Browning'              ,  # 'Q16208757 American ultramarathon runner
-        'Joyce Fox'                     ,  # 'Q6297486 American writer
-        'Brenda Cooper, MD'             ,  # 'Q4960658 American writer
-        'Michael J. Rosen, MD.'         ,  # 'Q6831494 American writer
-        'Natasha Duke'                  ,  # 'Q28802903 animator
-        'AIRFAN'                        ,  # 'Q55760547 association football player
-        'Chikara Tashiro'               ,  # 'Q11576125 association football player
-        'Donnenfeld, Eric, M.D.'        ,  # 'Q694508 Association footballer
-        'Florian Beigel'                ,  # 'Q19661459 architect based in London
-        'Maria Sklodowska-Curie Institute - Oncology Center'       ,  # 'Q1054401 architectural structure
-        'Asklepios Klinik Altona'       ,  # 'Q732015 architectural structure
+        'sunil rao'                     ,  # 'Q7640340 actor
+        'tracie collins, MD, MPH'       ,  # 'Q23932108 actor
+        'joseph hazelton'               ,  # 'Q6283869 American actor
+        'michael rosenbaum'             ,  # 'Q311613 American actor
+        'michelle lopez',
+        'jeffrey kramer, MD'            ,  # 'Q6176107 American actor and producer
+        'julie wang',
+        'marc breton'                   ,  # 'Q3287847 French actor
+        'andreas guenther'              ,  # 'Q497666 German actor
+        'abdulkadir tunc'               ,  # 'Q15043411 Turkish actor
+        'campbell grant'                ,  # 'Q2935481 US-American animator and dubbi
+        'linda carlson'                 ,  # 'Q11832719 actress
+        'lisa brenner'                  ,  # 'Q461378 American actress
+        'chloe scott'                   ,  # 'Q47067499 American pornographic actress
+        'kaitlyn kelly, MD'             ,  # 'Q437226 American pornographic actress
+        'kirsten williams'              ,  # 'Q6416126 Canadian actress
+        'ditte hansen'                  ,  # 'Q12308738 Danish actress
+        'mindframe, inc.'               ,  # 'Q42607297 movie theater in Dubuque, Iowa
+        'david minor, MD'               ,  # 'Q43199624 movie theater in Eugene, Orego
+        'envida, maastricht, the netherlands'       ,  # 'Q24250852 (1806-1859) soldier and public
+        'sally falk'                    ,  # 'Q7405128 American anthropologist
+        'holger thiele'                 ,  # 'Q562164 American astronomer
+        'oscar goodman, jr.'            ,  # 'Q515259 American attorney and politici
+        'bill mcghee'                   ,  # 'Q4910107 American baseball player
+        'jerry zimmerman'               ,  # 'Q6184702 American baseball players
+        'justin watts'                  ,  # 'Q16233655 American basketball player
+        'lindsey miller'                ,  # 'Q6552896 American judge
+        'grant jones'                   ,  # 'Q5596289 American landscape architect
+        'james baumgartner, MD'         ,  # 'Q6133274 American logician
+        'benjamin movsas, M.D.'         ,  # 'Q4889047 American physician
+        'ronald hoffman'                ,  # 'Q7364939 American physician
+        'paul carlson'                  ,  # 'Q15491063 American physician
+        'kathryn stephenson'            ,  # 'Q6377129 American physician
+        'stephen trokel'                ,  # 'Q1599537 American physicist
+        'chen xiangmei'                 ,  # 'Q545822 American politician
+        'andrew brenner'                ,  # 'Q4756413 American politician
+        'caroline nilsson'              ,  # 'Q18685243 American politician
+        'chloe scott'                   ,  # 'Q47067499 American pornographic actress
+        'kaitlyn kelly, MD'             ,  # 'Q437226 American pornographic actress
+        'natalie allen'                 ,  # 'Q17438529 American presenter, anchor and
+        'mary fristad'                  ,  # 'Q45882355 American psychologist and acad
+        'stefan g. hofmann'             ,  # 'Q37837264 American Psychology professor
+        'kelly tanner'                  ,  # 'Q16194830 American stock car racing driv
+        'adam friedman'                 ,  # 'Q2823944 American television producer a
+        'sharon walsh'                  ,  # 'Q461080 American tennis player
+        'jeffrey browning'              ,  # 'Q16208757 American ultramarathon runner
+        'koyce fox'                     ,  # 'Q6297486 American writer
+        'brenda cooper, md'             ,  # 'Q4960658 American writer
+        'michael j. rosen, md.'         ,  # 'Q6831494 American writer
+        'natasha duke'                  ,  # 'Q28802903 animator
+        'airfan'                        ,  # 'Q55760547 association football player
+        'chikara tashiro'               ,  # 'Q11576125 association football player
+        'donnenfeld, eric, m.d.'        ,  # 'Q694508 Association footballer
+        'florian beigel'                ,  # 'Q19661459 architect based in London
+        'maria sklodowska-curie institute - oncology center'       ,  # 'Q1054401 architectural structure
+        'asklepios klinik altona'       ,  # 'Q732015 architectural structure
         'Mary Knudson, M.D.'            ,  # 'Q58051223 anthropologist
         'SA Ambulance Service'          ,  # 'Q7388884 Australian ambulance service
         'Byron Lam'                     ,  # 'Q5004408 Australian botanist
@@ -157,6 +164,8 @@ module Lookup
         'Jennifer Gay'                  ,  # 'Q6178342 British television announcer
         'George Brewer'                 ,  # 'Q5537230 British writer
         'NaiLab, Kenya'                 ,  # 'Q6959471 Businessperson
+        'ovo r & d',
+        'vesalio',
       ]
     end
   end
