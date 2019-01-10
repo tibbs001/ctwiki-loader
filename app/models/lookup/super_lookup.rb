@@ -65,6 +65,7 @@ module Lookup
 
     def self.source_data
       # The ctgov model that will be used as the source of info
+      # Subclasses might override.
       self.name.split(':').last.constantize
     end
 
