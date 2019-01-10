@@ -37,7 +37,7 @@ module Lookup
     end
 
     def self.names_to_ignore
-      ['auditory brainstem response', "children's safety", 'dna mutations', 'e-do', 'immobility']
+      ['auditory brainstem response', "children's safety", 'dna mutations', 'immobility']
     end
 
     def self.possible_descriptions
