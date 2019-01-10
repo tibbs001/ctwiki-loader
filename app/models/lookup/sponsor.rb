@@ -10,6 +10,9 @@ module Lookup
         'river in sweden',
         'tribe of plants',
         'television series',
+        'scientific journal',
+        'journalist',
+        'chemical compound',
       ]
     end
 
@@ -28,6 +31,7 @@ module Lookup
     def self.predefined_qcode
       # Most common sponsors - ordered list.
       {
+        'US Department of Housing and Urban Development' => 'Q811595',
         'Scott Pruitt'                             =>  'Q168751',   # Scott is faculty at Duke University
         'SI-BONE, Inc.'                            => 'Q2878400',   # added this entity
         'National Cancer Institute (NCI)'          => 'Q664846',
@@ -60,6 +64,7 @@ module Lookup
         'Stanford University'                      => 'Q41506',
         'Johns Hopkins University'                 => 'Q193727',
         'Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)' => 'Q5409765',
+        'University of Bedfordshire'               => 'Q8882735',
         'University of Pittsburgh'                 => 'Q235034',
         'Genentech, Inc.'                          => 'Q899140',
         'University of Pennsylvania'               => 'Q49117',
@@ -69,18 +74,40 @@ module Lookup
 
     def self.names_to_ignore
       [
+        'arctec',
+        'anand prasad',
+        'christian kern',
+        'carol johnston',
+        'salvador gil-vernet',
+        'alisa apreleva',
+        'victoria gomez',
+        'yijing he',
+        'rachel little',
+        'balamurali ambati',
+        'vincent kan',
+        'joel lavine',
+        'arctic',
+        'nancy bauman',
         'lfce',
+        'margarida vieira',
+        'chen yajun',
+        'jason bryant',
+        'myocor',
         'back to life'                  ,  # 'collaborator defined for study NCT03616639  Ignore'
         'careggi hospital',
         'chen-yu chen',
         'christian nickel'              ,  # 'Q26272221 actor
+        'gammacan',
+        'irenbe',
         'tony eissa'                    ,  # 'Q22688616 actor
         'sunil rao'                     ,  # 'Q7640340 actor
+        'stephens & associates, inc.',
         'tracie collins, MD, MPH'       ,  # 'Q23932108 actor
         'joseph hazelton'               ,  # 'Q6283869 American actor
         'michael rosenbaum'             ,  # 'Q311613 American actor
         'michelle lopez',
         'jeffrey kramer, MD'            ,  # 'Q6176107 American actor and producer
+        'julian pine',
         'julie wang',
         'marc breton'                   ,  # 'Q3287847 French actor
         'andreas guenther'              ,  # 'Q497666 German actor
@@ -89,6 +116,7 @@ module Lookup
         'linda carlson'                 ,  # 'Q11832719 actress
         'lisa brenner'                  ,  # 'Q461378 American actress
         'chloe scott'                   ,  # 'Q47067499 American pornographic actress
+        'fengxi su',
         'kaitlyn kelly, MD'             ,  # 'Q437226 American pornographic actress
         'kirsten williams'              ,  # 'Q6416126 Canadian actress
         'ditte hansen'                  ,  # 'Q12308738 Danish actress
@@ -119,8 +147,17 @@ module Lookup
         'stefan g. hofmann'             ,  # 'Q37837264 American Psychology professor
         'kelly tanner'                  ,  # 'Q16194830 American stock car racing driv
         'adam friedman'                 ,  # 'Q2823944 American television producer a
+        'obstetrix',
         'sharon walsh'                  ,  # 'Q461080 American tennis player
+        'tularik',
+        'joseph dib',
+        'syral',
+        'samantha harrison',
+        'hongwen xu',
         'jeffrey browning'              ,  # 'Q16208757 American ultramarathon runner
+        'jonathan berman',
+        'euraxi',
+        'tobias werther',
         'koyce fox'                     ,  # 'Q6297486 American writer
         'brenda cooper, md'             ,  # 'Q4960658 American writer
         'michael j. rosen, md.'         ,  # 'Q6831494 American writer
