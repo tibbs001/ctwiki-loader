@@ -20,6 +20,7 @@ module Lookup
           puts result
           already_loaded << result[:downcase_name]
         else
+          self.create_non_qcode_entry_for(label)
           could_not_resolve << label
         end
       }
@@ -52,8 +53,13 @@ module Lookup
       self.new(attribs).save!
     end
 
+    def self.create_non_qcode_entry_for(name)
+      #  so we know we looked into this one and couldn't find a qcode
+      self.new({:name => name, :downcase_name => name.downcase}).save!
+    end
+
     def self.qcode_for(search_name)
-      results = self.where('downcase_name = ?',search_name.downcase)
+      results = self.where('qcode is not null and downcase_name = ?',search_name.downcase)
       results.first.qcode if results.size > 0
     end
 
