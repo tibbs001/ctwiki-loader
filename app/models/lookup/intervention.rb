@@ -22,6 +22,7 @@ module Lookup
        'episode',
        'etching',
        'exhibition',
+       'extended play',
        'farmhouse',
        'galaxy',
        'governmental agency',
@@ -31,10 +32,12 @@ module Lookup
        'light table is a viewing device',
        'literature review',
        'mountain in',
+       'natural number',
        'non-profit',
        'norwegian',
        'organization',
        'motorway',
+       'norwegian bokmål',
        'novel by',
        'person',
        'place for conducting research',
@@ -47,6 +50,7 @@ module Lookup
        'route',
        'rural commune',
        'short story',
+       'sill of a door',
        'single by',
        'specialist',
        'store which sells nutrition supplements',
@@ -57,14 +61,33 @@ module Lookup
        'university',
        'watercourse',
        'webcomic',
-       'extended play',
        'wikipedia',
+       'urban vehicle',
        'zoroaster',
       ].flatten
     end
 
     def self.names_to_ignore
-       ['walking, walking','quest', 'screen-educate and intensify treatment', 'computer-assisted counseling', 'computer-assisted gdft', 'computer-based clinical decision support.', 'computer-assisted cognitive training', 'computer-based alcohol reduction intervention', 'computer-based psychoeducational intervention', 'computer-based confrontation with dysfunctional beliefs', 'computer-based target pursuit task (created using e-prime software) and visual-feedback handgrip force transducer (currentdesigns 2012).', 'computer-facilitated hiv intervention',]
+       ['acoustic',
+        'computer algorithm',
+        'computer-assisted counseling',
+        'computer-assisted gdft',
+        'computer-based clinical decision support.',
+        'computer-assisted cognitive training',
+        'computer-based alcohol reduction intervention',
+        'computer-based psychoeducational intervention',
+        'computer-based confrontation with dysfunctional beliefs',
+        'computer-based target pursuit task (created using e-prime software) and visual-feedback handgrip force transducer (currentdesigns 2012).', 'computer-facilitated hiv intervention',
+        'cpt-c',
+        'dance group',
+        'hvla',
+        'mastermed',
+        'no tae',
+        'pop-q',
+        'quest',
+        'screen-educate and intensify treatment',
+        'walking, walking',
+       ]
     end
 
     def self.possible_descriptions
