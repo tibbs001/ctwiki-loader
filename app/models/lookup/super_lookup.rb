@@ -9,10 +9,9 @@ module Lookup
 
     def self.populate_for_model(model_type)
       could_not_resolve = []
-      self.populate_predefined_qcode
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
-      lkup_strings = ((model_type.uniq.pluck(:name).map{|n|n.downcase}) - already_loaded)
-      lkup_strings.each { |label|
+      self.populate_predefined_qcode
+      self.unregistered_names(model_type).each { |label|
         if !already_loaded.include?(label.downcase)
           result = Util::WikiDataManager.new.find_qcode(label, possible_descriptions, impossible_descriptions)
         end
@@ -27,6 +26,11 @@ module Lookup
       File.open("public/#{model_type.gsub(':','')}_could_not_resolve.txt", "w+") { |f|
         could_not_resolve.each { |term| f << term }
       }
+    end
+
+    def self.unregistered_names(model_type=self.source_data)
+      already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
+      (model_type.uniq.pluck(:name).map{|n|n.downcase}) - already_loaded
     end
 
     def self.existing_rows
