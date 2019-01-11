@@ -65,6 +65,7 @@ module Lookup
        'teleplay',
        'television series',
        'technical information service',
+       'town in ',
        'unincorporated community',
        'university',
        'watercourse',
