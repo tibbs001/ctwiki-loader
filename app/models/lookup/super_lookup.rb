@@ -24,9 +24,6 @@ module Lookup
           could_not_resolve << label
         end
       }
-      #File.open("public/#{model_type.to_s.gsub(':','')}_could_not_resolve.txt", "w+") { |f|
-      #  could_not_resolve.each { |term| f << term }
-      #}
     end
 
     def self.unregistered_names(model_type=self.source_data)
@@ -91,7 +88,6 @@ module Lookup
        'artistic style',
        'assurer',
        'baby food brand',
-
        'biochemist',
        'businessman',
        'cardiologist',
@@ -100,6 +96,7 @@ module Lookup
        'composer',
        'comedian',
        'footballer',
+       'daughter of zoroaster',
        'device to suck up dirt',
        'division of plants',
        'doctoral thesis',
@@ -112,6 +109,11 @@ module Lookup
        'fleet of the ',
        'forms of media',
        'footballer',
+       'football',
+       'former café',
+       'freight train',
+       'highway in',
+       'hill in',
        'ice dancer',
        'ice hockey player',
        'insurgent group',
@@ -119,7 +121,7 @@ module Lookup
        'item2',
        'journal',
        'jurist',
-       'lake in canada',
+       'lake in',
        'local computer bus',
        'manufacturer',
        'mathematician',
