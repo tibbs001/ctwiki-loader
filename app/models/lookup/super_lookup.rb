@@ -24,9 +24,9 @@ module Lookup
           could_not_resolve << label
         end
       }
-      File.open("public/#{model_type.gsub(':','')}_could_not_resolve.txt", "w+") { |f|
-        could_not_resolve.each { |term| f << term }
-      }
+      #File.open("public/#{model_type.to_s.gsub(':','')}_could_not_resolve.txt", "w+") { |f|
+      #  could_not_resolve.each { |term| f << term }
+      #}
     end
 
     def self.unregistered_names(model_type=self.source_data)
@@ -91,6 +91,7 @@ module Lookup
        'artistic style',
        'assurer',
        'baby food brand',
+
        'biochemist',
        'businessman',
        'cardiologist',
