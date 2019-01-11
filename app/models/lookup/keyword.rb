@@ -2,6 +2,10 @@ module Lookup
   class Keyword < SuperLookup
     self.table_name = 'lookup.keywords'
 
+    def self.names_to_ignore
+      ['e-do']
+    end
+
     def self.possible_descriptions
       [
        'disease',
