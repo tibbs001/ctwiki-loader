@@ -3,7 +3,7 @@ module Lookup
     self.table_name = 'lookup.sponsors'
 
     def self.impossible_descriptions
-      [
+      super + [
         'scientific article',
         'athlete',
         'family name',
