@@ -99,7 +99,7 @@ module Util
 
     def assign_condition_qcodes(f)
       assigned_qcodes=[]
-      conditions = (study.conditions.pluck(:downcase_name) + study.browse_conditions.pluck(:downcase_mesh_term)).uniq
+      conditions = study.browse_conditions.pluck(:downcase_mesh_term).uniq
       conditions.each{ |condition|
         qcode = Lookup::Condition.qcode_for(condition)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
@@ -122,7 +122,7 @@ module Util
 
     def assign_intervention_qcodes(f)
       assigned_qcodes=[]
-      interventions = (study.interventions.pluck(:name).map(&:downcase) + study.browse_interventions.pluck(:downcase_mesh_term)).uniq
+      interventions = study.browse_interventions.pluck(:downcase_mesh_term).uniq
       interventions.each{ |intervention|
         qcode = Lookup::Intervention.qcode_for(intervention)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
