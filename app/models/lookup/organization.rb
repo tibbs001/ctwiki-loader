@@ -3,7 +3,8 @@ module Lookup
     self.table_name = 'lookup.organizations'
 
     def self.qcode_for(search_name)
-      results = self.where('downcase_name = ?',search_name.downcase)
+      return if search_name.nil?
+      results = self.where('qcode is not null and downcase_name = ?',search_name.downcase)
       return results.first.qcode if results.size > 0
       preferred_name = Project::CdekSynonym.where('downcase_name = ?',search_name.downcase).pluck(:preferred_name)
       if preferred_name.size == 0
