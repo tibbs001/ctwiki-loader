@@ -11,8 +11,8 @@ module Util
       @tab = delimiters[:tab]
       mgr = Util::WikiDataManager.new
       File.open("public/data.txt", "w+") do |f|
-        self.zika_studies.each do |id|
-        #Study.all[0..9].each do |id|
+        #self.zika_studies.each do |id|
+        Study.all[0..29].each do |id|
           if !mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
 
@@ -98,25 +98,37 @@ module Util
     end
 
     def assign_condition_qcodes(f)
+      assigned_qcodes=[]
       conditions = (study.conditions.pluck(:downcase_name) + study.browse_conditions.pluck(:downcase_mesh_term)).uniq
       conditions.each{ |condition|
-        qcode = Lookup::Condition.qcode_for(condition.name)
-        f << "#{new_line}LAST#{tab}P2175#{tab}#{qcode}" if !qcode.blank?
+        qcode = Lookup::Condition.qcode_for(condition)
+        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+          f << "#{new_line}LAST#{tab}P2175#{tab}#{qcode}"
+          assigned_qcodes << qcode
+        end
       }
     end
 
     def assign_country_qcodes(f)
+      assigned_qcodes=[]
       study.active_countries.each{ |country|
         qcode = Lookup::Country.qcode_for(country.name)
-        f << "#{new_line}LAST#{tab}P17#{tab}#{qcode}" if !qcode.blank?
+        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+          f << "#{new_line}LAST#{tab}P17#{tab}#{qcode}" if !qcode.blank?
+          assigned_qcodes << qcode
+        end
       }
     end
 
     def assign_intervention_qcodes(f)
+      assigned_qcodes=[]
       interventions = (study.interventions.pluck(:name).map(&:downcase) + study.browse_interventions.pluck(:downcase_mesh_term)).uniq
       interventions.each{ |intervention|
-        qcode = Lookup::Intervention.qcode_for(intervention.name)
-        f << "#{new_line}LAST#{tab}P4844#{tab}#{qcode}" if !qcode.blank?
+        qcode = Lookup::Intervention.qcode_for(intervention)
+        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+          f << "#{new_line}LAST#{tab}P4844#{tab}#{qcode}" if !qcode.blank?
+          assigned_qcodes << qcode
+        end
       }
     end
 
@@ -127,16 +139,24 @@ module Util
     end
 
     def assign_sponsor_qcodes(f)
+      assigned_qcodes=[]
       study.lead_sponsors.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        f << "#{new_line}LAST#{tab}P859#{tab}#{qcode}" if !qcode.blank?
+        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+          f << "#{new_line}LAST#{tab}P859#{tab}#{qcode}" if !qcode.blank?
+          assigned_qcodes << qcode
+        end
       }
     end
 
     def assign_collaborators_qcodes(f)
+      assigned_qcodes=[]
       study.collaborators.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        f << "#{new_line}LAST#{tab}P767#{tab}#{qcode}" if !qcode.blank?
+        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+          f << "#{new_line}LAST#{tab}P767#{tab}#{qcode}" if !qcode.blank?
+          assigned_qcodes << qcode
+        end
       }
     end
 
