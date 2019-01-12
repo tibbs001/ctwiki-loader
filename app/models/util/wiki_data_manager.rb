@@ -139,7 +139,8 @@ module Util
       # better to use wikidata API, but couldn't find the way to do it
       system('rm public/check_if_study_already_loaded')
       system(curl_to_find_nct_id(nct_id))
-      File.open('public/check_if_study_already_loaded').first != "itemLabel\r\n"
+      # if nothing returned, the file will just contain 11 chars: itemLabel\r\n
+      return File.open('public/check_if_study_already_loaded').size > 11
     end
 
     def curl_to_find_nct_id(nct_id)
