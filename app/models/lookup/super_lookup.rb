@@ -28,7 +28,7 @@ module Lookup
 
     def self.unregistered_names(model_type=self.source_data)
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
-      (model_type.uniq.pluck(:name).map{|n|n.downcase}) - already_loaded
+      (model_type.uniq.pluck(self.label).map{|n|n.downcase}) - already_loaded
     end
 
     def self.existing_rows
@@ -64,6 +64,10 @@ module Lookup
       # The ctgov model that will be used as the source of info
       # Subclasses might override.
       self.name.split(':').last.constantize
+    end
+
+    def self.label
+      :name
     end
 
     def self.names_to_ignore

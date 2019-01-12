@@ -2,6 +2,15 @@ module Lookup
   class Condition < SuperLookup
     self.table_name = 'lookup.conditions'
 
+    def self.label
+      :mesh_term
+    end
+
+    def self.source_data
+      # The ctgov model that will be used as the source of info
+      BrowseCondition
+    end
+
     def self.impossible_descriptions
       # Some descriptions are impossible for any model (they're defined in the superclass)
       # Combine those with the ones that are specifically impossible for conditions

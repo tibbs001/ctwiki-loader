@@ -2,6 +2,15 @@ module Lookup
   class Intervention < SuperLookup
     self.table_name = 'lookup.interventions'
 
+    def self.source_data
+      # The ctgov model that will be used as the source of info
+      BrowseIntervention
+    end
+
+    def self.label
+      :mesh_term
+    end
+
     def self.impossible_descriptions
       super + [
        'abstract',
