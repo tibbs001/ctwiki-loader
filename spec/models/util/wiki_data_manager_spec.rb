@@ -2,17 +2,52 @@ require 'rails_helper'
 
 describe Util::WikiDataManager do
 
-  it "should no return something described as a person" do
-    stub_request(:get, "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&search=patient").
-           with(
-             headers: {
-            'Accept'=>'*/*',
-            'Accept-Encoding'=>'gzip, deflate',
-            'Host'=>'www.wikidata.org',
-            'User-Agent'=>'rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.4.0p0'
-             }).
-           to_return(status: 200, body: "{'searchinfo':{'search':'patient'},'search':[{'repository':'','id':'Q181600','concepturi':'http://www.wikidata.org/entity/Q181600','title':'Q181600','pageid':180760,'url':'//www.wikidata.org/wiki/Q181600','label':'patient','description':'person who takes a medical treatment or is subject of a case study','match':{'type':'label','language':'en','text':'patient'}},{'repository':'','id':'Q170212','concepturi':'http://www.wikidata.org/entity/Q170212','title':'Q170212','pageid':170556,'url':'//www.wikidata.org/wiki/Q170212','label':'patient','description':'grammar: participant of a situation upon whom an action is carried out or the thematic relation such a participant has with an action. Sometimes, \'theme\' and \'patient\' are used to mean the same thing','match':{'type':'label','language':'en','text':'patient'}},{'repository':'','id':'Q17017504','concepturi':'http://www.wikidata.org/entity/Q17017504','title':'Q17017504','pageid':18622695,'url':'//www.wikidata.org/wiki/Q17017504','label':'Patient UK','description':'website providing information on health, lifestyle, disease and other medical related topics','match':{'type':'label','language':'en','text':'Patient UK'}},{'repository':'','id':'Q36919912','concepturi':'http://www.wikidata.org/entity/Q36919912','title':'Q36919912','pageid':38300438,'url':'//www.wikidata.org/wiki/Q36919912','label':'Patient','description':'family name','match':{'type':'label','language':'en','text':'Patient'}},{'repository':'','id':'Q7144957','concepturi':'http://www.wikidata.org/entity/Q7144957','title':'Q7144957','pageid':7042994,'url':'//www.wikidata.org/wiki/Q7144957','label':'Patient','description':'album by Bluebottle Kiss','match':{'type':'label','language':'en','text':'Patient'}},{'repository':'','id':'Q7144958','concepturi':'http://www.wikidata.org/entity/Q7144958','title':'Q7144958','pageid':7042995,'url':'//www.wikidata.org/wiki/Q7144958','label':'Patient','description':'memoir by musician Ben Watt','match':{'type':'label','language':'en','text':'Patient'}},{'repository':'','id':'Q15760736','concepturi':'http://www.wikidata.org/entity/Q15760736','title':'Q15760736','pageid':17394034,'url':'//www.wikidata.org/wiki/Q15760736','label':'Patient Education and Counseling','description':'journal','match':{'type':'label','language':'en','text':'Patient Education and Counseling'}}],'search-continue':7,'success':1}", headers: {})
+  it "should correctly determine if a study exists/doesn't exist in wikidata" do
 
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"\n         SELECT ?item WHERE { ?item wdt:P3098 'NCT03055247' .          SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . }          } "},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [RDF::Query::Solution.new({:item=>RDF::URI.new('http://www.wikidata.org/entity/Q60501336')})], headers: {})
+
+       stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"\n         SELECT ?item WHERE { ?item wdt:P3098 'non_existent_nct_id' .          SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . }          } "},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [], headers: {})
+    wikidata_study='NCT03055247'
+    mgr=Util::WikiDataManager.new
+    expect(mgr.study_already_loaded?(wikidata_study)).to be(true)
+    non_wikidata_study='non_existent_nct_id'
+    expect(mgr.study_already_loaded?(non_wikidata_study)).to be(false)
+  end
+
+  it "should not return a person-type entity" do
+
+       stub_request(:get, "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&search=patient").
+         with(
+           headers: {
+       	  'Accept'=>'*/*',
+       	  'Accept-Encoding'=>'gzip, deflate',
+       	  'Host'=>'www.wikidata.org',
+       	  'User-Agent'=>'rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.4.0p0'
+           }).
+
+           to_return(status: 200, body: "{\"searchinfo\":{\"search\":\"patient\"},\"search\":[{\"repository\":\"\",\"id\":\"Q181600\",\"concepturi\":\"http://www.wikidata.org/entity/Q181600\",\"title\":\"Q181600\",\"pageid\":180760,\"url\":\"//www.wikidata.org/wiki/Q181600\",\"label\":\"patient\",\"description\":\"person who takes a medical treatment or is subject of a case study\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"patient\"}},{\"repository\":\"\",\"id\":\"Q170212\",\"concepturi\":\"http://www.wikidata.org/entity/Q170212\",\"title\":\"Q170212\",\"pageid\":170556,\"url\":\"//www.wikidata.org/wiki/Q170212\",\"label\":\"patient\",\"description\":\"grammar: participant of a situation upon whom an action is carried out or the thematic relation such a participant has with an action. Sometimes, \\\"theme\\\" and \\\"patient\\\" are used to mean the same thing\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"patient\"}},{\"repository\":\"\",\"id\":\"Q17017504\",\"concepturi\":\"http://www.wikidata.org/entity/Q17017504\",\"title\":\"Q17017504\",\"pageid\":18622695,\"url\":\"//www.wikidata.org/wiki/Q17017504\",\"label\":\"Patient UK\",\"description\":\"website providing information on health, lifestyle, disease and other medical related topics\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"Patient UK\"}},{\"repository\":\"\",\"id\":\"Q36919912\",\"concepturi\":\"http://www.wikidata.org/entity/Q36919912\",\"title\":\"Q36919912\",\"pageid\":38300438,\"url\":\"//www.wikidata.org/wiki/Q36919912\",\"label\":\"Patient\",\"description\":\"family name\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"Patient\"}},{\"repository\":\"\",\"id\":\"Q7144957\",\"concepturi\":\"http://www.wikidata.org/entity/Q7144957\",\"title\":\"Q7144957\",\"pageid\":7042994,\"url\":\"//www.wikidata.org/wiki/Q7144957\",\"label\":\"Patient\",\"description\":\"album by Bluebottle Kiss\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"Patient\"}},{\"repository\":\"\",\"id\":\"Q7144958\",\"concepturi\":\"http://www.wikidata.org/entity/Q7144958\",\"title\":\"Q7144958\",\"pageid\":7042995,\"url\":\"//www.wikidata.org/wiki/Q7144958\",\"label\":\"Patient\",\"description\":\"memoir by musician Ben Watt\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"Patient\"}},{\"repository\":\"\",\"id\":\"Q15760736\",\"concepturi\":\"http://www.wikidata.org/entity/Q15760736\",\"title\":\"Q15760736\",\"pageid\":17394034,\"url\":\"//www.wikidata.org/wiki/Q15760736\",\"label\":\"Patient Education and Counseling\",\"description\":\"journal\",\"match\":{\"type\":\"label\",\"language\":\"en\",\"text\":\"Patient Education and Counseling\"}}],\"search-continue\":7,\"success\":1}", headers: {})
     possible_descriptions = Lookup::Intervention.possible_descriptions
     impossible_descriptions = Lookup::Intervention.impossible_descriptions
     search_string = 'patient'
@@ -21,16 +56,6 @@ describe Util::WikiDataManager do
   end
 
   it "should find the right qcode for ribavirin with a suffix" do
-
-    stub_request(:get, "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&search=ribavirin%20(sch%2018908)").
-           with(
-             headers: {
-            'Accept'=>'*/*',
-            'Accept-Encoding'=>'gzip, deflate',
-            'Host'=>'www.wikidata.org',
-            'User-Agent'=>'rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.4.0p0'
-             }).
-           to_return(status: 200, body: "{'searchinfo':{'search':'ribavirin (sch 18908)'},'search':[],'success':1}", headers: {})
 
     stub_request(:get, "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&search=ribavirin").
          with(
@@ -44,7 +69,7 @@ describe Util::WikiDataManager do
 
     possible_descriptions = Lookup::Intervention.possible_descriptions
     impossible_descriptions = Lookup::Intervention.impossible_descriptions
-    search_string = 'ribavirin (sch 18908)'
+    search_string = 'ribavirin'
     result = described_class.new.find_qcode(search_string, possible_descriptions, impossible_descriptions)
     expect(result[:qcode]).to eq('Q421862')
     expect(result[:wiki_description]).to eq('chemical compound')
