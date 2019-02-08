@@ -1,5 +1,19 @@
+require 'rubygems'
+require 'sparql/client'
+
 module Util
   class WikiDataManager
+    attr_accessor :property_mgr
+
+    def initialize
+      @property_mgr = Util::PropertyManager.new
+    end
+
+    def aact_values_for_property(nct_id, property_code)
+      study=Study.where('nct_id=?',nct_id).first
+      return [] if !study
+      property_mgr.aact_values_for_property(study, property_code)
+    end
 
     def wiki_api_call(search_string, search_strings_tried, delimiter=nil)
       if !search_strings_tried.include?(search_string)
@@ -136,23 +150,21 @@ module Util
     end
 
     def study_already_loaded?(nct_id)
-      # better to use wikidata API, but couldn't find the way to do it
-      system('rm public/check_if_study_already_loaded')
-      system(curl_to_find_nct_id(nct_id))
-      # if nothing returned, the file will just contain 11 chars: itemLabel\r\n
-      return File.open('public/check_if_study_already_loaded').size > 11
+      !qcodes_for_nct_id(nct_id).empty?
     end
 
-    def curl_to_find_nct_id(nct_id)
-      existing_nct_id="'NCT02856984'"
-      query = "
-         SELECT ?itemLabel WHERE { ?item wdt:P3098 \"#{nct_id}\" . \
+    def qcodes_for_nct_id(nct_id)
+      #existing_nct_id='NCT02856984'
+      sparql_cmd = "
+         SELECT ?item WHERE { ?item wdt:P3098 '#{nct_id}' . \
          SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . } \
          } "
-
-      " curl -o public/check_if_study_already_loaded -G 'https://query.wikidata.org/sparql' \
-         --header 'Accept: text/csv' \
-         --data-urlencode query='#{query}' "
+         result = []
+         client = SPARQL::Client.new("https://query.wikidata.org/sparql")
+         #client.query(sparql_cmd).first.each_binding { |name, item| result << item.value.chomp.split('/').last if item }
+         resp = client.query(sparql_cmd).first
+         resp.each_binding { |name, item| result << item.value.chomp.split('/').last } if !resp.blank?
+         return result
     end
 
   end
