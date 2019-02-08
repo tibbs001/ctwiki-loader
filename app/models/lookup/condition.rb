@@ -6,6 +6,11 @@ module Lookup
       :mesh_term
     end
 
+    def query_for_health_problems
+      # Item's type is: health problem or sub-type or sub-sub-type/etc
+      " SELECT ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q2057971.  } "
+    end
+
     def self.source_data
       # The ctgov model that will be used as the source of info
       BrowseCondition
