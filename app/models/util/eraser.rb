@@ -4,9 +4,11 @@ module Util
     attr_accessor :study, :wiki_mgr, :new_line, :tab
 
     def erase_properties(nct_ids, property_code)
-      array=[]
-      nct_ids.each{ |nct_id| array << lines_to_erase(nct_id, property_code).flatten }
-
+      #nct_ids=['NCT03215810','NCT01369251']
+      #property_code='P2175'
+      File.open("public/info_to_erase.txt", "w+") do |f|
+        nct_ids.each{ |nct_id| f << lines_to_erase(nct_id, property_code) }
+      end
     end
 
     def initialize
@@ -14,22 +16,21 @@ module Util
     end
 
     def lines_to_erase(nct_id, property_code)
-      array= []
+      lines=''
       qcodes=wiki_mgr.qcodes_for_nct_id(nct_id)
       if !qcodes.empty?
         qcodes.each{|qcode|
-          values = wiki_mgr.aact_values_for_property(property_code)
+          values = wiki_mgr.aact_values_for_property(nct_id, property_code)
           values.each {|val|
-            array << "||-#{qcode}|#{property_code}|\"#{val}\""
+            lines << "||-#{qcode}|#{property_code}|\"#{val}\""
           }
         }
       end
-      return array
+      return lines
     end
 
     def sample_syntax
       array=[]
-      array << "||-Q60501336|P281|\"00165\""
       array << "||-Q60501336|P281|\"20132\""
       array << "||-Q60563337|P281|\"97159\""
       return array
