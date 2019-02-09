@@ -2,11 +2,14 @@ require 'rails_helper'
 
 describe Util::WikiDataManager do
 
+  xit "should return multiple qcodes if there are multiple entities for one nct id" do
+  end
+
   it "should correctly determine if a study exists/doesn't exist in wikidata" do
 
     stub_request(:post, "https://query.wikidata.org/sparql").
          with(
-           body: {"query"=>"\n         SELECT ?item WHERE { ?item wdt:P3098 'NCT03055247' .          SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . }          } "},
+           body: {"query"=>"SELECT ?item WHERE { ?item wdt:P3098 'NCT03055247' . } "},
            headers: {
        	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
        	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -19,7 +22,7 @@ describe Util::WikiDataManager do
 
        stub_request(:post, "https://query.wikidata.org/sparql").
          with(
-           body: {"query"=>"\n         SELECT ?item WHERE { ?item wdt:P3098 'non_existent_nct_id' .          SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . }          } "},
+           body: {"query"=>"SELECT ?item WHERE { ?item wdt:P3098 'non_existent_nct_id' . } "},
            headers: {
        	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
        	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
