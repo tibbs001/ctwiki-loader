@@ -6,96 +6,51 @@ module Lookup
       :mesh_term
     end
 
-    def query_for_health_problems
+    def self.populate
+      self.destroy_all
+      new.populate
+    end
+
+    def wikidata_entities
+      mgr=Util::WikiDataManager.new
+      countries=mgr.run_sparql(sparql_cmd)
+    end
+
+    def sparql_cmd
       # Item's type is: health problem or sub-type or sub-sub-type/etc
-      " SELECT ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q2057971.  } "
+      # health problems:  ?item p:P31/ps:P31/wdt:P279* wd:Q2057971 .
+      # physiological problems:  ?item p:P31/ps:P31/wdt:P279* wd:Q7189713 .
+      # MeSH Code:  P672
+      # disease:  ?item p:P31/ps:P31/wdt:P279* wd:Q12136 .
+      #
+      "SELECT ?item ?itemLabel ?instanceOf ?instanceOfLabel WHERE {
+         ?item p:P31/ps:P31/wdt:P279* wd:Q2057971 .
+         OPTIONAL {?item wdt:P31 ?instanceOf }
+         SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }
+       } "
     end
 
-    def self.source_data
-      # The ctgov model that will be used as the source of info
-      BrowseCondition
-    end
-
-    def self.impossible_descriptions
-      # Some descriptions are impossible for any model (they're defined in the superclass)
-      # Combine those with the ones that are specifically impossible for conditions
-      # but might be ok for organizations or interventions.
-      super + [
-        'abstract',
-        'book',
-        'clinical trial',
-        'company',
-        'doctoral thesis',
-        'encryption device',
-        'http://www.csb-ncss.org/index.html',
-        'hospitals',
-        'individual sport',
-        'journal',
-        'novel by',
-        'occupational and environmental health',
-        'ontology',
-        'organization',
-        'orta to greater',
-        'other organization',
-        'person',
-        'political party',
-        'professional society',
-        'report',
-        'specialist',
-        'storage device',
-        'the ease of use and learnability of a human-made object such as a tool',
-        'the transformation of one computational problem to another',
-        'type of research',
-        'washington',
-        'weight of a vehicle without any consumables',
-        'work by',
-      ].flatten
-    end
-
-    def self.names_to_ignore
-      ['auditory brainstem response', "children's safety", 'dna mutations', 'immobility']
-    end
-
-    def self.possible_descriptions
-      [
-       'condition',
-       'disease',
-       'problem',
-       'disorder',
-       'cancer',
-       'carcinoma',
-       'inability',
-      ]
-    end
-
-    def self.predefined_qcode
-      {
-        'asthma'                    => 'Q35869',
-        'abdominal aortic aneurysm, ruptured' => 'Q2256736',
-        'bladder cancer'            => 'Q504775',
-        'breast cancer'             => 'Q128581',
-        'cancer'                    => 'Q12078',
-        'colorectal cancer'         => 'Q188874',
-        'coronary artery disease'   => 'Q844935',
-        'diabetes'                  => 'Q12206',
-        'diabetes mellitus, type 2' => 'Q3025883',
-        'gastrointestinal endoscopy' => 'Q27723036',
-        'glioma, astrocytic'        => 'Q1365309',
-        'healthy'                   => 'Q24238419',
-        'heart failure'             => 'Q181754',
-        'hematologic disease'       => 'Q55785542',
-        'her2 positive breast cancer, metastatic breast cancer, locally advanced breast cancer' => 'Q128581',
-        'hiv infections'            => 'Q15787',
-        'hypertension'              => 'Q41861',
-        'lung cancer'               => 'Q47912',
-        'obesity'                   => 'Q12174',
-        'parkinsons'                => 'Q11085',
-        'parkinsons disease'        => 'Q11085',
-        'pediatric glaucoma'        => 'Q159701',
-        'prostrate cancer'          => 'Q181257',
-        'rheumatoid arthritis'      => 'Q187255',
-        'schizophrenia'             => 'Q41112',
-        'stroke'                    => 'Q12202',
+    def populate
+      wikidata_entities.each{|entity|
+        begin
+          qcode= entity.item.value.chomp.split('/').last
+          entity.each_binding { |name, item|
+            puts "#{name}   #{item}"
+          } if !entity.blank?
+          name=entity[:itemLabel].value
+          if entity[:instanceOfLabel]
+            instance_qcode = entity[:instanceOf].value.chomp.split('/').last
+            type = "#{instance_qcode}: #{entity[:instanceOfLabel]}"
+          end
+          Lookup::Condition.new(
+            :qcode             => qcode,
+            :name              => name,
+            :downcase_name     => name.try(:downcase),
+            :wiki_description  => type,
+          ).save!
+        rescue => error
+          puts "#{Time.zone.now}: Unable to populate Lookup::Condition.  #{error.message}"
+        end
       }
     end
 

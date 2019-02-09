@@ -4,9 +4,9 @@ module Util
     attr_accessor :study, :new_line, :tab
 
     def run(delimiters=nil)
-      delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
-      #delimiters = {:new_line=>'
-#', :tab=>'	'} if delimiters.blank?
+      #delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
+      delimiters = {:new_line=>'
+', :tab=>'	'} if delimiters.blank?
       @new_line = delimiters[:new_line]
       @tab = delimiters[:tab]
       mgr = Util::WikiDataManager.new
@@ -84,7 +84,7 @@ module Util
         if !qcode.blank?
           f << "#{new_line}LAST#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
         else
-          f << "#{new_line}LAST#{tab}P281#{tab}\"#{facility.zip}\"" if !facility.zip.blank? and facility.zip.count("a-zA-Z") == 0
+          f << "#{new_line}-LAST#{tab}P281#{tab}\"#{facility.zip}\"" if !facility.zip.blank? and facility.zip.count("a-zA-Z") == 0
         end
       }
     end
@@ -103,7 +103,7 @@ module Util
       conditions.each{ |condition|
         qcode = Lookup::Condition.qcode_for(condition)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P2175#{tab}#{qcode}"
+          f << "#{new_line}LAST#{tab}P1050#{tab}#{qcode}"
           assigned_qcodes << qcode
         end
       }

@@ -55,7 +55,7 @@ module Util
       }
 
       #  Yes, there's got to be a better way than this. Just trying to get something quickly working for now.
-      #begin
+      begin
         puts ">>>>>>>>>>> Looking up #{str}"
         search_strings_tried=[]
         start_string = initialize_search_string(str, should_remove_numbers)
@@ -131,11 +131,11 @@ module Util
 
         # If there's a tie at this point, should we take the one with the most statements?
 
-      #rescue => e
+      rescue => e
         #  Don't terminate whole process if we have trouble looking for one.
-      #  puts ">>>>>>>>>>>>>>> !!! ERROR looking for #{str}: #{e}"
-      #  return false
-      #end
+        puts ">>>>>>>>>>>>>>> !!! ERROR looking for #{str}: #{e}"
+        return false
+      end
     end
 
     def exclude_impossible_hits(raw_results, impossible_descriptions)
@@ -153,18 +153,40 @@ module Util
       !qcodes_for_nct_id(nct_id).empty?
     end
 
+    def ids_for_studies_with_prop(code, id_type='item')
+      #existing_nct_id='NCT02856984'
+      cmd = "
+        SELECT ?item ?nct_id
+        WHERE
+        {
+           ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
+           ?item wdt:P3098 ?nct_id .
+           ?item wdt:#{code} ?val .
+        }"
+
+      result = []
+      run_sparql(cmd).each {|i|
+        i.each_binding { |name, item|
+          label = name.to_s.split(' ').first.strip
+          result << item.value.chomp.split('/').last if label == id_type
+        } if !i.blank?
+      }
+      return result.flatten.uniq
+    end
+
     def qcodes_for_nct_id(nct_id)
       #existing_nct_id='NCT02856984'
-      sparql_cmd = "
-         SELECT ?item WHERE { ?item wdt:P3098 '#{nct_id}' . \
-         SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,[AUTO_LANGUAGE]\" . } \
-         } "
-         result = []
-         client = SPARQL::Client.new("https://query.wikidata.org/sparql")
-         #client.query(sparql_cmd).first.each_binding { |name, item| result << item.value.chomp.split('/').last if item }
-         resp = client.query(sparql_cmd).first
-         resp.each_binding { |name, item| result << item.value.chomp.split('/').last } if !resp.blank?
-         return result
+      cmd = "SELECT ?item WHERE { ?item wdt:P3098 '#{nct_id}' . } "
+      result = []
+      run_sparql(cmd).each {|i|
+        i.each_binding { |name, item| result << item.value.chomp.split('/').last } if !i.blank?
+      }
+      return result.flatten
+    end
+
+    def run_sparql(cmd)
+      client = SPARQL::Client.new("https://query.wikidata.org/sparql")
+      return client.query(cmd)
     end
 
   end
