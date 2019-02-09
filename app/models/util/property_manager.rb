@@ -5,6 +5,7 @@ module Util
      {
        'P2175' => [:browse_conditions, :downcase_mesh_term],
        'P17'   => [:countries, :name],
+       'P281'  => [:facilities, :zip],
      }
     end
 
