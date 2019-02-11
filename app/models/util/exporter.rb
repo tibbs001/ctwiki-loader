@@ -36,6 +36,7 @@ module Util
             assign_min_max_age(f)
             assign_phase_qcodes(f)
             assign_condition_qcodes(f)
+            assign_keyword_qcodes(f)
             assign_country_qcodes(f)
             assign_facility_qcodes(f)
             assign_intervention_qcodes(f)
@@ -87,7 +88,7 @@ module Util
     end
 
     def assign_keyword_qcodes(f)
-      keywords.each{ |keyword|
+      study.keywords.each{ |keyword|
         qcode = Lookup::Keyword.qcode_for(keyword.name)
         #topics are: Q200801
         f << "#{new_line}LAST#{tab}P921#{tab}#{qcode}" if !qcode.blank?
