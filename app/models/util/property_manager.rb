@@ -3,9 +3,19 @@ module Util
 
     def property_map
      {
+       'P1813' => [:acronym],
        'P2175' => [:browse_conditions, :downcase_mesh_term],
+       'P1050' => [:conditions, :qcode],
        'P17'   => [:countries, :name],
-       'P281'  => [:facilities, :zip],
+       'P1476' => [:design, :intervention_for_wikidata],
+       'P1132' => [:enrollemnt],
+       'P6153' => [:facilities, :qcode],
+       'P3098' => [:nct_id],
+       'P1476' => [:official_title],
+       'P6099' => [:phase_for_wikidata],
+       'P582'  => [:primary_completion_date],
+       'P859'  => [:sponsors, :qcode],
+       'P580'  => [:start_date],
      }
     end
 

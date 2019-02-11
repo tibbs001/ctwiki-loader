@@ -10,6 +10,10 @@ class Study < ActiveRecord::Base
 
   attr_accessor :xml, :with_related_records, :with_related_organizations
 
+  def phase_for_wikidata
+    #TODO
+  end
+
   def as_indexed_json(options = {})
     self.as_json({
       only: [:nct_id, :acronym, :brief_title, :overall_status, :phase, :start_date, :primary_completion_date],

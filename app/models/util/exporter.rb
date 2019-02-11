@@ -68,7 +68,7 @@ module Util
     def create_research_design(f)
       f << 'CREATE'
       f << "#{new_line}LAST#{tab}P31#{tab}Q1438035"   # instance of research design
-      f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.design.intervention_model_description.gsub('#{new_line}','|')}\""
+      f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.design.intervention_for_wiki}\""
     end
 
     def assign_phase_qcodes(f)
@@ -82,11 +82,7 @@ module Util
     def assign_facility_qcodes(f)
       study.facilities.each{ |facility|
         qcode = Lookup::Organization.qcode_for(facility.name)
-        if !qcode.blank?
-          f << "#{new_line}LAST#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
-        else
-          f << "#{new_line}-LAST#{tab}P281#{tab}\"#{facility.zip}\"" if !facility.zip.blank? and facility.zip.count("a-zA-Z") == 0
-        end
+        f << "#{new_line}LAST#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
       }
     end
 
