@@ -1,15 +1,19 @@
 module Util
-  class Exporter
+  class Updater
 
-    attr_accessor :study, :new_line, :tab
+    attr_accessor :mgr, :study, :subject, :new_line, :tab
 
-    def run(delimiters=nil)
+    def initialize(delimiters=nil)
       #delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
       delimiters = {:new_line=>'
 ', :tab=>'	'} if delimiters.blank?
       @new_line = delimiters[:new_line]
       @tab = delimiters[:tab]
-      mgr = Util::WikiDataManager.new
+      @mgr = Util::WikiDataManager.new
+    end
+
+    def run(delimiters=nil)
+      @subject = 'LAST'
       File.open("public/data.txt", "w+") do |f|
         #Study.all[0..29].each do |id|
         #self.zika_studies.each do |id|
@@ -18,23 +22,17 @@ module Util
             @study=Study.where('nct_id=?', id).first
 
             f << 'CREATE'
-            f << "#{new_line}LAST#{tab}Len#{tab}\"#{study.brief_title}\""   # Label
-            f << "#{new_line}LAST#{tab}Den#{tab}\"clinical trial\""     # Description
-
-            if !study.calculated_value.has_single_facility
-              f << "#{new_line}LAST#{tab}P31#{tab}Q6934595"   # instance of a multi-center clinical trial
-            else
-              f << "#{new_line}LAST#{tab}P31#{tab}Q30612"     # instance of a clinical trial
-            end
-            f << "#{new_line}LAST#{tab}P3098#{tab}\"#{study.nct_id}\""
-            #  seems title needs to specify language & is an object
-            f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.official_title}\"" if study.official_title
-            f << "#{new_line}LAST#{tab}P1813#{tab}en:\"#{study.acronym}\"" if study.acronym
-            f << "#{new_line}LAST#{tab}P580#{tab}+#{study.quickstatement_date(study.start_date)}" if study.start_date
-            f << "#{new_line}LAST#{tab}P582#{tab}+#{study.quickstatement_date(study.primary_completion_date)}" if study.primary_completion_date
-            f << "#{new_line}LAST#{tab}P1132#{tab}#{study.enrollment}"  if study.enrollment
+            f << lines_for('Len')    # Label
+            f << lines_for('Den')    # Description
+            f << lines_for('P31')    # instance of a clinical trial
+            f << lines_for('P3098')  # nct id
+            f << lines_for('P1476')  # title
+            f << lines_for('P1813')  # acronym
+            f << lines_for('P580')   # start date
+            f << lines_for('P582')   # primary completion date
+            f << lines_for('P1132')  # enrollment
+            f << phase_qcode_lines
             assign_min_max_age(f)
-            assign_phase_qcodes(f)
             assign_condition_qcodes(f)
             assign_keyword_qcodes(f)
             assign_country_qcodes(f)
@@ -46,15 +44,61 @@ module Util
           end
         end
       end
+    end
 
+    def lines_for(prop_code)
+      case prop_code
+      when 'Len'
+        return "#{line_prefix(prop_code)}\"#{study.brief_title}\""   # Label
+      when 'Den'
+        return "#{line_prefix(prop_code)}\"clinical trial\""     # Description
+      when 'P31'
+        return "#{line_prefix(prop_code)}Q30612"   # instance of a clinical trial
+      when 'P3098'  # NCT ID
+        return "#{line_prefix(prop_code)}\"#{study.nct_id}\""
+      when 'P1476'  # title
+        return "#{line_prefix(prop_code)}en:\"#{study.official_title}\"" if study.official_title
+      when 'P1813'  # acronym
+        return "#{line_prefix(prop_code)}en:\"#{study.acronym}\"" if study.acronym
+      when 'P1132'  # number of participants
+        return "#{line_prefix(prop_code)}#{study.enrollment}" if study.enrollment
+      when 'P6099'  # study phase
+        return phase_qcode_lines
+      when 'P580'   # start date
+        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.start_date)}" if study.start_date
+      when 'P582'   # primary completion date
+        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.primary_completion_date)}" if study.primary_completion_date
+      end
+    end
+
+    def line_prefix(prop_code)
+      return "#{new_line}#{subject}#{tab}#{prop_code}#{tab}"
+    end
+
+    def quickstatement_date(dt)
+      # TODO Refine date so it has month precision when the day isn't provided
+      # TODO Add qualifiers for Anticipated vs Actual
+      #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
+      "#{dt}T00:00:00Z/11"
+    end
+
+    def assign_existing_studies_missing_prop(code)
+      mgr = Util::WikiDataManager.new
+      File.open("public/assign_#{code}.txt", "w+") do |f|
+        mgr.ids_for_studies_without_prop(code).each {|hash|
+          @study = Study.where('nct_id=?', hash.keys.first).first
+          @subject = hash.values.first
+          f << lines_for(code) if study
+        }
+      end
     end
 
     def assign_min_max_age(f)
       # right now, the min/max age properties only have a 'year' unit, so only export those defined as year
       min = study.minimum_age.split(' ')
       max = study.maximum_age.split(' ')
-      f << "#{new_line}LAST#{tab}P2899#{tab}#{min[0]}" if min[1] && min[1].downcase == 'years'
-      f << "#{new_line}LAST#{tab}P4135#{tab}#{max[0]}" if max[1] && max[1].downcase == 'years'
+      f << "#{new_line}#{subject}#{tab}P2899#{tab}#{min[0]}" if min[1] && min[1].downcase == 'years'
+      f << "#{new_line}#{subject}#{tab}P4135#{tab}#{max[0]}" if max[1] && max[1].downcase == 'years'
     end
 
     def get_qcode_for_url(url)
@@ -68,22 +112,24 @@ module Util
 
     def create_research_design(f)
       f << 'CREATE'
-      f << "#{new_line}LAST#{tab}P31#{tab}Q1438035"   # instance of research design
-      f << "#{new_line}LAST#{tab}?????#{tab}en:\"#{study.design.intervention_for_wiki}\""
+      f << "#{new_line}#{subject}#{tab}P31#{tab}Q1438035"   # instance of research design
+      f << "#{new_line}#{subject}#{tab}?????#{tab}en:\"#{study.design.intervention_for_wiki}\""
     end
 
-    def assign_phase_qcodes(f)
+    def phase_qcode_lines
       return nil if study.phase.blank?
-      f << "#{new_line}LAST#{tab}P6099#{tab}Q42824069" if study.phase.include? '1'
-      f << "#{new_line}LAST#{tab}P6099#{tab}Q42824440" if study.phase.include? '2'
-      f << "#{new_line}LAST#{tab}P6099#{tab}Q42824827" if study.phase.include? '3'
-      f << "#{new_line}LAST#{tab}P6099#{tab}Q42825046" if study.phase.include? '4'
+      return_str=''
+      return_str << "#{new_line}#{subject}#{tab}P6099#{tab}Q42824069" if study.phase.include? '1'
+      return_str << "#{new_line}#{subject}#{tab}P6099#{tab}Q42824440" if study.phase.include? '2'
+      return_str << "#{new_line}#{subject}#{tab}P6099#{tab}Q42824827" if study.phase.include? '3'
+      return_str << "#{new_line}#{subject}#{tab}P6099#{tab}Q42825046" if study.phase.include? '4'
+      return return_str
     end
 
     def assign_facility_qcodes(f)
       study.facilities.each{ |facility|
         qcode = Lookup::Organization.qcode_for(facility.name)
-        f << "#{new_line}LAST#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
+        f << "#{new_line}#{subject}#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
       }
     end
 
@@ -91,7 +137,7 @@ module Util
       study.keywords.each{ |keyword|
         qcode = Lookup::Keyword.qcode_for(keyword.name)
         #topics are: Q200801
-        f << "#{new_line}LAST#{tab}P921#{tab}#{qcode}" if !qcode.blank?
+        f << "#{new_line}#{subject}#{tab}P921#{tab}#{qcode}" if !qcode.blank?
       }
     end
 
@@ -101,7 +147,7 @@ module Util
       conditions.each{ |condition|
         qcode = Lookup::Condition.qcode_for(condition)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P1050#{tab}#{qcode}"
+          f << "#{new_line}#{subject}#{tab}P1050#{tab}#{qcode}"
           assigned_qcodes << qcode
         end
       }
@@ -112,7 +158,7 @@ module Util
       study.active_countries.each{ |country|
         qcode = Lookup::Country.qcode_for(country.name)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P17#{tab}#{qcode}" if !qcode.blank?
+          f << "#{new_line}#{subject}#{tab}P17#{tab}#{qcode}" if !qcode.blank?
           assigned_qcodes << qcode
         end
       }
@@ -124,7 +170,7 @@ module Util
       interventions.each{ |intervention|
         qcode = Lookup::Intervention.qcode_for(intervention)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P4844#{tab}#{qcode}" if !qcode.blank?
+          f << "#{new_line}#{subject}#{tab}P4844#{tab}#{qcode}" if !qcode.blank?
           assigned_qcodes << qcode
         end
       }
@@ -132,7 +178,7 @@ module Util
 
     def assign_pubmed_ids(f)
       study.study_references.each{ |ref|
-        f << "#{new_line}LAST#{tab}P698#{tab}\"#{ref.pmid}\"" if !ref.pmid.blank?
+        f << "#{new_line}#{subject}#{tab}P698#{tab}\"#{ref.pmid}\"" if !ref.pmid.blank?
       }
     end
 
@@ -141,7 +187,7 @@ module Util
       study.lead_sponsors.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P859#{tab}#{qcode}" if !qcode.blank?
+          f << "#{new_line}#{subject}#{tab}P859#{tab}#{qcode}" if !qcode.blank?
           assigned_qcodes << qcode
         end
       }
@@ -152,7 +198,7 @@ module Util
       study.collaborators.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
         if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          f << "#{new_line}LAST#{tab}P767#{tab}#{qcode}" if !qcode.blank?
+          f << "#{new_line}#{subject}#{tab}P767#{tab}#{qcode}" if !qcode.blank?
           assigned_qcodes << qcode
         end
       }

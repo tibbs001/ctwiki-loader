@@ -153,6 +153,24 @@ module Util
       !qcodes_for_nct_id(nct_id).empty?
     end
 
+    def ids_for_studies_without_prop(code)
+      # phase is P6099
+      cmd="SELECT ?item ?nct_id WHERE {
+           ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
+           FILTER NOT EXISTS {?item wdt:P6099 ?phase}
+             ?item wdt:P3098 ?nct_id .  } "
+      result = []
+      run_sparql(cmd).each {|i|
+        label = val = ''
+        i.each_binding { |name, item|
+          label = item.value if name == :nct_id
+          val   = item.value.chomp.split('/').last if name == :item
+        }
+        result << {label.to_s => val }
+      }
+      return result.flatten.uniq
+    end
+
     def ids_for_studies_with_prop(code, id_type='item')
       #existing_nct_id='NCT02856984'
       cmd = "

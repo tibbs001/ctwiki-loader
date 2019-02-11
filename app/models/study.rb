@@ -93,11 +93,6 @@ class Study < ActiveRecord::Base
     all.collect{|s|s.nct_id}
   end
 
-  def quickstatement_date(dt)
-    #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
-    "#{dt}T00:00:00Z/11"
-  end
-
   def summary
     brief_summary.description
   end
