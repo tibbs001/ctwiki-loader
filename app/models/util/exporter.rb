@@ -68,7 +68,7 @@ module Util
     def create_research_design(f)
       f << 'CREATE'
       f << "#{new_line}LAST#{tab}P31#{tab}Q1438035"   # instance of research design
-      f << "#{new_line}LAST#{tab}P1476#{tab}en:\"#{study.design.intervention_for_wiki}\""
+      f << "#{new_line}LAST#{tab}?????#{tab}en:\"#{study.design.intervention_for_wiki}\""
     end
 
     def assign_phase_qcodes(f)
