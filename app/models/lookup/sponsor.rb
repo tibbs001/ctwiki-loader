@@ -2,10 +2,6 @@ module Lookup
   class Sponsor < SuperLookup
     self.table_name = 'lookup.sponsors'
 
-    def qcode
-      Lookup::Sponsor.qcode_for(name)
-    end
-
     def self.impossible_descriptions
       super + [
         'scientific article',

@@ -6,11 +6,6 @@ module Lookup
       :mesh_term
     end
 
-    def qcode
-      Lookup::Condition.qcode_for(label)
-    end
-
-
     def self.populate
       self.destroy_all
       new.populate
