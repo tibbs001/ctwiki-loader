@@ -61,6 +61,11 @@ module Lookup
         'National Taiwan University Hospital'      => 'Q1418766',
         'Memorial Sloan Kettering Cancer Center'   => 'Q1808012',
         'Novartis'                                 => 'Q507154',
+        'Rigshospitalet, Denmark'                  => 'Q3357360',
+        'Psychiatric Centre Rigshospitalet'        => 'Q3357360',
+        'Neurobiology Research Unit, Rigshospitalet, Copenhagen' => 'Q3357360',
+        'Institute of Clinical Medicine, Rigshospitalet, Denmark'  => 'Q3357360',
+        'The Palliative Unit, Rigshospitalet'      => 'Q3357360',
         'Stanford University'                      => 'Q41506',
         'Johns Hopkins University'                 => 'Q193727',
         'Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)' => 'Q5409765',
@@ -69,6 +74,7 @@ module Lookup
         'Genentech, Inc.'                          => 'Q899140',
         'University of Pennsylvania'               => 'Q49117',
         'Washington University School of Medicine' => 'Q7972509',
+        'University of Colorado, Denver'           => 'Q1468161'
       }
     end
 
