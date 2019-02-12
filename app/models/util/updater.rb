@@ -176,9 +176,18 @@ module Util
       }
     end
 
+    def assign_urls(f)
+      study.documents.each{ |ref|
+        f << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.url}\"" if !ref.url.blank?
+      }
+    end
+
     def assign_pubmed_ids(f)
       study.study_references.each{ |ref|
-        f << "#{new_line}#{subject}#{tab}P698#{tab}\"#{ref.pmid}\"" if !ref.pmid.blank?
+        # Nope - it doesn't take a string -needs to be a QCode
+        #f << "#{new_line}#{subject}#{tab}P248#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
+        #  Going to use P854:  Reference URL
+        f << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
       }
     end
 
