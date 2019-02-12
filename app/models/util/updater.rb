@@ -65,9 +65,9 @@ module Util
       when 'P6099'  # study phase
         return phase_qcode_lines
       when 'P580'   # start date
-        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.start_date)}" if study.start_date
+        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.start_date, study.start_month_year)}" if study.start_date
       when 'P582'   # primary completion date
-        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.primary_completion_date)}" if study.primary_completion_date
+        return "#{line_prefix(prop_code)}+#{quickstatement_date(study.primary_completion_date, study.primary_completion_month_year)}" if study.primary_completion_date
       end
     end
 
@@ -75,11 +75,15 @@ module Util
       return "#{new_line}#{subject}#{tab}#{prop_code}#{tab}"
     end
 
-    def quickstatement_date(dt)
+    def quickstatement_date(dt, dt_str)
       # TODO Refine date so it has month precision when the day isn't provided
       # TODO Add qualifiers for Anticipated vs Actual
       #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
-      "#{dt}T00:00:00Z/11"
+      if dt_str.count(' ') == 1  # if only one space in the date string, it must not have a day, so set to month precision.
+        "#{dt}T00:00:00Z/10"
+      else
+        "#{dt}T00:00:00Z/11"
+      end
     end
 
     def assign_existing_studies_missing_prop(code)
