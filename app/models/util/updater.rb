@@ -109,11 +109,6 @@ module Util
       # API call to get qcode for url
     end
 
-    def quickstatement_date(dt)
-      #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
-      "#{dt}T00:00:00Z/11"
-    end
-
     def create_research_design(f)
       f << 'CREATE'
       f << "#{new_line}#{subject}#{tab}P31#{tab}Q1438035"   # instance of research design
