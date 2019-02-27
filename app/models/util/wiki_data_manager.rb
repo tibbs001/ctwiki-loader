@@ -153,6 +153,13 @@ module Util
       !qcodes_for_nct_id(nct_id).empty?
     end
 
+    def all_nct_ids_in_wikidata
+      results=[]
+      cmd="SELECT ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
+      run_sparql(cmd).each {|i| i.each_binding { |name, item| results << item.value } }
+      results
+    end
+
     def ids_for_studies_without_prop(code)
       # phase is P6099
       cmd="SELECT ?item ?nct_id WHERE {

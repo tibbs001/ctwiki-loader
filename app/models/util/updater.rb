@@ -15,9 +15,10 @@ module Util
     def run(delimiters=nil)
       @subject = 'LAST'
       File.open("public/data.txt", "w+") do |f|
-        #Study.all[0..29].each do |id|
+        loaded_ids= Util::WikiDataManager.new.all_nct_ids_in_wikidata
+        Study.all.pluck(:nct_id) - loaded_ids[0..29].each do |id|
         #self.zika_studies.each do |id|
-        self.studies_20190211.each do |id|
+        #self.studies_20190211.each do |id|
           if !mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
 
@@ -36,7 +37,7 @@ module Util
             assign_condition_qcodes(f)
             assign_keyword_qcodes(f)
             assign_country_qcodes(f)
-            assign_facility_qcodes(f)
+            #assign_facility_qcodes(f)
             assign_intervention_qcodes(f)
             assign_pubmed_ids(f)
             assign_sponsor_qcodes(f)
