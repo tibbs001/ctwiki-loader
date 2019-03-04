@@ -9,14 +9,18 @@ module Lookup
 
     def self.populate_for_model(model_type)
       could_not_resolve = []
+      mgr = Util::WikiDataManager.new
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
       self.populate_predefined_qcode
       self.unregistered_names(model_type).each { |label|
         if !already_loaded.include?(label.downcase)
-          result = Util::WikiDataManager.new.find_qcode(label, possible_descriptions, impossible_descriptions)
+          result = mgr.find_qcode(label, possible_descriptions, impossible_descriptions)
         end
         if result
-          self.create_entry_for(result)
+          obj = self.create_entry_for(result)
+          obj.populate_other_attribs
+          obj.types = mgr.types_for_qcode(obj.qcode)
+          obj.save!
           already_loaded << result[:downcase_name]
         else
           self.create_non_qcode_entry_for(label)
@@ -35,13 +39,14 @@ module Lookup
     end
 
     def self.populate_predefined_qcode
+      mgr=Util::WikiDataManager.new
       already_loaded = self.existing_rows
       self.predefined_qcode.each {|key, value|
         if !already_loaded.include? key.downcase
           obj = new({ :name => key,
                 :downcase_name => key.downcase,
                 :qcode => value,
-                :types => get_types(value),
+                :types => mgr.types_for_qcode(value),
                 :wiki_description => 'added by ct-wiki'})
           obj.populate_other_attribs
           obj.save!
@@ -52,23 +57,10 @@ module Lookup
 
     def self.create_entry_for(attribs)
       obj=self.new(attribs)
-      obj.types = obj.get_types
-      obj.populate_other_attribs
-      obj.save!
     end
 
     def populate_other_attribs
       # hook method for subclasses
-    end
-
-    def self.get_types(qcode)
-      result=Util::WikiDataManager.new.types_for_qcode(qcode)
-      return result
-    end
-
-    def get_types
-      result=Util::WikiDataManager.new.types_for_qcode(self.qcode)
-      return result
     end
 
     def self.create_non_qcode_entry_for(name)
