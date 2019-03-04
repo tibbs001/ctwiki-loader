@@ -1,23 +1,27 @@
 module Util
   class Updater
 
-    attr_accessor :mgr, :study, :subject, :new_line, :tab
+    attr_accessor :mgr, :study, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char
 
     def initialize(delimiters=nil)
-      #delimiters = {:new_line=>'||', :tab=>'|'} if delimiters.blank?
-      delimiters = {:new_line=>'
-', :tab=>'	'} if delimiters.blank?
+      delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if delimiters.blank?
+      #delimiters = {:new_line=>'
+#', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if delimiters.blank?
       @new_line = delimiters[:new_line]
       @tab = delimiters[:tab]
+      @space_char = delimiters[:space_char]
+      @double_quote_char = delimiters[:double_quote_char]
+      @forward_slash_char = delimiters[:forward_slash_char]
       @mgr = Util::WikiDataManager.new
     end
 
     def run(delimiters=nil)
       @subject = 'LAST'
-      File.open("public/data.txt", "w+") do |f|
+      File.open("public/data.tmp", "w+") do |f|
         loaded_ids= Util::WikiDataManager.new.all_nct_ids_in_wikidata
-        Study.all.pluck(:nct_id) - loaded_ids[0..29].each do |id|
-        #self.zika_studies.each do |id|
+        # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
+        #(Study.all.pluck(:nct_id) - loaded_ids)[63000..69999].each do |id|
+        self.zika_studies2.each do |id|
         #self.studies_20190211.each do |id|
           if !mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
@@ -42,6 +46,18 @@ module Util
             assign_pubmed_ids(f)
             assign_sponsor_qcodes(f)
             f << " #{new_line}#{new_line}"
+          end
+        end
+        f.close
+        puts " ====================================="
+        File.open("public/data.tmp", "r") do |out|
+          File.open("public/data.out", "w+") do |f|
+             out << "https://tools.wmflabs.org/quickstatements/#v1="
+             out.each_line do |line|
+               converted_line = line.gsub(' ',space_char).gsub('"',double_quote_char).gsub('/',forward_slash_char)
+               puts converted_line
+               f << converted_line
+             end
           end
         end
       end
@@ -218,7 +234,7 @@ module Util
     end
 
     def zika_studies2
-      ['NCT03008122', 'NCT02979938', 'NCT02943304', 'NCT02952833', 'NCT03188731', 'NCT03443830', 'NCT02733796', 'NCT03055585', 'NCT02963909', 'NCT02916732', 'NCT03330600', 'NCT03611946', 'NCT03425149', 'NCT02794181', 'NCT03776903', 'NCT03343626', 'NCT03204409', 'NCT02996890', 'NCT03679728', 'NCT03624946', 'NCT03263195', 'NCT03206541', 'NCT01099852', 'NCT03393286', 'NCT03158233', 'NCT02810210', 'NCT03255369', 'NCT03106714', 'NCT03776695', 'NCT02856984', 'NCT03161444', 'NCT03229421', 'NCT02831699', 'NCT03110770']
+      ['NCT01048060', 'NCT01037361', 'NCT01031433', 'NCT00995891', 'NCT00967785']
     end
 
     def zika_studies

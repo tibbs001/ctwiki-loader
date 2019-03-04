@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.11
+-- Dumped from database version 11.1
 -- Dumped by pg_dump version 11.1
 
 SET statement_timeout = 0;
@@ -30,38 +30,10 @@ CREATE SCHEMA lookup;
 
 
 --
--- Name: mesh_archive; Type: SCHEMA; Schema: -; Owner: -
+-- Name: support; Type: SCHEMA; Schema: -; Owner: -
 --
 
-CREATE SCHEMA mesh_archive;
-
-
---
--- Name: proj_cdek_standard_orgs; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_cdek_standard_orgs;
-
-
---
--- Name: proj_results_reporting; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_results_reporting;
-
-
---
--- Name: proj_tag; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_tag;
-
-
---
--- Name: proj_tag_nephrology; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_tag_nephrology;
+CREATE SCHEMA support;
 
 
 --
@@ -404,6 +376,7 @@ CREATE TABLE ctgov.baseline_counts (
 --
 
 CREATE SEQUENCE ctgov.baseline_counts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -449,6 +422,7 @@ CREATE TABLE ctgov.baseline_measurements (
 --
 
 CREATE SEQUENCE ctgov.baseline_measurements_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -479,6 +453,7 @@ CREATE TABLE ctgov.brief_summaries (
 --
 
 CREATE SEQUENCE ctgov.brief_summaries_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -498,6 +473,7 @@ ALTER SEQUENCE ctgov.brief_summaries_id_seq OWNED BY ctgov.brief_summaries.id;
 --
 
 CREATE SEQUENCE ctgov.browse_conditions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -529,6 +505,7 @@ CREATE TABLE ctgov.browse_interventions (
 --
 
 CREATE SEQUENCE ctgov.browse_interventions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -575,6 +552,7 @@ CREATE TABLE ctgov.calculated_values (
 --
 
 CREATE SEQUENCE ctgov.calculated_values_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -608,6 +586,7 @@ CREATE TABLE ctgov.central_contacts (
 --
 
 CREATE SEQUENCE ctgov.central_contacts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -639,6 +618,7 @@ CREATE TABLE ctgov.conditions (
 --
 
 CREATE SEQUENCE ctgov.conditions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -670,6 +650,7 @@ CREATE TABLE ctgov.countries (
 --
 
 CREATE SEQUENCE ctgov.countries_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -701,6 +682,7 @@ CREATE TABLE ctgov.design_group_interventions (
 --
 
 CREATE SEQUENCE ctgov.design_group_interventions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -733,6 +715,7 @@ CREATE TABLE ctgov.design_groups (
 --
 
 CREATE SEQUENCE ctgov.design_groups_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -752,6 +735,7 @@ ALTER SEQUENCE ctgov.design_groups_id_seq OWNED BY ctgov.design_groups.id;
 --
 
 CREATE SEQUENCE ctgov.design_outcomes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -793,6 +777,7 @@ CREATE TABLE ctgov.designs (
 --
 
 CREATE SEQUENCE ctgov.designs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -823,6 +808,7 @@ CREATE TABLE ctgov.detailed_descriptions (
 --
 
 CREATE SEQUENCE ctgov.detailed_descriptions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -856,6 +842,7 @@ CREATE TABLE ctgov.documents (
 --
 
 CREATE SEQUENCE ctgov.documents_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -890,6 +877,7 @@ CREATE TABLE ctgov.drop_withdrawals (
 --
 
 CREATE SEQUENCE ctgov.drop_withdrawals_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -928,6 +916,7 @@ CREATE TABLE ctgov.eligibilities (
 --
 
 CREATE SEQUENCE ctgov.eligibilities_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -963,6 +952,7 @@ CREATE TABLE ctgov.facilities (
 --
 
 CREATE SEQUENCE ctgov.facilities_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -997,6 +987,7 @@ CREATE TABLE ctgov.facility_contacts (
 --
 
 CREATE SEQUENCE ctgov.facility_contacts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1029,6 +1020,7 @@ CREATE TABLE ctgov.facility_investigators (
 --
 
 CREATE SEQUENCE ctgov.facility_investigators_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1048,6 +1040,7 @@ ALTER SEQUENCE ctgov.facility_investigators_id_seq OWNED BY ctgov.facility_inves
 --
 
 CREATE SEQUENCE ctgov.id_information_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1079,6 +1072,7 @@ CREATE TABLE ctgov.intervention_other_names (
 --
 
 CREATE SEQUENCE ctgov.intervention_other_names_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1098,6 +1092,7 @@ ALTER SEQUENCE ctgov.intervention_other_names_id_seq OWNED BY ctgov.intervention
 --
 
 CREATE SEQUENCE ctgov.interventions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1128,6 +1123,7 @@ CREATE TABLE ctgov.ipd_information_types (
 --
 
 CREATE SEQUENCE ctgov.ipd_information_types_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1147,6 +1143,7 @@ ALTER SEQUENCE ctgov.ipd_information_types_id_seq OWNED BY ctgov.ipd_information
 --
 
 CREATE SEQUENCE ctgov.keywords_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1178,6 +1175,7 @@ CREATE TABLE ctgov.links (
 --
 
 CREATE SEQUENCE ctgov.links_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1209,6 +1207,7 @@ CREATE TABLE ctgov.mesh_headings (
 --
 
 CREATE SEQUENCE ctgov.mesh_headings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1242,6 +1241,7 @@ CREATE TABLE ctgov.mesh_terms (
 --
 
 CREATE SEQUENCE ctgov.mesh_terms_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1277,6 +1277,7 @@ CREATE TABLE ctgov.milestones (
 --
 
 CREATE SEQUENCE ctgov.milestones_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1326,6 +1327,7 @@ CREATE TABLE ctgov.outcome_analyses (
 --
 
 CREATE SEQUENCE ctgov.outcome_analyses_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1358,6 +1360,7 @@ CREATE TABLE ctgov.outcome_analysis_groups (
 --
 
 CREATE SEQUENCE ctgov.outcome_analysis_groups_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1393,6 +1396,7 @@ CREATE TABLE ctgov.outcome_counts (
 --
 
 CREATE SEQUENCE ctgov.outcome_counts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1439,6 +1443,7 @@ CREATE TABLE ctgov.outcome_measurements (
 --
 
 CREATE SEQUENCE ctgov.outcome_measurements_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1479,6 +1484,7 @@ CREATE TABLE ctgov.outcomes (
 --
 
 CREATE SEQUENCE ctgov.outcomes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1511,6 +1517,7 @@ CREATE TABLE ctgov.overall_officials (
 --
 
 CREATE SEQUENCE ctgov.overall_officials_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1542,6 +1549,7 @@ CREATE TABLE ctgov.participant_flows (
 --
 
 CREATE SEQUENCE ctgov.participant_flows_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1574,6 +1582,7 @@ CREATE TABLE ctgov.pending_results (
 --
 
 CREATE SEQUENCE ctgov.pending_results_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1618,6 +1627,7 @@ CREATE TABLE ctgov.reported_events (
 --
 
 CREATE SEQUENCE ctgov.reported_events_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1652,6 +1662,7 @@ CREATE TABLE ctgov.responsible_parties (
 --
 
 CREATE SEQUENCE ctgov.responsible_parties_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1683,6 +1694,7 @@ CREATE TABLE ctgov.result_agreements (
 --
 
 CREATE SEQUENCE ctgov.result_agreements_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1716,6 +1728,7 @@ CREATE TABLE ctgov.result_contacts (
 --
 
 CREATE SEQUENCE ctgov.result_contacts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1749,6 +1762,7 @@ CREATE TABLE ctgov.result_groups (
 --
 
 CREATE SEQUENCE ctgov.result_groups_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1764,10 +1778,20 @@ ALTER SEQUENCE ctgov.result_groups_id_seq OWNED BY ctgov.result_groups.id;
 
 
 --
+-- Name: schema_migrations; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+--
 -- Name: sponsors_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
 --
 
 CREATE SEQUENCE ctgov.sponsors_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1872,6 +1896,7 @@ CREATE TABLE ctgov.study_references (
 --
 
 CREATE SEQUENCE ctgov.study_references_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1884,6 +1909,43 @@ CREATE SEQUENCE ctgov.study_references_id_seq
 --
 
 ALTER SEQUENCE ctgov.study_references_id_seq OWNED BY ctgov.study_references.id;
+
+
+--
+-- Name: ages; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.ages (
+    id integer NOT NULL,
+    qcode character varying,
+    min_or_max character varying,
+    preferred_name character varying,
+    name character varying,
+    downcase_name character varying,
+    lookup character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: ages_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.ages_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ages_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.ages_id_seq OWNED BY lookup.ages.id;
 
 
 --
@@ -1907,6 +1969,7 @@ CREATE TABLE lookup.conditions (
 --
 
 CREATE SEQUENCE lookup.conditions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1942,6 +2005,7 @@ CREATE TABLE lookup.countries (
 --
 
 CREATE SEQUENCE lookup.countries_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1976,6 +2040,7 @@ CREATE TABLE lookup.interventions (
 --
 
 CREATE SEQUENCE lookup.interventions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2011,6 +2076,7 @@ CREATE TABLE lookup.keywords (
 --
 
 CREATE SEQUENCE lookup.keywords_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2045,6 +2111,7 @@ CREATE TABLE lookup.organizations (
 --
 
 CREATE SEQUENCE lookup.organizations_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2057,15 +2124,6 @@ CREATE SEQUENCE lookup.organizations_id_seq
 --
 
 ALTER SEQUENCE lookup.organizations_id_seq OWNED BY lookup.organizations.id;
-
-
---
--- Name: schema_migrations; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.schema_migrations (
-    version character varying NOT NULL
-);
 
 
 --
@@ -2088,6 +2146,7 @@ CREATE TABLE lookup.sponsors (
 --
 
 CREATE SEQUENCE lookup.sponsors_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2103,24 +2162,40 @@ ALTER SEQUENCE lookup.sponsors_id_seq OWNED BY lookup.sponsors.id;
 
 
 --
--- Name: y2010_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE mesh_archive.y2010_mesh_terms (
-    id bigint NOT NULL,
-    qualifier character varying,
-    tree_number character varying,
-    description character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
 );
 
 
 --
--- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+-- Name: load_events; Type: TABLE; Schema: support; Owner: -
 --
 
-CREATE SEQUENCE mesh_archive.y2010_mesh_terms_id_seq
+CREATE TABLE support.load_events (
+    id integer NOT NULL,
+    event_type character varying,
+    status character varying,
+    description text,
+    problems text,
+    should_add integer,
+    should_change integer,
+    processed integer,
+    load_time character varying,
+    completed_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: load_events_id_seq; Type: SEQUENCE; Schema: support; Owner: -
+--
+
+CREATE SEQUENCE support.load_events_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2129,204 +2204,36 @@ CREATE SEQUENCE mesh_archive.y2010_mesh_terms_id_seq
 
 
 --
--- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+-- Name: load_events_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
 --
 
-ALTER SEQUENCE mesh_archive.y2010_mesh_terms_id_seq OWNED BY mesh_archive.y2010_mesh_terms.id;
-
-
---
--- Name: y2016_mesh_headings; Type: TABLE; Schema: mesh_archive; Owner: -
---
-
-CREATE TABLE mesh_archive.y2016_mesh_headings (
-    id bigint NOT NULL,
-    qualifier character varying,
-    heading character varying,
-    subcategory character varying
-);
+ALTER SEQUENCE support.load_events_id_seq OWNED BY support.load_events.id;
 
 
 --
--- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+-- Name: sanity_checks; Type: TABLE; Schema: support; Owner: -
 --
 
-CREATE SEQUENCE mesh_archive.y2016_mesh_headings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
---
-
-ALTER SEQUENCE mesh_archive.y2016_mesh_headings_id_seq OWNED BY mesh_archive.y2016_mesh_headings.id;
-
-
---
--- Name: y2016_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
---
-
-CREATE TABLE mesh_archive.y2016_mesh_terms (
-    id bigint NOT NULL,
-    qualifier character varying,
-    tree_number character varying,
-    description character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
-);
-
-
---
--- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
---
-
-CREATE SEQUENCE mesh_archive.y2016_mesh_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
---
-
-ALTER SEQUENCE mesh_archive.y2016_mesh_terms_id_seq OWNED BY mesh_archive.y2016_mesh_terms.id;
-
-
---
--- Name: cdek_organizations; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-CREATE TABLE proj_cdek_standard_orgs.cdek_organizations (
-    id bigint NOT NULL,
-    name character varying,
-    downcase_name character varying
-);
-
-
---
--- Name: cdek_organizations_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-CREATE SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: cdek_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq OWNED BY proj_cdek_standard_orgs.cdek_organizations.id;
-
-
---
--- Name: cdek_synonyms; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-CREATE TABLE proj_cdek_standard_orgs.cdek_synonyms (
-    id bigint NOT NULL,
-    name character varying,
-    preferred_name character varying,
-    downcase_name character varying,
-    downcase_preferred_name character varying
-);
-
-
---
--- Name: cdek_synonyms_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-CREATE SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: cdek_synonyms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq OWNED BY proj_cdek_standard_orgs.cdek_synonyms.id;
-
-
---
--- Name: analyzed_studies; Type: TABLE; Schema: proj_results_reporting; Owner: -
---
-
-CREATE TABLE proj_results_reporting.analyzed_studies (
-    id bigint NOT NULL,
+CREATE TABLE support.sanity_checks (
+    id integer NOT NULL,
+    table_name character varying,
     nct_id character varying,
-    url character varying,
-    brief_title character varying,
-    start_month character varying,
-    start_year integer,
-    overall_status character varying,
-    p_completion_month character varying,
-    p_completion_year integer,
-    completion_month character varying,
-    completion_year integer,
-    verification_month character varying,
-    verification_year integer,
-    p_comp_mn integer,
-    p_comp_yr integer,
-    received_year integer,
-    mntopcom integer,
-    enrollment integer,
-    number_of_arms integer,
-    allocation character varying,
-    masking character varying,
-    phase character varying,
-    primary_purpose character varying,
-    sponsor_name character varying,
-    agency_class character varying,
-    collaborator_names character varying,
-    funding character varying,
-    responsible_party_type character varying,
-    responsible_party_organization character varying,
-    us_coderc character varying,
-    oversight character varying,
-    behavioral character varying,
-    biological character varying,
-    device character varying,
-    dietsup character varying,
-    drug character varying,
-    genetic character varying,
-    procedure character varying,
-    radiation character varying,
-    otherint character varying,
-    intervg1 character varying,
-    results character varying,
-    resultsreceived_month character varying,
-    resultsreceived_year character varying,
-    firstreceived_results_dt date,
-    t2result integer,
-    t2result_imp integer,
-    t2resmod integer,
-    results12 character varying,
-    delayed character varying,
-    dr_received_dt date,
-    mn2delay boolean,
-    delayed12 boolean
+    column_name character varying,
+    check_type character varying,
+    row_count integer,
+    description text,
+    most_current boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_results_reporting; Owner: -
+-- Name: sanity_checks_id_seq; Type: SEQUENCE; Schema: support; Owner: -
 --
 
-CREATE SEQUENCE proj_results_reporting.analyzed_studies_id_seq
+CREATE SEQUENCE support.sanity_checks_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2335,63 +2242,32 @@ CREATE SEQUENCE proj_results_reporting.analyzed_studies_id_seq
 
 
 --
--- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_results_reporting; Owner: -
+-- Name: sanity_checks_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
 --
 
-ALTER SEQUENCE proj_results_reporting.analyzed_studies_id_seq OWNED BY proj_results_reporting.analyzed_studies.id;
-
-
---
--- Name: tagged_terms; Type: TABLE; Schema: proj_tag; Owner: -
---
-
-CREATE TABLE proj_tag.tagged_terms (
-    id bigint NOT NULL,
-    project_id integer,
-    identifier character varying,
-    tag character varying,
-    term character varying,
-    year character varying,
-    term_type character varying
-);
+ALTER SEQUENCE support.sanity_checks_id_seq OWNED BY support.sanity_checks.id;
 
 
 --
--- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag; Owner: -
+-- Name: study_xml_records; Type: TABLE; Schema: support; Owner: -
 --
 
-CREATE SEQUENCE proj_tag.tagged_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag; Owner: -
---
-
-ALTER SEQUENCE proj_tag.tagged_terms_id_seq OWNED BY proj_tag.tagged_terms.id;
-
-
---
--- Name: analyzed_studies; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE TABLE proj_tag_nephrology.analyzed_studies (
-    id bigint NOT NULL,
+CREATE TABLE support.study_xml_records (
+    id integer NOT NULL,
     nct_id character varying,
-    brief_title character varying,
-    lead_sponsor character varying
+    content xml,
+    created_study_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
+-- Name: study_xml_records_id_seq; Type: SEQUENCE; Schema: support; Owner: -
 --
 
-CREATE SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq
+CREATE SEQUENCE support.study_xml_records_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2400,40 +2276,10 @@ CREATE SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq
 
 
 --
--- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
+-- Name: study_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
 --
 
-ALTER SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq OWNED BY proj_tag_nephrology.analyzed_studies.id;
-
-
---
--- Name: tagged_terms; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE TABLE proj_tag_nephrology.tagged_terms (
-    id bigint NOT NULL,
-    term character varying,
-    term_type character varying
-);
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE SEQUENCE proj_tag_nephrology.tagged_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER SEQUENCE proj_tag_nephrology.tagged_terms_id_seq OWNED BY proj_tag_nephrology.tagged_terms.id;
+ALTER SEQUENCE support.study_xml_records_id_seq OWNED BY support.study_xml_records.id;
 
 
 --
@@ -2745,6 +2591,13 @@ ALTER TABLE ONLY ctgov.study_references ALTER COLUMN id SET DEFAULT nextval('ctg
 
 
 --
+-- Name: ages id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.ages ALTER COLUMN id SET DEFAULT nextval('lookup.ages_id_seq'::regclass);
+
+
+--
 -- Name: conditions id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -2787,66 +2640,24 @@ ALTER TABLE ONLY lookup.sponsors ALTER COLUMN id SET DEFAULT nextval('lookup.spo
 
 
 --
--- Name: y2010_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
+-- Name: load_events id; Type: DEFAULT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2010_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2010_mesh_terms_id_seq'::regclass);
-
-
---
--- Name: y2016_mesh_headings id; Type: DEFAULT; Schema: mesh_archive; Owner: -
---
-
-ALTER TABLE ONLY mesh_archive.y2016_mesh_headings ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_headings_id_seq'::regclass);
+ALTER TABLE ONLY support.load_events ALTER COLUMN id SET DEFAULT nextval('support.load_events_id_seq'::regclass);
 
 
 --
--- Name: y2016_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
+-- Name: sanity_checks id; Type: DEFAULT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2016_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_terms_id_seq'::regclass);
-
-
---
--- Name: cdek_organizations id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_organizations_id_seq'::regclass);
+ALTER TABLE ONLY support.sanity_checks ALTER COLUMN id SET DEFAULT nextval('support.sanity_checks_id_seq'::regclass);
 
 
 --
--- Name: cdek_synonyms id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: study_xml_records id; Type: DEFAULT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_synonyms_id_seq'::regclass);
-
-
---
--- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_results_reporting; Owner: -
---
-
-ALTER TABLE ONLY proj_results_reporting.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_results_reporting.analyzed_studies_id_seq'::regclass);
-
-
---
--- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag; Owner: -
---
-
-ALTER TABLE ONLY proj_tag.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag.tagged_terms_id_seq'::regclass);
-
-
---
--- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.analyzed_studies_id_seq'::regclass);
-
-
---
--- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.tagged_terms_id_seq'::regclass);
+ALTER TABLE ONLY support.study_xml_records ALTER COLUMN id SET DEFAULT nextval('support.study_xml_records_id_seq'::regclass);
 
 
 --
@@ -3202,6 +3013,14 @@ ALTER TABLE ONLY ctgov.study_references
 
 
 --
+-- Name: ages ages_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.ages
+    ADD CONSTRAINT ages_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: conditions conditions_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
@@ -3250,75 +3069,27 @@ ALTER TABLE ONLY lookup.sponsors
 
 
 --
--- Name: y2010_mesh_terms y2010_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
+-- Name: load_events load_events_pkey; Type: CONSTRAINT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2010_mesh_terms
-    ADD CONSTRAINT y2010_mesh_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: y2016_mesh_headings y2016_mesh_headings_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
---
-
-ALTER TABLE ONLY mesh_archive.y2016_mesh_headings
-    ADD CONSTRAINT y2016_mesh_headings_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY support.load_events
+    ADD CONSTRAINT load_events_pkey PRIMARY KEY (id);
 
 
 --
--- Name: y2016_mesh_terms y2016_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
+-- Name: sanity_checks sanity_checks_pkey; Type: CONSTRAINT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2016_mesh_terms
-    ADD CONSTRAINT y2016_mesh_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: cdek_organizations cdek_organizations_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations
-    ADD CONSTRAINT cdek_organizations_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY support.sanity_checks
+    ADD CONSTRAINT sanity_checks_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cdek_synonyms cdek_synonyms_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: study_xml_records study_xml_records_pkey; Type: CONSTRAINT; Schema: support; Owner: -
 --
 
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms
-    ADD CONSTRAINT cdek_synonyms_pkey PRIMARY KEY (id);
-
-
---
--- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_results_reporting; Owner: -
---
-
-ALTER TABLE ONLY proj_results_reporting.analyzed_studies
-    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
-
-
---
--- Name: tagged_terms tagged_terms_pkey; Type: CONSTRAINT; Schema: proj_tag; Owner: -
---
-
-ALTER TABLE ONLY proj_tag.tagged_terms
-    ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies
-    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
-
-
---
--- Name: tagged_terms tagged_terms_pkey; Type: CONSTRAINT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.tagged_terms
-    ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY support.study_xml_records
+    ADD CONSTRAINT study_xml_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -4148,82 +3919,84 @@ CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: lookup; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON lookup.schema_migrations USING btree (version);
-
-
---
--- Name: index_mesh_archive.y2010_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_description" ON mesh_archive.y2010_mesh_terms USING btree (description);
+CREATE UNIQUE INDEX unique_schema_migrations ON ctgov.schema_migrations USING btree (version);
 
 
 --
--- Name: index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (downcase_mesh_term);
-
-
---
--- Name: index_mesh_archive.y2010_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (mesh_term);
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
--- Name: index_mesh_archive.y2010_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_support.load_events_on_event_type; Type: INDEX; Schema: support; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_qualifier" ON mesh_archive.y2010_mesh_terms USING btree (qualifier);
-
-
---
--- Name: index_mesh_archive.y2016_mesh_headings_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2016_mesh_headings_on_qualifier" ON mesh_archive.y2016_mesh_headings USING btree (qualifier);
+CREATE INDEX "index_support.load_events_on_event_type" ON support.load_events USING btree (event_type);
 
 
 --
--- Name: index_mesh_archive.y2016_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_support.load_events_on_status; Type: INDEX; Schema: support; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_description" ON mesh_archive.y2016_mesh_terms USING btree (description);
-
-
---
--- Name: index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (downcase_mesh_term);
+CREATE INDEX "index_support.load_events_on_status" ON support.load_events USING btree (status);
 
 
 --
--- Name: index_mesh_archive.y2016_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_support.sanity_checks_on_check_type; Type: INDEX; Schema: support; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (mesh_term);
+CREATE INDEX "index_support.sanity_checks_on_check_type" ON support.sanity_checks USING btree (check_type);
 
 
 --
--- Name: index_mesh_archive.y2016_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_support.sanity_checks_on_column_name; Type: INDEX; Schema: support; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_qualifier" ON mesh_archive.y2016_mesh_terms USING btree (qualifier);
+CREATE INDEX "index_support.sanity_checks_on_column_name" ON support.sanity_checks USING btree (column_name);
+
+
+--
+-- Name: index_support.sanity_checks_on_nct_id; Type: INDEX; Schema: support; Owner: -
+--
+
+CREATE INDEX "index_support.sanity_checks_on_nct_id" ON support.sanity_checks USING btree (nct_id);
+
+
+--
+-- Name: index_support.sanity_checks_on_table_name; Type: INDEX; Schema: support; Owner: -
+--
+
+CREATE INDEX "index_support.sanity_checks_on_table_name" ON support.sanity_checks USING btree (table_name);
+
+
+--
+-- Name: index_support.study_xml_records_on_created_study_at; Type: INDEX; Schema: support; Owner: -
+--
+
+CREATE INDEX "index_support.study_xml_records_on_created_study_at" ON support.study_xml_records USING btree (created_study_at);
+
+
+--
+-- Name: index_support.study_xml_records_on_nct_id; Type: INDEX; Schema: support; Owner: -
+--
+
+CREATE INDEX "index_support.study_xml_records_on_nct_id" ON support.study_xml_records USING btree (nct_id);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO lookup;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
-INSERT INTO schema_migrations (version) VALUES ('20181401000144');
+INSERT INTO schema_migrations (version) VALUES ('20181214000144');
+
+INSERT INTO schema_migrations (version) VALUES ('20181230000144');
 
