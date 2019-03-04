@@ -34,7 +34,7 @@ module Lookup
           self.times_higher_ed_id = val
         when :grid_id
           self.grid_id = val
-        when :country
+        when :countryLabel
           self.country = val
         end
         self.save!
