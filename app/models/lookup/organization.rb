@@ -19,6 +19,28 @@ module Lookup
       self.populate_for_model(Project::CdekOrganization)
     end
 
+    def populate_other_attribs
+      mgr = Util::WikiDataManager.new
+      org_props = mgr.org_properties_for(self.qcode)
+      org_props.each{|prop_hash|
+        key = prop_hash.keys[0]
+        val = prop_hash[key]
+        case key
+        when :qs_world_univ_id
+          self.qs_world_univ_id = val
+        when :arwu_univ_id
+          self.arwu_univ_id = val
+        when :times_higher_ed_id
+          self.times_higher_ed_id = val
+        when :grid_id
+          self.grid_id = val
+        when :country
+          self.country = val
+        end
+        self.save!
+      }
+    end
+
     def self.possible_descriptions
       [
        'organization',

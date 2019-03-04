@@ -199,6 +199,33 @@ module Util
       return result.flatten.uniq
     end
 
+    def org_properties_for(qcode)
+      result=[]
+      cmd="SELECT ?qs_world_univ_id ?arwu_univ_id ?times_higher_ed_id ?grid_id ?countryLabel
+      WHERE
+      { OPTIONAL {  wd:#{qcode}  wdt:P5584  ?qs_world_univ_id }
+        OPTIONAL {  wd:#{qcode} wdt:P5242  ?arwu_univ_id }
+        OPTIONAL {  wd:#{qcode} wdt:P5586  ?times_higher_ed_id }
+        OPTIONAL {  wd:#{qcode} wdt:P2427  ?grid_id }
+        OPTIONAL {  wd:#{qcode} wdt:P17    ?country }
+        SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }} "
+
+      run_sparql(cmd).each {|i|
+        i.each_binding { |name, item| result << {name=>item.value} } if !i.blank?
+      }
+      return result.uniq.flatten
+    end
+
+    def types_for_qcode(qcode)
+      cmd = "SELECT ?typeLabel WHERE { wd:#{qcode} wdt:P31 ?type . SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } }"
+
+      result = []
+      run_sparql(cmd).each {|i|
+        i.each_binding { |name, item| result << item.value } if !i.blank?
+      }
+      return result.uniq.flatten.join(', ')
+    end
+
     def qcodes_for_nct_id(nct_id)
       #existing_nct_id='NCT02856984'
       cmd = "SELECT ?item WHERE { ?item wdt:P3098 '#{nct_id}' . } "

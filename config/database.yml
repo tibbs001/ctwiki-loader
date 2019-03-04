@@ -8,7 +8,7 @@ default: &default
 
 development:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact_back"
+  url:  "postgres://wiki@localhost:5432/aact"
 
 test:
   <<: *default

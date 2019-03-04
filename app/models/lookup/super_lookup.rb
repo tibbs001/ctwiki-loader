@@ -17,7 +17,6 @@ module Lookup
         end
         if result
           self.create_entry_for(result)
-          puts result
           already_loaded << result[:downcase_name]
         else
           self.create_non_qcode_entry_for(label)
@@ -38,16 +37,38 @@ module Lookup
     def self.populate_predefined_qcode
       already_loaded = self.existing_rows
       self.predefined_qcode.each {|key, value|
-        new({ :name => key,
-              :downcase_name => key.downcase,
-              :qcode => value,
-              :wiki_description => 'added by ct-wiki'}).save! if !already_loaded.include? key.downcase
-        already_loaded << key.downcase
+        if !already_loaded.include? key.downcase
+          obj = new({ :name => key,
+                :downcase_name => key.downcase,
+                :qcode => value,
+                :types => get_types(value),
+                :wiki_description => 'added by ct-wiki'})
+          obj.populate_other_attribs
+          obj.save!
+          already_loaded << key.downcase
+        end
       }
     end
 
     def self.create_entry_for(attribs)
-      self.new(attribs).save!
+      obj=self.new(attribs)
+      obj.types = obj.get_types
+      obj.populate_other_attribs
+      obj.save!
+    end
+
+    def populate_other_attribs
+      # hook method for subclasses
+    end
+
+    def self.get_types(qcode)
+      result=Util::WikiDataManager.new.types_for_qcode(qcode)
+      return result
+    end
+
+    def get_types
+      result=Util::WikiDataManager.new.types_for_qcode(self.qcode)
+      return result
     end
 
     def self.create_non_qcode_entry_for(name)

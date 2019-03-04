@@ -30,10 +30,45 @@ CREATE SCHEMA lookup;
 
 
 --
--- Name: support; Type: SCHEMA; Schema: -; Owner: -
+-- Name: mesh_archive; Type: SCHEMA; Schema: -; Owner: -
 --
 
-CREATE SCHEMA support;
+CREATE SCHEMA mesh_archive;
+
+
+--
+-- Name: proj_anderson; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA proj_anderson;
+
+
+--
+-- Name: proj_cdek_standard_orgs; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA proj_cdek_standard_orgs;
+
+
+--
+-- Name: proj_results_reporting; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA proj_results_reporting;
+
+
+--
+-- Name: proj_tag; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA proj_tag;
+
+
+--
+-- Name: proj_tag_nephrology; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA proj_tag_nephrology;
 
 
 --
@@ -58,135 +93,19 @@ CREATE FUNCTION ctgov.count_estimate(query text) RETURNS integer
 
 
 --
--- Name: ctgov_summaries(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
---
-
-CREATE FUNCTION ctgov.ctgov_summaries(character varying) RETURNS TABLE(nct_id character varying, title text, recruitment character varying, were_results_reported boolean, conditions text, interventions text, sponsors text, gender character varying, age text, phase character varying, enrollment integer, study_type character varying, other_ids text, study_first_submitted_date date, start_date date, completion_month_year character varying, last_update_submitted_date date, verification_month_year character varying, results_first_submitted_date date, acronym character varying, primary_completion_month_year character varying, outcome_measures text, disposition_first_submitted_date date, allocation character varying, intervention_model character varying, observational_model character varying, primary_purpose character varying, time_perspective character varying, masking character varying, masking_description text, intervention_model_description text, subject_masked boolean, caregiver_masked boolean, investigator_masked boolean, outcomes_assessor_masked boolean, number_of_facilities integer)
-    LANGUAGE sql
-    AS $_$
-
-      SELECT DISTINCT s.nct_id,
-          s.brief_title,
-          s.overall_status,
-          cv.were_results_reported,
-          bc.mesh_term,
-          i.intervention,
-          sp.name,
-          e.gender,
-          CASE
-            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
-            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
-            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
-            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
-          END,
-          CASE
-            WHEN s.phase='N/A' THEN NULL
-            ELSE s.phase
-          END,
-          s.enrollment, s.study_type,
-          id.id_value,
-          s.study_first_submitted_date, s.start_date,
-          s.completion_month_year, s.last_update_submitted_date, s.verification_month_year,
-          s.results_first_submitted_date, s.acronym, s.primary_completion_month_year,
-          o.measure, s.disposition_first_submitted_date,
-          d.allocation, d.intervention_model, d.observational_model, d.primary_purpose, d.time_perspective, d.masking,
-          d.masking_description, d.intervention_model_description, d.subject_masked, d.caregiver_masked, d.investigator_masked,
-          d.outcomes_assessor_masked,
-          cv.number_of_facilities
-
-      FROM studies s
-        INNER JOIN browse_conditions bc ON s.nct_id = bc.nct_id and bc.mesh_term  like $1
-        LEFT OUTER JOIN calculated_values cv ON s.nct_id = cv.nct_id
-        LEFT OUTER JOIN all_conditions c ON s.nct_id = c.nct_id
-        LEFT OUTER JOIN all_interventions i ON s.nct_id = i.nct_id
-        LEFT OUTER JOIN all_sponsors sp ON s.nct_id = sp.nct_id
-        LEFT OUTER JOIN eligibilities e ON s.nct_id=e.nct_id
-        LEFT OUTER JOIN all_id_information id ON s.nct_id = id.nct_id
-        LEFT OUTER JOIN all_design_outcomes o ON s.nct_id=o.nct_id
-        LEFT OUTER JOIN designs d ON s.nct_id = d.nct_id
-
-
-     UNION
-
-      SELECT DISTINCT s.nct_id,
-          s.brief_title,
-          s.overall_status,
-          cv.were_results_reported,
-          k.name,
-          i.intervention,
-          sp.name,
-          e.gender,
-          CASE
-            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
-            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
-            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
-            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
-          END,
-          CASE
-            WHEN s.phase='N/A' THEN NULL
-            ELSE s.phase
-          END,
-          s.enrollment, s.study_type,
-          id.id_value,
-          s.study_first_submitted_date, s.start_date,
-          s.completion_month_year, s.last_update_submitted_date, s.verification_month_year,
-          s.results_first_submitted_date, s.acronym, s.primary_completion_month_year,
-          o.measure, s.disposition_first_submitted_date,
-          d.allocation, d.intervention_model, d.observational_model, d.primary_purpose, d.time_perspective, d.masking,
-          d.masking_description, d.intervention_model_description, d.subject_masked, d.caregiver_masked, d.investigator_masked,
-          d.outcomes_assessor_masked,
-          cv.number_of_facilities
-
-      FROM studies s
-        INNER JOIN keywords k ON s.nct_id = k.nct_id and k.name like $1
-        LEFT OUTER JOIN calculated_values cv ON s.nct_id = cv.nct_id
-        LEFT OUTER JOIN all_conditions c ON s.nct_id = c.nct_id
-        LEFT OUTER JOIN all_interventions i ON s.nct_id = i.nct_id
-        LEFT OUTER JOIN all_sponsors sp ON s.nct_id = sp.nct_id
-        LEFT OUTER JOIN eligibilities e ON s.nct_id=e.nct_id
-        LEFT OUTER JOIN all_id_information id ON s.nct_id = id.nct_id
-        LEFT OUTER JOIN all_design_outcomes o ON s.nct_id=o.nct_id
-        LEFT OUTER JOIN designs d ON s.nct_id = d.nct_id
-
-        ;
-        $_$;
-
-
---
--- Name: ids_for(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
---
-
-CREATE FUNCTION ctgov.ids_for(character varying) RETURNS TABLE(nct_id character varying)
-    LANGUAGE sql
-    AS $_$
-
-        SELECT DISTINCT nct_id FROM browse_conditions WHERE mesh_term like $1
-        UNION
-        SELECT DISTINCT nct_id FROM browse_interventions WHERE mesh_term like $1
-        UNION
-        SELECT DISTINCT nct_id FROM keywords WHERE name like $1
-        UNION
-        SELECT DISTINCT nct_id FROM facilities WHERE name like $1 or city like $1 or state like $1 or country like $1
-        UNION
-        SELECT DISTINCT nct_id FROM sponsors WHERE name like $1
-        ;
-        $_$;
-
-
---
 -- Name: ids_for_org(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
 --
 
 CREATE FUNCTION ctgov.ids_for_org(character varying) RETURNS TABLE(nct_id character varying)
     LANGUAGE sql
     AS $_$
-      SELECT DISTINCT nct_id FROM responsible_parties WHERE affiliation like $1
+      SELECT DISTINCT nct_id FROM responsible_parties WHERE lower(affiliation) like lower($1)
       UNION
-      SELECT DISTINCT nct_id FROM facilities WHERE name like $1 or city like $1 or state like $1 or country like $1
+      SELECT DISTINCT nct_id FROM facilities WHERE lower(name) like lower($1) or lower(city) like lower($1) or lower(state) like lower($1) or lower(country) like lower($1)
       UNION
-      SELECT DISTINCT nct_id FROM sponsors WHERE name like $1
+      SELECT DISTINCT nct_id FROM sponsors WHERE lower(name) like lower($1)
       UNION
-      SELECT DISTINCT nct_id FROM result_contacts WHERE organization like $1
+      SELECT DISTINCT nct_id FROM result_contacts WHERE lower(organization) like lower($1)
       ;
       $_$;
 
@@ -198,15 +117,253 @@ CREATE FUNCTION ctgov.ids_for_org(character varying) RETURNS TABLE(nct_id charac
 CREATE FUNCTION ctgov.ids_for_term(character varying) RETURNS TABLE(nct_id character varying)
     LANGUAGE sql
     AS $_$
-      SELECT DISTINCT nct_id FROM browse_conditions WHERE mesh_term like $1
-      UNION
-      SELECT DISTINCT nct_id FROM browse_interventions WHERE mesh_term like $1
-      UNION
-      SELECT DISTINCT nct_id FROM keywords WHERE name like $1
-      UNION
-      SELECT DISTINCT nct_id FROM studies WHERE brief_title like $1
-      ;
-      $_$;
+
+        SELECT DISTINCT nct_id FROM browse_conditions WHERE downcase_mesh_term like lower($1)
+        UNION
+        SELECT DISTINCT nct_id FROM browse_interventions WHERE downcase_mesh_term like lower($1)
+        UNION
+        SELECT DISTINCT nct_id FROM keywords WHERE name like $1
+        UNION
+        SELECT DISTINCT nct_id FROM facilities WHERE name like $1 or city like $1 or state like $1 or country like $1
+        UNION
+        SELECT DISTINCT nct_id FROM sponsors WHERE name like $1
+        ;
+        $_$;
+
+
+--
+-- Name: study_summaries_for_condition(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
+--
+
+CREATE FUNCTION ctgov.study_summaries_for_condition(character varying) RETURNS TABLE(nct_id character varying, title text, recruitment character varying, were_results_reported boolean, conditions text, interventions text, gender character varying, age text, phase character varying, enrollment integer, study_type character varying, sponsors text, other_ids text, study_first_submitted_date date, start_date date, completion_month_year character varying, last_update_submitted_date date, verification_month_year character varying, results_first_submitted_date date, acronym character varying, primary_completion_month_year character varying, outcome_measures text, disposition_first_submitted_date date, allocation character varying, intervention_model character varying, observational_model character varying, primary_purpose character varying, time_perspective character varying, masking character varying, masking_description text, intervention_model_description text, subject_masked boolean, caregiver_masked boolean, investigator_masked boolean, outcomes_assessor_masked boolean, number_of_facilities integer)
+    LANGUAGE sql
+    AS $_$
+
+      SELECT DISTINCT s.nct_id,
+          s.brief_title,
+          s.overall_status,
+          cv.were_results_reported,
+          bc.mesh_term,
+          i.names as interventions,
+          e.gender,
+          CASE
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
+            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
+            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
+          END,
+          CASE
+            WHEN s.phase='N/A' THEN NULL
+            ELSE s.phase
+          END,
+          s.enrollment,
+          s.study_type,
+          sp.names as sponsors,
+          id.names as id_values,
+          s.study_first_submitted_date,
+          s.start_date,
+          s.completion_month_year,
+          s.last_update_submitted_date,
+          s.verification_month_year,
+          s.results_first_submitted_date,
+          s.acronym,
+          s.primary_completion_month_year,
+          o.names as design_outcomes,
+          s.disposition_first_submitted_date,
+          d.allocation,
+          d.intervention_model,
+          d.observational_model,
+          d.primary_purpose,
+          d.time_perspective,
+          d.masking,
+          d.masking_description,
+          d.intervention_model_description,
+          d.subject_masked,
+          d.caregiver_masked,
+          d.investigator_masked,
+          d.outcomes_assessor_masked,
+          cv.number_of_facilities
+
+      FROM studies s
+        INNER JOIN browse_conditions         bc ON s.nct_id = bc.nct_id and bc.downcase_mesh_term  like lower($1)
+        LEFT OUTER JOIN calculated_values    cv ON s.nct_id = cv.nct_id
+        LEFT OUTER JOIN all_conditions       c  ON s.nct_id = c.nct_id
+        LEFT OUTER JOIN all_interventions    i  ON s.nct_id = i.nct_id
+        LEFT OUTER JOIN all_sponsors         sp ON s.nct_id = sp.nct_id
+        LEFT OUTER JOIN eligibilities        e  ON s.nct_id = e.nct_id
+        LEFT OUTER JOIN all_id_information   id ON s.nct_id = id.nct_id
+        LEFT OUTER JOIN all_design_outcomes  o  ON s.nct_id = o.nct_id
+        LEFT OUTER JOIN designs              d  ON s.nct_id = d.nct_id
+
+     UNION
+
+      SELECT DISTINCT s.nct_id,
+          s.brief_title,
+          s.overall_status,
+          cv.were_results_reported,
+          bc.name,
+          i.names as interventions,
+          e.gender,
+          CASE
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
+            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
+            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
+          END,
+          CASE
+            WHEN s.phase='N/A' THEN NULL
+            ELSE s.phase
+          END,
+          s.enrollment,
+          s.study_type,
+          sp.names as sponsors,
+          id.names as id_values,
+          s.study_first_submitted_date,
+          s.start_date,
+          s.completion_month_year,
+          s.last_update_submitted_date,
+          s.verification_month_year,
+          s.results_first_submitted_date,
+          s.acronym,
+          s.primary_completion_month_year,
+          o.names as design_outcomes,
+          s.disposition_first_submitted_date,
+          d.allocation,
+          d.intervention_model,
+          d.observational_model,
+          d.primary_purpose,
+          d.time_perspective,
+          d.masking,
+          d.masking_description,
+          d.intervention_model_description,
+          d.subject_masked,
+          d.caregiver_masked,
+          d.investigator_masked,
+          d.outcomes_assessor_masked,
+          cv.number_of_facilities
+
+      FROM studies s
+        INNER JOIN conditions                bc ON s.nct_id = bc.nct_id and bc.downcase_name like lower($1)
+        LEFT OUTER JOIN calculated_values    cv ON s.nct_id = cv.nct_id
+        LEFT OUTER JOIN all_conditions       c  ON s.nct_id = c.nct_id
+        LEFT OUTER JOIN all_interventions    i  ON s.nct_id = i.nct_id
+        LEFT OUTER JOIN all_sponsors         sp ON s.nct_id = sp.nct_id
+        LEFT OUTER JOIN eligibilities        e  ON s.nct_id = e.nct_id
+        LEFT OUTER JOIN all_id_information   id ON s.nct_id = id.nct_id
+        LEFT OUTER JOIN all_design_outcomes  o  ON s.nct_id = o.nct_id
+        LEFT OUTER JOIN designs              d  ON s.nct_id = d.nct_id
+
+     UNION
+
+      SELECT DISTINCT s.nct_id,
+          s.brief_title,
+          s.overall_status,
+          cv.were_results_reported,
+          k.name,
+          i.names as interventions,
+          e.gender,
+          CASE
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
+            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
+            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
+          END,
+          CASE
+            WHEN s.phase='N/A' THEN NULL
+            ELSE s.phase
+          END,
+          s.enrollment,
+          s.study_type,
+          sp.names as sponsors,
+          id.names as id_values,
+          s.study_first_submitted_date,
+          s.start_date,
+          s.completion_month_year,
+          s.last_update_submitted_date,
+          s.verification_month_year,
+          s.results_first_submitted_date,
+          s.acronym,
+          s.primary_completion_month_year,
+          o.names as outcome_measures,
+          s.disposition_first_submitted_date,
+          d.allocation,
+          d.intervention_model,
+          d.observational_model,
+          d.primary_purpose,
+          d.time_perspective,
+          d.masking,
+          d.masking_description,
+          d.intervention_model_description,
+          d.subject_masked,
+          d.caregiver_masked,
+          d.investigator_masked,
+          d.outcomes_assessor_masked,
+          cv.number_of_facilities
+
+      FROM studies s
+        INNER JOIN keywords k ON s.nct_id = k.nct_id and k.downcase_name like lower($1)
+        LEFT OUTER JOIN calculated_values   cv ON s.nct_id = cv.nct_id
+        LEFT OUTER JOIN all_conditions      c  ON s.nct_id = c.nct_id
+        LEFT OUTER JOIN all_interventions   i  ON s.nct_id = i.nct_id
+        LEFT OUTER JOIN all_sponsors        sp ON s.nct_id = sp.nct_id
+        LEFT OUTER JOIN eligibilities       e  ON s.nct_id = e.nct_id
+        LEFT OUTER JOIN all_id_information  id ON s.nct_id = id.nct_id
+        LEFT OUTER JOIN all_design_outcomes o  ON s.nct_id = o.nct_id
+        LEFT OUTER JOIN designs             d  ON s.nct_id = d.nct_id
+
+        ;
+        $_$;
+
+
+--
+-- Name: create_views(); Type: FUNCTION; Schema: proj_tag_nephrology; Owner: -
+--
+
+CREATE FUNCTION proj_tag_nephrology.create_views() RETURNS void
+    LANGUAGE plpgsql STRICT
+    AS $$
+        BEGIN
+          EXECUTE 'CREATE OR REPLACE VIEW proj_tag_nephrology.tagged_studies AS ' ||
+            ' select distinct s.nct_id, s.start_date, s.start_date_type, s.primary_completion_date, s.primary_completion_date_type, ' ||
+            '   s.acronym, s.brief_title, s.official_title, s.overall_status, s.phase, ' ||
+            '   s.source, s.number_of_arms, s.enrollment, ' ||
+            '   regexp_replace(s.baseline_population, E''[\n\r\u2028]+'', '' '', ''g'' ) as baseline_population,  ' ||
+            '   regexp_replace(s.why_stopped, E''[\n\r\u2028]+'', '' '', ''g'' ) as why_stopped,  ' ||
+            '   regexp_replace(s.limitations_and_caveats, E''[\n\r\u2028]+'', '' '', ''g'' ) as limitations_and_caveats,  ' ||
+            '   cv.number_of_facilities, cv.actual_duration, ' ||
+            '   cv.were_results_reported, cv.has_us_facility, cv.has_single_facility, ' ||
+            '   cv.months_to_report_results , cv.minimum_age_num, cv.minimum_age_unit, ' ||
+            '   cv.maximum_age_num, cv.maximum_age_unit, ' ||
+            '   d.allocation, d.intervention_model, d.primary_purpose, d.time_perspective, d.masking  ' ||
+            '   from ctgov.studies s, ctgov.calculated_values cv, ctgov.designs d ' ||
+            '   where s.nct_id = cv.nct_id ' ||
+            '     and s.nct_id = d.nct_id  ' ||
+            '     and s.nct_id in (        ' ||
+              ' select distinct s.nct_id   ' ||
+               ' from ctgov.studies s, ctgov.browse_conditions bc ' ||
+               ' where s.study_type=''Interventional''  ' ||
+                 ' and s.study_first_posted_date >= ''2007-10-01'' ' ||
+                 ' and s.nct_id = bc.nct_id ' ||
+                 ' and bc.downcase_mesh_term IN (select term from proj_tag_nephrology.tagged_terms) '
+              ' union ' ||
+              '   select distinct s.nct_id ' ||
+              '   from ctgov.studies s, ctgov.keywords k ' ||
+              '   where s.study_type=''Interventional'' ' ||
+              '   and s.study_first_posted_date >= ''2007-10-01'' ' ||
+              '   and s.nct_id = k.nct_id ' ||
+              '  and k.downcase_name IN (select term from proj_tag_nephrology.tagged_terms)  ' ||
+              ' union  ' ||
+              '   select distinct s.nct_id  ' ||
+              '   from studies s, conditions c  ' ||
+              '   where s.study_type=''Interventional''  ' ||
+              '   and s.study_first_posted_date >= ''2007-10-01''  ' ||
+              '   and s.nct_id = c.nct_id  ' ||
+              '   and c.downcase_name IN (select term from proj_tag_nephrology.tagged_terms)  ' ||
+              '   ) ';
+
+          RETURN;
+        END;
+        $$;
 
 
 SET default_tablespace = '';
@@ -231,9 +388,33 @@ CREATE TABLE ctgov.browse_conditions (
 
 CREATE VIEW ctgov.all_conditions AS
  SELECT browse_conditions.nct_id,
-    array_to_string(array_agg(DISTINCT browse_conditions.mesh_term), '|'::text) AS condition
+    array_to_string(array_agg(DISTINCT browse_conditions.mesh_term), '|'::text) AS names
    FROM ctgov.browse_conditions
   GROUP BY browse_conditions.nct_id;
+
+
+--
+-- Name: countries; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.countries (
+    id integer NOT NULL,
+    nct_id character varying,
+    name character varying,
+    removed boolean
+);
+
+
+--
+-- Name: all_countries; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_countries AS
+ SELECT countries.nct_id,
+    array_to_string(array_agg(DISTINCT countries.name), '|'::text) AS names
+   FROM ctgov.countries
+  WHERE (countries.removed IS NOT TRUE)
+  GROUP BY countries.nct_id;
 
 
 --
@@ -257,9 +438,60 @@ CREATE TABLE ctgov.design_outcomes (
 
 CREATE VIEW ctgov.all_design_outcomes AS
  SELECT design_outcomes.nct_id,
-    array_to_string(array_agg(DISTINCT design_outcomes.measure), '|'::text) AS measure
+    array_to_string(array_agg(DISTINCT design_outcomes.measure), '|'::text) AS names
    FROM ctgov.design_outcomes
   GROUP BY design_outcomes.nct_id;
+
+
+--
+-- Name: facilities; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.facilities (
+    id integer NOT NULL,
+    nct_id character varying,
+    status character varying,
+    name character varying,
+    city character varying,
+    state character varying,
+    zip character varying,
+    country character varying
+);
+
+
+--
+-- Name: all_facilities; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_facilities AS
+ SELECT facilities.nct_id,
+    array_to_string(array_agg(facilities.name), '|'::text) AS names
+   FROM ctgov.facilities
+  GROUP BY facilities.nct_id;
+
+
+--
+-- Name: design_groups; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.design_groups (
+    id integer NOT NULL,
+    nct_id character varying,
+    group_type character varying,
+    title character varying,
+    description text
+);
+
+
+--
+-- Name: all_group_types; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_group_types AS
+ SELECT design_groups.nct_id,
+    array_to_string(array_agg(DISTINCT design_groups.group_type), '|'::text) AS names
+   FROM ctgov.design_groups
+  GROUP BY design_groups.nct_id;
 
 
 --
@@ -280,7 +512,7 @@ CREATE TABLE ctgov.id_information (
 
 CREATE VIEW ctgov.all_id_information AS
  SELECT id_information.nct_id,
-    array_to_string(array_agg(DISTINCT id_information.id_value), '|'::text) AS id_value
+    array_to_string(array_agg(DISTINCT id_information.id_value), '|'::text) AS names
    FROM ctgov.id_information
   GROUP BY id_information.nct_id;
 
@@ -299,14 +531,37 @@ CREATE TABLE ctgov.interventions (
 
 
 --
+-- Name: all_intervention_types; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_intervention_types AS
+ SELECT interventions.nct_id,
+    array_to_string(array_agg(interventions.intervention_type), '|'::text) AS names
+   FROM ctgov.interventions
+  GROUP BY interventions.nct_id;
+
+
+--
+-- Name: browse_interventions; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.browse_interventions (
+    id integer NOT NULL,
+    nct_id character varying,
+    mesh_term character varying,
+    downcase_mesh_term character varying
+);
+
+
+--
 -- Name: all_interventions; Type: VIEW; Schema: ctgov; Owner: -
 --
 
 CREATE VIEW ctgov.all_interventions AS
- SELECT interventions.nct_id,
-    array_to_string(array_agg((((interventions.intervention_type)::text || ': '::text) || (interventions.name)::text)), '|'::text) AS intervention
-   FROM ctgov.interventions
-  GROUP BY interventions.nct_id;
+ SELECT browse_interventions.nct_id,
+    array_to_string(array_agg(browse_interventions.mesh_term), '|'::text) AS names
+   FROM ctgov.browse_interventions
+  GROUP BY browse_interventions.nct_id;
 
 
 --
@@ -327,9 +582,33 @@ CREATE TABLE ctgov.keywords (
 
 CREATE VIEW ctgov.all_keywords AS
  SELECT keywords.nct_id,
-    array_to_string(array_agg(DISTINCT keywords.name), '|'::text) AS name
+    array_to_string(array_agg(DISTINCT keywords.name), '|'::text) AS names
    FROM ctgov.keywords
   GROUP BY keywords.nct_id;
+
+
+--
+-- Name: all_primary_outcome_measures; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_primary_outcome_measures AS
+ SELECT design_outcomes.nct_id,
+    array_to_string(array_agg(DISTINCT design_outcomes.measure), '|'::text) AS names
+   FROM ctgov.design_outcomes
+  WHERE ((design_outcomes.outcome_type)::text = 'primary'::text)
+  GROUP BY design_outcomes.nct_id;
+
+
+--
+-- Name: all_secondary_outcome_measures; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_secondary_outcome_measures AS
+ SELECT design_outcomes.nct_id,
+    array_to_string(array_agg(DISTINCT design_outcomes.measure), '|'::text) AS names
+   FROM ctgov.design_outcomes
+  WHERE ((design_outcomes.outcome_type)::text = 'secondary'::text)
+  GROUP BY design_outcomes.nct_id;
 
 
 --
@@ -351,9 +630,20 @@ CREATE TABLE ctgov.sponsors (
 
 CREATE VIEW ctgov.all_sponsors AS
  SELECT sponsors.nct_id,
-    array_to_string(array_agg(DISTINCT sponsors.name), '|'::text) AS name
+    array_to_string(array_agg(DISTINCT sponsors.name), '|'::text) AS names
    FROM ctgov.sponsors
   GROUP BY sponsors.nct_id;
+
+
+--
+-- Name: all_states; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_states AS
+ SELECT facilities.nct_id,
+    array_to_string(array_agg(DISTINCT facilities.state), '|'::text) AS names
+   FROM ctgov.facilities
+  GROUP BY facilities.nct_id;
 
 
 --
@@ -486,18 +776,6 @@ CREATE SEQUENCE ctgov.browse_conditions_id_seq
 --
 
 ALTER SEQUENCE ctgov.browse_conditions_id_seq OWNED BY ctgov.browse_conditions.id;
-
-
---
--- Name: browse_interventions; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.browse_interventions (
-    id integer NOT NULL,
-    nct_id character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
-);
 
 
 --
@@ -634,18 +912,6 @@ ALTER SEQUENCE ctgov.conditions_id_seq OWNED BY ctgov.conditions.id;
 
 
 --
--- Name: countries; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.countries (
-    id integer NOT NULL,
-    nct_id character varying,
-    name character varying,
-    removed boolean
-);
-
-
---
 -- Name: countries_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
 --
 
@@ -695,19 +961,6 @@ CREATE SEQUENCE ctgov.design_group_interventions_id_seq
 --
 
 ALTER SEQUENCE ctgov.design_group_interventions_id_seq OWNED BY ctgov.design_group_interventions.id;
-
-
---
--- Name: design_groups; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.design_groups (
-    id integer NOT NULL,
-    nct_id character varying,
-    group_type character varying,
-    title character varying,
-    description text
-);
 
 
 --
@@ -929,22 +1182,6 @@ CREATE SEQUENCE ctgov.eligibilities_id_seq
 --
 
 ALTER SEQUENCE ctgov.eligibilities_id_seq OWNED BY ctgov.eligibilities.id;
-
-
---
--- Name: facilities; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.facilities (
-    id integer NOT NULL,
-    nct_id character varying,
-    status character varying,
-    name character varying,
-    city character varying,
-    state character varying,
-    zip character varying,
-    country character varying
-);
 
 
 --
@@ -1598,6 +1835,42 @@ ALTER SEQUENCE ctgov.pending_results_id_seq OWNED BY ctgov.pending_results.id;
 
 
 --
+-- Name: provided_documents; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.provided_documents (
+    id integer NOT NULL,
+    nct_id character varying,
+    document_type character varying,
+    has_protocol boolean,
+    has_icf boolean,
+    has_sap boolean,
+    document_date date,
+    url character varying
+);
+
+
+--
+-- Name: provided_documents_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
+--
+
+CREATE SEQUENCE ctgov.provided_documents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: provided_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: ctgov; Owner: -
+--
+
+ALTER SEQUENCE ctgov.provided_documents_id_seq OWNED BY ctgov.provided_documents.id;
+
+
+--
 -- Name: reported_events; Type: TABLE; Schema: ctgov; Owner: -
 --
 
@@ -1778,15 +2051,6 @@ ALTER SEQUENCE ctgov.result_groups_id_seq OWNED BY ctgov.result_groups.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.schema_migrations (
-    version character varying NOT NULL
-);
-
-
---
 -- Name: sponsors_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
 --
 
@@ -1955,6 +2219,7 @@ ALTER SEQUENCE lookup.ages_id_seq OWNED BY lookup.ages.id;
 CREATE TABLE lookup.conditions (
     id integer NOT NULL,
     qcode character varying,
+    types character varying,
     preferred_name character varying,
     name character varying,
     downcase_name character varying,
@@ -1991,6 +2256,7 @@ ALTER SEQUENCE lookup.conditions_id_seq OWNED BY lookup.conditions.id;
 CREATE TABLE lookup.countries (
     id integer NOT NULL,
     qcode character varying,
+    types character varying,
     name character varying,
     downcase_name character varying,
     iso2 character varying,
@@ -2027,6 +2293,7 @@ ALTER SEQUENCE lookup.countries_id_seq OWNED BY lookup.countries.id;
 CREATE TABLE lookup.interventions (
     id integer NOT NULL,
     qcode character varying,
+    types character varying,
     preferred_name character varying,
     name character varying,
     downcase_name character varying,
@@ -2099,9 +2366,15 @@ CREATE TABLE lookup.organizations (
     id integer NOT NULL,
     preferred_name character varying,
     qcode character varying,
+    types character varying,
     name character varying,
     downcase_name character varying,
     wiki_description character varying,
+    qs_world_univ_id character varying,
+    arwu_univ_id character varying,
+    times_higher_ed_id character varying,
+    grid_id character varying,
+    country character varying,
     looks_suspicious character varying
 );
 
@@ -2127,6 +2400,15 @@ ALTER SEQUENCE lookup.organizations_id_seq OWNED BY lookup.organizations.id;
 
 
 --
+-- Name: schema_migrations; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+--
 -- Name: sponsors; Type: TABLE; Schema: lookup; Owner: -
 --
 
@@ -2134,6 +2416,7 @@ CREATE TABLE lookup.sponsors (
     id integer NOT NULL,
     preferred_name character varying,
     qcode character varying,
+    types character varying,
     name character varying,
     downcase_name character varying,
     wiki_description character varying,
@@ -2162,40 +2445,24 @@ ALTER SEQUENCE lookup.sponsors_id_seq OWNED BY lookup.sponsors.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: y2010_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
 --
 
-CREATE TABLE public.schema_migrations (
-    version character varying NOT NULL
+CREATE TABLE mesh_archive.y2010_mesh_terms (
+    id bigint NOT NULL,
+    qualifier character varying,
+    tree_number character varying,
+    description character varying,
+    mesh_term character varying,
+    downcase_mesh_term character varying
 );
 
 
 --
--- Name: load_events; Type: TABLE; Schema: support; Owner: -
+-- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
 --
 
-CREATE TABLE support.load_events (
-    id integer NOT NULL,
-    event_type character varying,
-    status character varying,
-    description text,
-    problems text,
-    should_add integer,
-    should_change integer,
-    processed integer,
-    load_time character varying,
-    completed_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: load_events_id_seq; Type: SEQUENCE; Schema: support; Owner: -
---
-
-CREATE SEQUENCE support.load_events_id_seq
-    AS integer
+CREATE SEQUENCE mesh_archive.y2010_mesh_terms_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2204,36 +2471,142 @@ CREATE SEQUENCE support.load_events_id_seq
 
 
 --
--- Name: load_events_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
 --
 
-ALTER SEQUENCE support.load_events_id_seq OWNED BY support.load_events.id;
+ALTER SEQUENCE mesh_archive.y2010_mesh_terms_id_seq OWNED BY mesh_archive.y2010_mesh_terms.id;
 
 
 --
--- Name: sanity_checks; Type: TABLE; Schema: support; Owner: -
+-- Name: y2016_mesh_headings; Type: TABLE; Schema: mesh_archive; Owner: -
 --
 
-CREATE TABLE support.sanity_checks (
-    id integer NOT NULL,
-    table_name character varying,
+CREATE TABLE mesh_archive.y2016_mesh_headings (
+    id bigint NOT NULL,
+    qualifier character varying,
+    heading character varying,
+    subcategory character varying
+);
+
+
+--
+-- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+--
+
+CREATE SEQUENCE mesh_archive.y2016_mesh_headings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+--
+
+ALTER SEQUENCE mesh_archive.y2016_mesh_headings_id_seq OWNED BY mesh_archive.y2016_mesh_headings.id;
+
+
+--
+-- Name: y2016_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
+--
+
+CREATE TABLE mesh_archive.y2016_mesh_terms (
+    id bigint NOT NULL,
+    qualifier character varying,
+    tree_number character varying,
+    description character varying,
+    mesh_term character varying,
+    downcase_mesh_term character varying
+);
+
+
+--
+-- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+--
+
+CREATE SEQUENCE mesh_archive.y2016_mesh_terms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+--
+
+ALTER SEQUENCE mesh_archive.y2016_mesh_terms_id_seq OWNED BY mesh_archive.y2016_mesh_terms.id;
+
+
+--
+-- Name: analyzed_studies; Type: TABLE; Schema: proj_anderson; Owner: -
+--
+
+CREATE TABLE proj_anderson.analyzed_studies (
+    id bigint NOT NULL,
     nct_id character varying,
-    column_name character varying,
-    check_type character varying,
-    row_count integer,
-    description text,
-    most_current boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    url character varying,
+    brief_title character varying,
+    start_month character varying,
+    start_year integer,
+    overall_status character varying,
+    p_completion_month character varying,
+    p_completion_year integer,
+    completion_month character varying,
+    completion_year integer,
+    verification_month character varying,
+    verification_year integer,
+    p_comp_mn integer,
+    p_comp_yr integer,
+    received_year integer,
+    mntopcom integer,
+    enrollment integer,
+    number_of_arms integer,
+    allocation character varying,
+    masking character varying,
+    phase character varying,
+    primary_purpose character varying,
+    sponsor_name character varying,
+    agency_class character varying,
+    collaborator_names character varying,
+    funding character varying,
+    responsible_party_type character varying,
+    responsible_party_organization character varying,
+    us_coderc character varying,
+    oversight character varying,
+    behavioral character varying,
+    biological character varying,
+    device character varying,
+    dietsup character varying,
+    drug character varying,
+    genetic character varying,
+    procedure character varying,
+    radiation character varying,
+    otherint character varying,
+    intervg1 character varying,
+    results character varying,
+    resultsreceived_month character varying,
+    resultsreceived_year character varying,
+    firstreceived_results_dt date,
+    t2result integer,
+    t2result_imp integer,
+    t2resmod integer,
+    results12 character varying,
+    delayed character varying,
+    dr_received_dt date,
+    mn2delay boolean,
+    delayed12 boolean
 );
 
 
 --
--- Name: sanity_checks_id_seq; Type: SEQUENCE; Schema: support; Owner: -
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_anderson; Owner: -
 --
 
-CREATE SEQUENCE support.sanity_checks_id_seq
-    AS integer
+CREATE SEQUENCE proj_anderson.analyzed_studies_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2242,32 +2615,140 @@ CREATE SEQUENCE support.sanity_checks_id_seq
 
 
 --
--- Name: sanity_checks_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_anderson; Owner: -
 --
 
-ALTER SEQUENCE support.sanity_checks_id_seq OWNED BY support.sanity_checks.id;
+ALTER SEQUENCE proj_anderson.analyzed_studies_id_seq OWNED BY proj_anderson.analyzed_studies.id;
 
 
 --
--- Name: study_xml_records; Type: TABLE; Schema: support; Owner: -
+-- Name: cdek_organizations; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
 --
 
-CREATE TABLE support.study_xml_records (
-    id integer NOT NULL,
+CREATE TABLE proj_cdek_standard_orgs.cdek_organizations (
+    id bigint NOT NULL,
+    name character varying,
+    downcase_name character varying
+);
+
+
+--
+-- Name: cdek_organizations_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+CREATE SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cdek_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq OWNED BY proj_cdek_standard_orgs.cdek_organizations.id;
+
+
+--
+-- Name: cdek_synonyms; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+CREATE TABLE proj_cdek_standard_orgs.cdek_synonyms (
+    id bigint NOT NULL,
+    name character varying,
+    preferred_name character varying,
+    downcase_name character varying,
+    downcase_preferred_name character varying
+);
+
+
+--
+-- Name: cdek_synonyms_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+CREATE SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cdek_synonyms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq OWNED BY proj_cdek_standard_orgs.cdek_synonyms.id;
+
+
+--
+-- Name: analyzed_studies; Type: TABLE; Schema: proj_results_reporting; Owner: -
+--
+
+CREATE TABLE proj_results_reporting.analyzed_studies (
+    id bigint NOT NULL,
     nct_id character varying,
-    content xml,
-    created_study_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    url character varying,
+    brief_title character varying,
+    start_month character varying,
+    start_year integer,
+    overall_status character varying,
+    p_completion_month character varying,
+    p_completion_year integer,
+    completion_month character varying,
+    completion_year integer,
+    verification_month character varying,
+    verification_year integer,
+    p_comp_mn integer,
+    p_comp_yr integer,
+    received_year integer,
+    mntopcom integer,
+    enrollment integer,
+    number_of_arms integer,
+    allocation character varying,
+    masking character varying,
+    phase character varying,
+    primary_purpose character varying,
+    sponsor_name character varying,
+    agency_class character varying,
+    collaborator_names character varying,
+    funding character varying,
+    responsible_party_type character varying,
+    responsible_party_organization character varying,
+    us_coderc character varying,
+    oversight character varying,
+    behavioral character varying,
+    biological character varying,
+    device character varying,
+    dietsup character varying,
+    drug character varying,
+    genetic character varying,
+    procedure character varying,
+    radiation character varying,
+    otherint character varying,
+    intervg1 character varying,
+    results character varying,
+    resultsreceived_month character varying,
+    resultsreceived_year character varying,
+    firstreceived_results_dt date,
+    t2result integer,
+    t2result_imp integer,
+    t2resmod integer,
+    results12 character varying,
+    delayed character varying,
+    dr_received_dt date,
+    mn2delay boolean,
+    delayed12 boolean
 );
 
 
 --
--- Name: study_xml_records_id_seq; Type: SEQUENCE; Schema: support; Owner: -
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_results_reporting; Owner: -
 --
 
-CREATE SEQUENCE support.study_xml_records_id_seq
-    AS integer
+CREATE SEQUENCE proj_results_reporting.analyzed_studies_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2276,10 +2757,105 @@ CREATE SEQUENCE support.study_xml_records_id_seq
 
 
 --
--- Name: study_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_results_reporting; Owner: -
 --
 
-ALTER SEQUENCE support.study_xml_records_id_seq OWNED BY support.study_xml_records.id;
+ALTER SEQUENCE proj_results_reporting.analyzed_studies_id_seq OWNED BY proj_results_reporting.analyzed_studies.id;
+
+
+--
+-- Name: tagged_terms; Type: TABLE; Schema: proj_tag; Owner: -
+--
+
+CREATE TABLE proj_tag.tagged_terms (
+    id bigint NOT NULL,
+    project_id integer,
+    identifier character varying,
+    tag character varying,
+    term character varying,
+    year character varying,
+    term_type character varying
+);
+
+
+--
+-- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag; Owner: -
+--
+
+CREATE SEQUENCE proj_tag.tagged_terms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag; Owner: -
+--
+
+ALTER SEQUENCE proj_tag.tagged_terms_id_seq OWNED BY proj_tag.tagged_terms.id;
+
+
+--
+-- Name: analyzed_studies; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
+--
+
+CREATE TABLE proj_tag_nephrology.analyzed_studies (
+    id bigint NOT NULL,
+    nct_id character varying,
+    brief_title character varying,
+    lead_sponsor character varying
+);
+
+
+--
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
+--
+
+CREATE SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
+--
+
+ALTER SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq OWNED BY proj_tag_nephrology.analyzed_studies.id;
+
+
+--
+-- Name: tagged_terms; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
+--
+
+CREATE TABLE proj_tag_nephrology.tagged_terms (
+    id bigint NOT NULL,
+    term character varying,
+    term_type character varying
+);
+
+
+--
+-- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
+--
+
+CREATE SEQUENCE proj_tag_nephrology.tagged_terms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
+--
+
+ALTER SEQUENCE proj_tag_nephrology.tagged_terms_id_seq OWNED BY proj_tag_nephrology.tagged_terms.id;
 
 
 --
@@ -2542,6 +3118,13 @@ ALTER TABLE ONLY ctgov.pending_results ALTER COLUMN id SET DEFAULT nextval('ctgo
 
 
 --
+-- Name: provided_documents id; Type: DEFAULT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.provided_documents ALTER COLUMN id SET DEFAULT nextval('ctgov.provided_documents_id_seq'::regclass);
+
+
+--
 -- Name: reported_events id; Type: DEFAULT; Schema: ctgov; Owner: -
 --
 
@@ -2640,24 +3223,73 @@ ALTER TABLE ONLY lookup.sponsors ALTER COLUMN id SET DEFAULT nextval('lookup.spo
 
 
 --
--- Name: load_events id; Type: DEFAULT; Schema: support; Owner: -
+-- Name: y2010_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
 --
 
-ALTER TABLE ONLY support.load_events ALTER COLUMN id SET DEFAULT nextval('support.load_events_id_seq'::regclass);
-
-
---
--- Name: sanity_checks id; Type: DEFAULT; Schema: support; Owner: -
---
-
-ALTER TABLE ONLY support.sanity_checks ALTER COLUMN id SET DEFAULT nextval('support.sanity_checks_id_seq'::regclass);
+ALTER TABLE ONLY mesh_archive.y2010_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2010_mesh_terms_id_seq'::regclass);
 
 
 --
--- Name: study_xml_records id; Type: DEFAULT; Schema: support; Owner: -
+-- Name: y2016_mesh_headings id; Type: DEFAULT; Schema: mesh_archive; Owner: -
 --
 
-ALTER TABLE ONLY support.study_xml_records ALTER COLUMN id SET DEFAULT nextval('support.study_xml_records_id_seq'::regclass);
+ALTER TABLE ONLY mesh_archive.y2016_mesh_headings ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_headings_id_seq'::regclass);
+
+
+--
+-- Name: y2016_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
+--
+
+ALTER TABLE ONLY mesh_archive.y2016_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_terms_id_seq'::regclass);
+
+
+--
+-- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_anderson; Owner: -
+--
+
+ALTER TABLE ONLY proj_anderson.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_anderson.analyzed_studies_id_seq'::regclass);
+
+
+--
+-- Name: cdek_organizations id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_organizations_id_seq'::regclass);
+
+
+--
+-- Name: cdek_synonyms id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_synonyms_id_seq'::regclass);
+
+
+--
+-- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_results_reporting; Owner: -
+--
+
+ALTER TABLE ONLY proj_results_reporting.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_results_reporting.analyzed_studies_id_seq'::regclass);
+
+
+--
+-- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag; Owner: -
+--
+
+ALTER TABLE ONLY proj_tag.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag.tagged_terms_id_seq'::regclass);
+
+
+--
+-- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
+--
+
+ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.analyzed_studies_id_seq'::regclass);
+
+
+--
+-- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
+--
+
+ALTER TABLE ONLY proj_tag_nephrology.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.tagged_terms_id_seq'::regclass);
 
 
 --
@@ -2957,6 +3589,14 @@ ALTER TABLE ONLY ctgov.pending_results
 
 
 --
+-- Name: provided_documents provided_documents_pkey; Type: CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.provided_documents
+    ADD CONSTRAINT provided_documents_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: reported_events reported_events_pkey; Type: CONSTRAINT; Schema: ctgov; Owner: -
 --
 
@@ -3069,27 +3709,75 @@ ALTER TABLE ONLY lookup.sponsors
 
 
 --
--- Name: load_events load_events_pkey; Type: CONSTRAINT; Schema: support; Owner: -
+-- Name: y2010_mesh_terms y2010_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
 --
 
-ALTER TABLE ONLY support.load_events
-    ADD CONSTRAINT load_events_pkey PRIMARY KEY (id);
-
-
---
--- Name: sanity_checks sanity_checks_pkey; Type: CONSTRAINT; Schema: support; Owner: -
---
-
-ALTER TABLE ONLY support.sanity_checks
-    ADD CONSTRAINT sanity_checks_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY mesh_archive.y2010_mesh_terms
+    ADD CONSTRAINT y2010_mesh_terms_pkey PRIMARY KEY (id);
 
 
 --
--- Name: study_xml_records study_xml_records_pkey; Type: CONSTRAINT; Schema: support; Owner: -
+-- Name: y2016_mesh_headings y2016_mesh_headings_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
 --
 
-ALTER TABLE ONLY support.study_xml_records
-    ADD CONSTRAINT study_xml_records_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY mesh_archive.y2016_mesh_headings
+    ADD CONSTRAINT y2016_mesh_headings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: y2016_mesh_terms y2016_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
+--
+
+ALTER TABLE ONLY mesh_archive.y2016_mesh_terms
+    ADD CONSTRAINT y2016_mesh_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_anderson; Owner: -
+--
+
+ALTER TABLE ONLY proj_anderson.analyzed_studies
+    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cdek_organizations cdek_organizations_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations
+    ADD CONSTRAINT cdek_organizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cdek_synonyms cdek_synonyms_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
+--
+
+ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms
+    ADD CONSTRAINT cdek_synonyms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_results_reporting; Owner: -
+--
+
+ALTER TABLE ONLY proj_results_reporting.analyzed_studies
+    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tagged_terms tagged_terms_pkey; Type: CONSTRAINT; Schema: proj_tag; Owner: -
+--
+
+ALTER TABLE ONLY proj_tag.tagged_terms
+    ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_tag_nephrology; Owner: -
+--
+
+ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies
+    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
 
 
 --
@@ -3272,6 +3960,13 @@ CREATE INDEX index_design_groups_on_group_type ON ctgov.design_groups USING btre
 --
 
 CREATE INDEX index_design_groups_on_nct_id ON ctgov.design_groups USING btree (nct_id);
+
+
+--
+-- Name: index_design_outcomes_on_measure; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_outcomes_on_measure ON ctgov.design_outcomes USING btree (measure);
 
 
 --
@@ -3919,80 +4614,122 @@ CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: ctgov; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: lookup; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON ctgov.schema_migrations USING btree (version);
-
-
---
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
+CREATE UNIQUE INDEX unique_schema_migrations ON lookup.schema_migrations USING btree (version);
 
 
 --
--- Name: index_support.load_events_on_event_type; Type: INDEX; Schema: support; Owner: -
+-- Name: index_mesh_archive.y2010_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
-CREATE INDEX "index_support.load_events_on_event_type" ON support.load_events USING btree (event_type);
-
-
---
--- Name: index_support.load_events_on_status; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.load_events_on_status" ON support.load_events USING btree (status);
+CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_description" ON mesh_archive.y2010_mesh_terms USING btree (description);
 
 
 --
--- Name: index_support.sanity_checks_on_check_type; Type: INDEX; Schema: support; Owner: -
+-- Name: index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
-CREATE INDEX "index_support.sanity_checks_on_check_type" ON support.sanity_checks USING btree (check_type);
-
-
---
--- Name: index_support.sanity_checks_on_column_name; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.sanity_checks_on_column_name" ON support.sanity_checks USING btree (column_name);
+CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (downcase_mesh_term);
 
 
 --
--- Name: index_support.sanity_checks_on_nct_id; Type: INDEX; Schema: support; Owner: -
+-- Name: index_mesh_archive.y2010_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
-CREATE INDEX "index_support.sanity_checks_on_nct_id" ON support.sanity_checks USING btree (nct_id);
-
-
---
--- Name: index_support.sanity_checks_on_table_name; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.sanity_checks_on_table_name" ON support.sanity_checks USING btree (table_name);
+CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (mesh_term);
 
 
 --
--- Name: index_support.study_xml_records_on_created_study_at; Type: INDEX; Schema: support; Owner: -
+-- Name: index_mesh_archive.y2010_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
-CREATE INDEX "index_support.study_xml_records_on_created_study_at" ON support.study_xml_records USING btree (created_study_at);
+CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_qualifier" ON mesh_archive.y2010_mesh_terms USING btree (qualifier);
 
 
 --
--- Name: index_support.study_xml_records_on_nct_id; Type: INDEX; Schema: support; Owner: -
+-- Name: index_mesh_archive.y2016_mesh_headings_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
-CREATE INDEX "index_support.study_xml_records_on_nct_id" ON support.study_xml_records USING btree (nct_id);
+CREATE INDEX "index_mesh_archive.y2016_mesh_headings_on_qualifier" ON mesh_archive.y2016_mesh_headings USING btree (qualifier);
+
+
+--
+-- Name: index_mesh_archive.y2016_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
+--
+
+CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_description" ON mesh_archive.y2016_mesh_terms USING btree (description);
+
+
+--
+-- Name: index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+--
+
+CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (downcase_mesh_term);
+
+
+--
+-- Name: index_mesh_archive.y2016_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+--
+
+CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (mesh_term);
+
+
+--
+-- Name: index_mesh_archive.y2016_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
+--
+
+CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_qualifier" ON mesh_archive.y2016_mesh_terms USING btree (qualifier);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_agency_class; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_agency_class" ON proj_anderson.analyzed_studies USING btree (agency_class);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_funding; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_funding" ON proj_anderson.analyzed_studies USING btree (funding);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_masking; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_masking" ON proj_anderson.analyzed_studies USING btree (masking);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_overall_status; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_overall_status" ON proj_anderson.analyzed_studies USING btree (overall_status);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_phase; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_phase" ON proj_anderson.analyzed_studies USING btree (phase);
+
+
+--
+-- Name: index_proj_anderson.analyzed_studies_on_primary_purpose; Type: INDEX; Schema: proj_anderson; Owner: -
+--
+
+CREATE INDEX "index_proj_anderson.analyzed_studies_on_primary_purpose" ON proj_anderson.analyzed_studies USING btree (primary_purpose);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO lookup;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
