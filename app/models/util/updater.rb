@@ -18,10 +18,10 @@ module Util
     def run(delimiters=nil)
       @subject = 'LAST'
       File.open("public/data.tmp", "w+") do |f|
-        loaded_ids= Util::WikiDataManager.new.all_nct_ids_in_wikidata
+        loaded_ids= mgr.all_nct_ids_in_wikidata
         # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
-        #(Study.all.pluck(:nct_id) - loaded_ids)[63000..69999].each do |id|
-        self.zika_studies2.each do |id|
+        (Study.all.pluck(:nct_id) - loaded_ids)[0..69999].each do |id|
+        #self.zika_studies2.each do |id|
         #self.studies_20190211.each do |id|
           if !mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
@@ -52,7 +52,6 @@ module Util
         puts " ====================================="
         File.open("public/data.tmp", "r") do |out|
           File.open("public/data.out", "w+") do |f|
-             out << "https://tools.wmflabs.org/quickstatements/#v1="
              out.each_line do |line|
                converted_line = line.gsub(' ',space_char).gsub('"',double_quote_char).gsub('/',forward_slash_char)
                puts converted_line
@@ -104,7 +103,6 @@ module Util
     end
 
     def assign_existing_studies_missing_prop(code)
-      mgr = Util::WikiDataManager.new
       File.open("public/assign_#{code}.txt", "w+") do |f|
         mgr.ids_for_studies_without_prop(code).each {|hash|
           @study = Study.where('nct_id=?', hash.keys.first).first
