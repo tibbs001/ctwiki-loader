@@ -113,11 +113,15 @@ module Util
     end
 
     def assign_min_max_age(f)
-      # right now, the min/max age properties only have a 'year' unit, so only export those defined as year
+      # year/month unit is identified by appending 'U' to the integer of the year or month Q-value, and
+      # tacking it onto the end of the actual value
       min = study.minimum_age.split(' ')
       max = study.maximum_age.split(' ')
+
       f << "#{new_line}#{subject}#{tab}P2899#{tab}#{min[0]}U577" if min[1] && min[1].downcase == 'years'
       f << "#{new_line}#{subject}#{tab}P4135#{tab}#{max[0]}U577" if max[1] && max[1].downcase == 'years'
+      f << "#{new_line}#{subject}#{tab}P2899#{tab}#{min[0]}U5151" if min[1] && min[1].downcase == 'months'
+      f << "#{new_line}#{subject}#{tab}P4135#{tab}#{max[0]}U5151" if max[1] && max[1].downcase == 'months'
     end
 
     def get_qcode_for_url(url)
