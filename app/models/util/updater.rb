@@ -116,8 +116,8 @@ module Util
       # right now, the min/max age properties only have a 'year' unit, so only export those defined as year
       min = study.minimum_age.split(' ')
       max = study.maximum_age.split(' ')
-      f << "#{new_line}#{subject}#{tab}P2899#{tab}#{min[0]}#{tab}wikibase:quantityUnit#{tab}Q577" if min[1] && min[1].downcase == 'years'
-      f << "#{new_line}#{subject}#{tab}P4135#{tab}#{max[0]}#{tab}wikibase:quantityUnit#{tab}Q577" if max[1] && max[1].downcase == 'years'
+      f << "#{new_line}#{subject}#{tab}P2899#{tab}#{min[0]}U577" if min[1] && min[1].downcase == 'years'
+      f << "#{new_line}#{subject}#{tab}P4135#{tab}#{max[0]}U577" if max[1] && max[1].downcase == 'years'
     end
 
     def get_qcode_for_url(url)
