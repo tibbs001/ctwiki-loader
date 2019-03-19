@@ -57,6 +57,10 @@ module Lookup
       ]
     end
 
+    def self.names_to_ignore
+      ['ud-genomed kft.']
+    end
+
     def self.predefined_qcode
       # First part is list of facilities.name ordered by most common.  Next most common sponsor orgs ordered by most common.
       {
