@@ -3,7 +3,7 @@ module Lookup
     self.table_name = 'lookup.keywords'
 
     def self.names_to_ignore
-      ['e-do']
+      ['e-do', 'sade-free rate']
     end
 
     def self.possible_descriptions
@@ -58,6 +58,7 @@ module Lookup
        'rock band',
        'route',
        'rural commune',
+       'scholarly article',
        'short story',
        'single by',
        'specialist',
