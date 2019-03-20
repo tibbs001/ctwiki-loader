@@ -164,8 +164,8 @@ module Util
       # phase is P6099
       cmd="SELECT ?item ?nct_id WHERE {
            ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
-           FILTER NOT EXISTS {?item wdt:P6099 ?phase}
-             ?item wdt:P3098 ?nct_id .  } "
+           FILTER NOT EXISTS {?item wdt:#{code} ?phase}
+             ?item wdt:P3098 ?nct_id .  }"
       result = []
       run_sparql(cmd).each {|i|
         label = val = ''
@@ -178,25 +178,28 @@ module Util
       return result.flatten.uniq
     end
 
-    def ids_for_studies_with_prop(code, id_type='item')
-      #existing_nct_id='NCT02856984'
+    def get_vals_for(prop)
       cmd = "
-        SELECT ?item ?nct_id
+        SELECT ?item ?nct_id ?val
         WHERE
         {
            ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
            ?item wdt:P3098 ?nct_id .
-           ?item wdt:#{code} ?val .
+           ?item wdt:#{prop} ?val .
         }"
 
       result = []
       run_sparql(cmd).each {|i|
+        label = qcode = nct_id = val = ''
         i.each_binding { |name, item|
           label = name.to_s.split(' ').first.strip
-          result << item.value.chomp.split('/').last if label == id_type
+          qcode = item.value.chomp.split('/').last if label == 'item'
+          val = item.value.gsub("\n",'').strip if label == 'val'
+          nct_id = item.value.gsub("\n",'').strip if label == 'nct_id'
         } if !i.blank?
+        result << [qcode, nct_id, prop, val]
       }
-      return result.flatten.uniq
+      return result.uniq
     end
 
     def org_properties_for(qcode)
