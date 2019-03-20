@@ -15,6 +15,22 @@ module Util
       @mgr = Util::WikiDataManager.new
     end
 
+    def add_min_max_age
+      File.open("public/data.tmp", "w+") do |f|
+        loaded_ids= mgr.all_nct_ids_in_wikidata
+        loaded_ids.each do |id|
+          if mgr.study_already_loaded?(id)
+            @study=Study.where('nct_id=?', id).first
+            @subject=mgr.qcodes_for_nct_id(id).first
+            puts "==============================="
+            puts "NCT ID:  #{id}  QCode: #{subject}"
+            puts "==============================="
+            assign_min_max_age(f)
+          end
+        end
+      end
+    end
+
     def run(delimiters=nil)
       @subject = 'LAST'
       File.open("public/data.tmp", "w+") do |f|
