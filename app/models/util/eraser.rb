@@ -3,16 +3,14 @@ module Util
 
     attr_accessor :wiki_mgr
 
-    def erase_study_prop(code)
-      nct_ids = wiki_mgr.ids_for_studies_with_prop(code, 'nct_id')
-      erase_prop_for(nct_ids, code)
+    def erase_prop(code)
+      erase_props_for(wiki_mgr.get_vals_for(code))
     end
 
-    def erase_prop_for(nct_ids, code)
-      #nct_ids=['NCT03215810','NCT01369251']
-      #property_code='P2175'
-      File.open("public/erase.txt", "w+") do |f|
-        nct_ids.each{ |nct_id| f << create_erase_commands(nct_id, code) }
+    def erase_props_for(ids_and_vals)
+      # expect ids_and_vals to be a collection of arrays like: [qcode, nct_id, prop_code, val]
+      File.open("public/erase_#{ids_and_vals.first[2]}.txt", "w+") do |f|
+        ids_and_vals.each{ |array| f << "\n-#{array.first}\t#{array[2]}\t#{array.last}" }
       end
     end
 
@@ -28,7 +26,7 @@ module Util
           # get value from AACT, not wikidata so we don't erase something we didn't create
           # TODO:  prob is, values can change in AACT too.  How to handle that?
           values = wiki_mgr.aact_values_for_property(nct_id, property_code)
-          values.each {|val| lines << "||-#{qcode}|#{property_code}|\"#{val}\"" }
+          values.each {|val| lines << "-#{qcode}|#{property_code}|#{val}" }
         }
       end
       return lines
