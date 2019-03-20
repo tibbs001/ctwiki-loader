@@ -65,7 +65,7 @@ module Util
     def lines_for(prop_code)
       case prop_code
       when 'Len'
-        return "#{line_prefix(prop_code)}\"#{study.brief_title}\""   # Label
+        return "#{line_prefix(prop_code)}\"#{study.brief_title[0..248]}\""   # Label
       when 'Den'
         return "#{line_prefix(prop_code)}\"clinical trial\""     # Description
       when 'P31'
