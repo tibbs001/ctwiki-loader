@@ -30,6 +30,15 @@ module Util
       end
     end
 
+    def self.run(start_num)
+      cntr = start_num
+      until cntr > Study.count do
+        self.new({:start_num => cntr}).run
+        cntr = cntr + 1000
+        sleep 10000
+      end
+    end
+
     def run(delimiters=nil)
       @subject = 'LAST'
       File.open("public/#{start_num}_data.tmp", "w+") do |f|
