@@ -41,6 +41,10 @@ module Lookup
       }
     end
 
+    def self.names_to_ignore
+      ['ud-genomed kft.']
+    end
+
     def self.possible_descriptions
       [
        'organization',

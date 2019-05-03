@@ -1,9 +1,11 @@
 module Util
   class Updater
 
-    attr_accessor :mgr, :study, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char
+    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char
 
-    def initialize(delimiters=nil)
+    def initialize(args)
+      @start_num = args[:start_num]
+      delimiters = args[:delimiters]
       delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if delimiters.blank?
       #delimiters = {:new_line=>'
 #', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if delimiters.blank?
@@ -15,42 +17,67 @@ module Util
       @mgr = Util::WikiDataManager.new
     end
 
-    def run(delimiters=nil)
-      @subject = 'LAST'
+    def add_min_max_age
       File.open("public/data.tmp", "w+") do |f|
         loaded_ids= mgr.all_nct_ids_in_wikidata
-        # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
-        (Study.all.pluck(:nct_id) - loaded_ids)[0..69999].each do |id|
-        #self.zika_studies2.each do |id|
-        #self.studies_20190211.each do |id|
-          if !mgr.study_already_loaded?(id)
+        loaded_ids.each do |id|
+          if mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
-
-            f << 'CREATE'
-            f << lines_for('Len')    # Label
-            f << lines_for('Den')    # Description
-            f << lines_for('P31')    # instance of a clinical trial
-            f << lines_for('P3098')  # nct id
-            f << lines_for('P1476')  # title
-            f << lines_for('P1813')  # acronym
-            f << lines_for('P580')   # start date
-            f << lines_for('P582')   # primary completion date
-            f << lines_for('P1132')  # enrollment
-            f << phase_qcode_lines
+            @subject=mgr.qcodes_for_nct_id(id).first
             assign_min_max_age(f)
-            assign_condition_qcodes(f)
-            assign_keyword_qcodes(f)
-            assign_country_qcodes(f)
-            #assign_facility_qcodes(f)
-            assign_intervention_qcodes(f)
-            assign_pubmed_ids(f)
-            assign_sponsor_qcodes(f)
-            f << " #{new_line}#{new_line}"
           end
         end
-        f.close
-        puts " ====================================="
+      end
+    end
+
+    def run(delimiters=nil)
+      @subject = 'LAST'
+      File.open("public/#{start_num}_data.tmp", "w+") do |f|
+        cntr = 1
+        loaded_ids= mgr.all_nct_ids_in_wikidata
+        # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
+        end_num = @start_num + 1000
+        #(Study.all.pluck(:nct_id) - loaded_ids)[33001..34000].each do |id|
+        (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num].each do |id|
+          cntr = cntr+1
+          if cntr > 1000
+	    #  The connection to wikidata query seems to expire after loading 1,013 studies. Every 1000 studies, reset the WikiDataManager.
+            @mgr = Util::WikiDataManager.new
+            sleep 6
+            cntr = 1
+          end
+          begin
+		  if !mgr.study_already_loaded?(id)
+		    @study=Study.where('nct_id=?', id).first
+
+		    f << 'CREATE'
+		    f << lines_for('Len')    # Label
+		    f << lines_for('Den')    # Description
+		    f << lines_for('P31')    # instance of a clinical trial
+		    f << lines_for('P3098')  # nct id
+		    f << lines_for('P1476')  # title
+		    f << lines_for('P1813')  # acronym
+		    f << lines_for('P580')   # start date
+		    f << lines_for('P582')   # primary completion date
+		    f << lines_for('P1132')  # enrollment
+		    f << phase_qcode_lines
+		    assign_min_max_age(f)
+		    assign_condition_qcodes(f)
+		    assign_keyword_qcodes(f)
+		    assign_country_qcodes(f)
+		    #assign_facility_qcodes(f)
+		    assign_intervention_qcodes(f)
+		    assign_pubmed_ids(f)
+		    assign_sponsor_qcodes(f)
+		    f << " #{new_line}#{new_line}"
+		  end
+          rescue => e
+            puts e
+            f.close
+          end
+        end
         File.open("public/data.tmp", "r") do |out|
+          begin
           File.open("public/data.out", "w+") do |f|
              out.each_line do |line|
                converted_line = line.gsub(' ',space_char).gsub('"',double_quote_char).gsub('/',forward_slash_char)
@@ -58,6 +85,10 @@ module Util
                f << converted_line
              end
           end
+          rescue
+          end
+          f.close
+          out.close
         end
       end
     end
@@ -65,7 +96,7 @@ module Util
     def lines_for(prop_code)
       case prop_code
       when 'Len'
-        return "#{line_prefix(prop_code)}\"#{study.brief_title}\""   # Label
+        return "#{line_prefix(prop_code)}\"#{study.brief_title[0..244]}\""   # Label
       when 'Den'
         return "#{line_prefix(prop_code)}\"clinical trial\""     # Description
       when 'P31'
@@ -229,18 +260,6 @@ module Util
           assigned_qcodes << qcode
         end
       }
-    end
-
-    def studies_20190211
-['NCT00001163', 'NCT00001174', 'NCT00001177', 'NCT00001197', 'NCT00001231', 'NCT00001238', 'NCT00001242', 'NCT00001246', 'NCT00001260', 'NCT00001295', 'NCT00001310', 'NCT00001349', 'NCT00001360', 'NCT00001397', 'NCT00001404', 'NCT00001454', 'NCT00001456', 'NCT00001467', 'NCT00001529', 'NCT00001532', 'NCT00001564', 'NCT00001595', 'NCT00001606', 'NCT00001623', 'NCT00001637', 'NCT00001715', 'NCT00001721', 'NCT00001756', 'NCT00001762', 'NCT00001778', 'NCT00001788', 'NCT00001806', 'NCT00001844', 'NCT00001852', 'NCT00001856', 'NCT00001858', 'NCT00001859', 'NCT00001872', 'NCT00001899', 'NCT00001921', 'NCT00001975', 'NCT00003145', 'NCT00004577', 'NCT00004996', 'NCT00005655', 'NCT00006171', 'NCT00006301', 'NCT00006333', 'NCT00006436', 'NCT00007150', 'NCT00009035', 'NCT00009243', 'NCT00013533', 'NCT00013559', 'NCT00016731', 'NCT00018018', 'NCT00022971', 'NCT00023296', 'NCT00023504', 'NCT00024622', 'NCT00025714', 'NCT00025857']
-    end
-
-    def zika_studies2
-      ['NCT01048060', 'NCT01037361', 'NCT01031433', 'NCT00995891', 'NCT00967785']
-    end
-
-    def zika_studies
-      [ 'NCT03611946', 'NCT03158233', 'NCT03229421', 'NCT02996890', 'NCT03106714', 'NCT02979938', 'NCT02952833', 'NCT03624946', 'NCT03679728', 'NCT03008122', 'NCT02963909', 'NCT02937233', 'NCT03425149', 'NCT02856984', 'NCT02810210', 'NCT03263195', 'NCT03393286', 'NCT02733796', 'NCT03330600', 'NCT02840487', 'NCT02916732', 'NCT02996461', 'NCT03443830', 'NCT03255369', 'NCT03776695', 'NCT03014089', 'NCT03188731', 'NCT02831699', 'NCT03161444', 'NCT03204409', 'NCT03343626', 'NCT02794181', 'NCT03776903', 'NCT02943304', 'NCT03110770', 'NCT03227601', 'NCT02874456', 'NCT03037164', 'NCT02887482', 'NCT03055585', 'NCT02741882', 'NCT01099852', 'NCT03206541', 'NCT02809443', 'NCT03078894', 'NCT03553277', 'NCT03534245', 'NCT02957344', 'NCT03631719']
     end
 
   end
