@@ -1,9 +1,10 @@
 module Util
   class Updater
 
-    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char
+    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size
 
     def initialize(args)
+      @batch_size = 1000
       @start_num = args[:start_num]
       delimiters = args[:delimiters]
       delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if delimiters.blank?
@@ -34,7 +35,7 @@ module Util
       cntr = start_num
       until cntr > Study.count do
         self.new({:start_num => cntr}).run
-        cntr = cntr + 1000
+        cntr = cntr + @batch_size
         sleep 10000
       end
     end
@@ -45,59 +46,38 @@ module Util
         cntr = 1
         loaded_ids= mgr.all_nct_ids_in_wikidata
         # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
-        end_num = @start_num + 1000
-        #(Study.all.pluck(:nct_id) - loaded_ids)[33001..34000].each do |id|
+        end_num = @start_num + @batch_size
         (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num].each do |id|
           cntr = cntr+1
-          if cntr > 1000
-	    #  The connection to wikidata query seems to expire after loading 1,013 studies. Every 1000 studies, reset the WikiDataManager.
-            @mgr = Util::WikiDataManager.new
-            sleep 6
-            cntr = 1
-          end
           begin
-		  if !mgr.study_already_loaded?(id)
-		    @study=Study.where('nct_id=?', id).first
+            if !mgr.study_already_loaded?(id)
+              @study=Study.where('nct_id=?', id).first
 
-		    f << 'CREATE'
-		    f << lines_for('Len')    # Label
-		    f << lines_for('Den')    # Description
-		    f << lines_for('P31')    # instance of a clinical trial
-		    f << lines_for('P3098')  # nct id
-		    f << lines_for('P1476')  # title
-		    f << lines_for('P1813')  # acronym
-		    f << lines_for('P580')   # start date
-		    f << lines_for('P582')   # primary completion date
-		    f << lines_for('P1132')  # enrollment
-		    f << phase_qcode_lines
-		    assign_min_max_age(f)
-		    assign_condition_qcodes(f)
-		    assign_keyword_qcodes(f)
-		    assign_country_qcodes(f)
-		    #assign_facility_qcodes(f)
-		    assign_intervention_qcodes(f)
-		    assign_pubmed_ids(f)
-		    assign_sponsor_qcodes(f)
-		    f << " #{new_line}#{new_line}"
-		  end
+              f << 'CREATE'
+              f << lines_for('Len')    # Label
+              f << lines_for('Den')    # Description
+              f << lines_for('P31')    # instance of a clinical trial
+              f << lines_for('P3098')  # nct id
+              f << lines_for('P1476')  # title
+              f << lines_for('P1813')  # acronym
+              f << lines_for('P580')   # start date
+              f << lines_for('P582')   # primary completion date
+              f << lines_for('P1132')  # enrollment
+              f << phase_qcode_lines
+              assign_min_max_age(f)
+              assign_condition_qcodes(f)
+              assign_keyword_qcodes(f)
+              assign_country_qcodes(f)
+              #assign_facility_qcodes(f)
+              assign_intervention_qcodes(f)
+              assign_pubmed_ids(f)
+              assign_sponsor_qcodes(f)
+              f << " #{new_line}#{new_line}"
+            end
           rescue => e
             puts e
             f.close
           end
-        end
-        File.open("public/data.tmp", "r") do |out|
-          begin
-          File.open("public/data.out", "w+") do |f|
-             out.each_line do |line|
-               converted_line = line.gsub(' ',space_char).gsub('"',double_quote_char).gsub('/',forward_slash_char)
-               puts converted_line
-               f << converted_line
-             end
-          end
-          rescue
-          end
-          f.close
-          out.close
         end
       end
     end
