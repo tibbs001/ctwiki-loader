@@ -32,54 +32,57 @@ module Util
     end
 
     def self.run(start_num)
+      batch_size = 1000
       cntr = start_num
       until cntr > Study.count do
         self.new({:start_num => cntr}).run
-        cntr = cntr + @batch_size
-        sleep 10000
+        cntr = cntr + batch_size
+        @mgr=nil
+        sleep(20.minutes)
+        @mgr = Util::WikiDataManager.new
       end
     end
 
     def run(delimiters=nil)
       @subject = 'LAST'
-      File.open("public/#{start_num}_data.tmp", "w+") do |f|
-        cntr = 1
-        loaded_ids= mgr.all_nct_ids_in_wikidata
-        # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
-        end_num = @start_num + @batch_size
-        (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num].each do |id|
-          cntr = cntr+1
-          begin
-            if !mgr.study_already_loaded?(id)
-              @study=Study.where('nct_id=?', id).first
+      f=File.open("public/#{start_num}_data.tmp", "w+")
+      cntr = 1
+      loaded_ids= mgr.all_nct_ids_in_wikidata
+      # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
+      end_num = @start_num + @batch_size
+      (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num].each do |id|
+        cntr = cntr+1
+        begin
+          if !mgr.study_already_loaded?(id)
+            @study=Study.where('nct_id=?', id).first
 
-              f << 'CREATE'
-              f << lines_for('Len')    # Label
-              f << lines_for('Den')    # Description
-              f << lines_for('P31')    # instance of a clinical trial
-              f << lines_for('P3098')  # nct id
-              f << lines_for('P1476')  # title
-              f << lines_for('P1813')  # acronym
-              f << lines_for('P580')   # start date
-              f << lines_for('P582')   # primary completion date
-              f << lines_for('P1132')  # enrollment
-              f << phase_qcode_lines
-              assign_min_max_age(f)
-              assign_condition_qcodes(f)
-              assign_keyword_qcodes(f)
-              assign_country_qcodes(f)
-              #assign_facility_qcodes(f)
-              assign_intervention_qcodes(f)
-              assign_pubmed_ids(f)
-              assign_sponsor_qcodes(f)
-              f << " #{new_line}#{new_line}"
-            end
-          rescue => e
-            puts e
-            f.close
+            f << 'CREATE'
+            f << lines_for('Len')    # Label
+            f << lines_for('Den')    # Description
+            f << lines_for('P31')    # instance of a clinical trial
+            f << lines_for('P3098')  # nct id
+            f << lines_for('P1476')  # title
+            f << lines_for('P1813')  # acronym
+            f << lines_for('P580')   # start date
+            f << lines_for('P582')   # primary completion date
+            f << lines_for('P1132')  # enrollment
+            f << phase_qcode_lines
+            assign_min_max_age(f)
+            assign_condition_qcodes(f)
+            assign_keyword_qcodes(f)
+            assign_country_qcodes(f)
+            #assign_facility_qcodes(f)
+            assign_intervention_qcodes(f)
+            assign_pubmed_ids(f)
+            assign_sponsor_qcodes(f)
+            f << " #{new_line}#{new_line}"
           end
+        rescue => e
+          puts e
+          f.close
         end
       end
+      f.close
     end
 
     def lines_for(prop_code)
