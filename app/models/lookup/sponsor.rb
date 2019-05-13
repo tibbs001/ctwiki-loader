@@ -1,6 +1,13 @@
 module Lookup
   class Sponsor < SuperLookup
     self.table_name = 'lookup.sponsors'
+    # We often need just the qcode for a Sponsor. Save these to memory so we don't have
+    # to keep hitting the database for this one bit of info.
+    @@qcode_map = where('qcode is not null').pluck(:qcode,:downcase_name)
+
+    def self.qcode_for(sponsor)
+      return @@qcode_map.select{|entry| entry if entry[1] == sponsor.name.downcase}.first[0]
+    end
 
     def self.impossible_descriptions
       super + [

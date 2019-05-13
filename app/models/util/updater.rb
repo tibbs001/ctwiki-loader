@@ -235,23 +235,23 @@ module Util
     end
 
     def assign_sponsor_qcodes(f)
-      assigned_qcodes=[]
+      already_assigned_to_this_study=[]
       study.lead_sponsors.each{ |sponsor|
-        qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+        qcode = Lookup::Sponsor.qcode_for(sponsor)
+        if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P859#{tab}#{qcode}" if !qcode.blank?
-          assigned_qcodes << qcode
+          already_assigned_to_this_study << qcode
         end
       }
     end
 
     def assign_collaborators_qcodes(f)
-      assigned_qcodes=[]
+      already_assigned_to_this_study=[]
       study.collaborators.each{ |sponsor|
-        qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+        qcode = Lookup::Sponsor.qcode_for(sponsor)
+        if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P767#{tab}#{qcode}" if !qcode.blank?
-          assigned_qcodes << qcode
+          already_assigned_to_this_study << qcode
         end
       }
     end
