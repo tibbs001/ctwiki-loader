@@ -1,7 +1,7 @@
 module Util
   class Updater
 
-    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size
+    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size, :wikidata_study_ids
 
     def initialize(args)
       @batch_size = 1000
@@ -16,12 +16,12 @@ module Util
       @double_quote_char = delimiters[:double_quote_char]
       @forward_slash_char = delimiters[:forward_slash_char]
       @mgr = Util::WikiDataManager.new
+      @wikidata_study_ids=@mgr.wikidata_study_ids
     end
 
     def add_min_max_age
       File.open("public/data.tmp", "w+") do |f|
-        loaded_ids= mgr.all_nct_ids_in_wikidata
-        loaded_ids.each do |id|
+        @wikidata_study_ids.each do |id|
           if mgr.study_already_loaded?(id)
             @study=Study.where('nct_id=?', id).first
             @subject=mgr.qcodes_for_nct_id(id).first
@@ -45,12 +45,13 @@ module Util
 
     def run(delimiters=nil)
       @subject = 'LAST'
+      loaded_ids = @mgr.nctids_in(@wikidata_study_ids)
       f=File.open("public/#{start_num}_data.tmp", "w+")
       cntr = 1
-      loaded_ids= mgr.all_nct_ids_in_wikidata
       # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
       end_num = @start_num + @batch_size
-      (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num].each do |id|
+      batch_of_ids = (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num]
+      batch_of_ids.each do |id|
         cntr = cntr+1
         begin
           if !mgr.study_already_loaded?(id)
@@ -76,6 +77,7 @@ module Util
             assign_pubmed_ids(f)
             assign_sponsor_qcodes(f)
             f << " #{new_line}#{new_line}"
+            loaded_ids << id
           end
         rescue => e
           puts e

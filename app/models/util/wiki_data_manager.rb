@@ -153,20 +153,33 @@ module Util
       !qcodes_for_nct_id(nct_id).empty?
     end
 
-    def all_nct_ids_in_wikidata
+    def wikidata_study_ids
       results=[]
-      cmd="SELECT ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
-      run_sparql(cmd).each {|i| i.each_binding { |name, item| results << item.value } }
-      results
+      cmd="SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
+      run_sparql(cmd).each {|i|
+        label = val = ''
+        i.each_binding { |name, item|
+          label = item.value if name == :nct_id
+          val   = item.value.chomp.split('/').last if name == :item
+        }
+        results << {label.to_s => val }
+      }
+      return results.flatten.uniq
+    end
+
+    def nctids_in(hash)
+      keys = []
+      hash.each { |entry| keys << entry.keys }
+      keys.flatten
     end
 
     def ids_for_studies_without_prop(code)
       # phase is P6099
+      result = []
       cmd="SELECT ?item ?nct_id WHERE {
            ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
            FILTER NOT EXISTS {?item wdt:P6099 ?phase}
              ?item wdt:P3098 ?nct_id .  } "
-      result = []
       run_sparql(cmd).each {|i|
         label = val = ''
         i.each_binding { |name, item|
