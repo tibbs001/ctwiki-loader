@@ -38,7 +38,7 @@ module Util
         self.new({:start_num => cntr}).run
         cntr = cntr + batch_size
         @mgr=nil
-        sleep(20.minutes)
+        sleep(10.minutes)
         @mgr = Util::WikiDataManager.new
       end
     end
@@ -237,7 +237,7 @@ module Util
     def assign_sponsor_qcodes(f)
       already_assigned_to_this_study=[]
       study.lead_sponsors.each{ |sponsor|
-        qcode = Lookup::Sponsor.qcode_for(sponsor)
+        qcode = Lookup::Sponsor.qcode_for(sponsor.name)
         if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P859#{tab}#{qcode}" if !qcode.blank?
           already_assigned_to_this_study << qcode
@@ -248,7 +248,7 @@ module Util
     def assign_collaborators_qcodes(f)
       already_assigned_to_this_study=[]
       study.collaborators.each{ |sponsor|
-        qcode = Lookup::Sponsor.qcode_for(sponsor)
+        qcode = Lookup::Sponsor.qcode_for(sponsor.name)
         if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P767#{tab}#{qcode}" if !qcode.blank?
           already_assigned_to_this_study << qcode

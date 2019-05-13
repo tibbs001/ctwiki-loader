@@ -5,8 +5,9 @@ module Lookup
     # to keep hitting the database for this one bit of info.
     @@qcode_map = where('qcode is not null').pluck(:qcode,:downcase_name)
 
-    def self.qcode_for(sponsor)
-      return @@qcode_map.select{|entry| entry if entry[1] == sponsor.name.downcase}.first[0]
+    def self.qcode_for(sponsor_name)
+      code = @@qcode_map.select{|entry| entry if entry[1] == sponsor_name.downcase }
+      code.first[0] if code.size > 0
     end
 
     def self.impossible_descriptions
