@@ -153,6 +153,15 @@ module Util
       !qcodes_for_nct_id(nct_id).empty?
     end
 
+    def get_qcode_for_pmid(pmid)
+      cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '#{pmid}'. }"
+      #cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '23153596'. }" sample of one in wikidata
+      run_sparql(cmd).each {|i|
+        result = i.each_binding { |item| return item.last.value.chomp.split('/').last }
+        return result.first if !result.nil?
+      }
+    end
+
     def wikidata_study_ids
       results=[]
       cmd="SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
