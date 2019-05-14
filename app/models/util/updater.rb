@@ -33,7 +33,7 @@ module Util
 
     def self.run(start_num)
       batch_size = 1000
-      cntr = start_num
+      cntr = start_num.to_i
       until cntr > Study.count do
         self.new({:start_num => cntr}).run
         cntr = cntr + batch_size
