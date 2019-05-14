@@ -15,7 +15,7 @@ module Util
       @space_char = delimiters[:space_char]
       @double_quote_char = delimiters[:double_quote_char]
       @forward_slash_char = delimiters[:forward_slash_char]
-      @mgr = Util::WikiDataManager.new
+      @mgr = Util::WikiDataManager2.new
       @wikidata_study_ids=@mgr.wikidata_study_ids
     end
 
@@ -37,9 +37,7 @@ module Util
       until cntr > Study.count do
         self.new({:start_num => cntr}).run
         cntr = cntr + batch_size
-        @mgr=nil
         sleep(10.minutes)
-        @mgr = Util::WikiDataManager.new
       end
     end
 
@@ -54,7 +52,7 @@ module Util
       batch_of_ids.each do |id|
         cntr = cntr+1
         begin
-          if !mgr.study_already_loaded?(id)
+          if !loaded_ids.include? id
             @study=Study.where('nct_id=?', id).first
 
             f << 'CREATE'
