@@ -160,8 +160,8 @@ module Util
 
     def get_qcode_for_pmid(pmid)
       return nil
-      cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '#{pmid}'. }"
-      #cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '23153596'. }" sample of one in wikidata
+      cmd = "SELECT DISTINCT  ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q191067 . ?item wdt:P698 '#{pmid}'. }"
+      #cmd = "SELECT DISTINCT ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q191067 . ?item wdt:P698 '23153596'. }" sample of one in wikidata
       results = run_sparql(cmd)
       return nil if results.empty?
       the_code=nil
