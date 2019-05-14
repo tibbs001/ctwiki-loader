@@ -10,16 +10,17 @@ module Lookup
 
     def self.qcode_for(pmid)
       return if pmid.nil?
-      results = self.where('qcode is not null and pmid = ?',pmid)
+      results = Lookup::Publication.where('qcode is not null and pmid = ?',pmid)
       return results.first.qcode if results.size > 0
     end
 
     def populate
       mgr = Util::WikiDataManager.new
-      existing_qcodes = where('qcode is not null')
-      StudyReference.where('pmid is not null').each {|ref|
+      existing_qcodes = Lookup::Publication.where('qcode is not null')
+      study_ref_ids_yet_to_load.each {|val|
+        ref = StudyReference.find(val['id'])
         qcode = mgr.get_qcode_for_pmid(ref.pmid)
-        if !existing_qcodes.include? qcode
+        unless existing_qcodes.include? qcode
           begin
             Lookup::Publication.new(
               :qcode         => qcode,
@@ -30,9 +31,14 @@ module Lookup
           rescue => error
             puts "#{Time.zone.now}: Unable to populate publications_lookup.  #{error.message}"
           end
-          existing_qcodes << qcode
+          existing_qcodes << qcode if !qcode.nil?
         end
       }
+    end
+
+    def study_ref_ids_yet_to_load
+      cmd="select id from ctgov.study_references where pmid is not null and pmid not in (select pmid from lookup.publications)"
+      ActiveRecord::Base.connection.execute(cmd)
     end
 
     def wikidata_entities

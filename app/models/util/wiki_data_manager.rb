@@ -24,6 +24,11 @@ module Util
           puts ">>>>>> spliting on #{delimiter}: #{search_string}"
         end
         url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=#{search_string}&language=en&format=json"
+#               https://www.wikidata.org/w/api.php?action=wbsearchentities&search=23153596&language=en&format=json
+#               GET https://www.wikidata.org/w/api.php?action=wbsearchentities&search=23153596&language=en
+#               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q18002781
+#               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&languages=en&ids=P698
+#               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&props=labels&ids=Q191067
         puts "#{url}"
         download = RestClient::Request.execute({ url: url, method: :get, content_type: :json})
         eval(download)[:search]
@@ -154,12 +159,14 @@ module Util
     end
 
     def get_qcode_for_pmid(pmid)
+      return nil
       cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '#{pmid}'. }"
       #cmd = "SELECT DISTINCT ?item WHERE { ?item wdt:P31 wd:Q191067.  ?item wdt:P698 '23153596'. }" sample of one in wikidata
-      run_sparql(cmd).each {|i|
-        result = i.each_binding { |item| return item.last.value.chomp.split('/').last }
-        return result.first if !result.nil?
-      }
+      results = run_sparql(cmd)
+      return nil if results.empty?
+      the_code=nil
+      results.first.each_binding {|item| the_code = item.last.value.chomp.split('/').last }
+      return the_code
     end
 
     def wikidata_study_ids
