@@ -3,6 +3,8 @@ module Util
 
     attr_accessor :wiki_mgr
 
+    # erase property P854  (link to https://www.ncbi.nlm.nih.gov/pubmed/?term)
+    # erase property P698  mistakenly links to pmid string.
     def erase_prop(code)
       erase_props_for(wiki_mgr.get_vals_for(code))
     end
