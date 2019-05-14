@@ -6,6 +6,7 @@ class CreateKeywordLookupTables < ActiveRecord::Migration
       t.string  'qcode'
       t.string  'preferred_name'
       t.string  'name'
+      t.string  'types'
       t.string  'downcase_name'
       t.string  'lookup'
       t.string  'wiki_description'

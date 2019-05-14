@@ -1,9 +1,12 @@
 module Util
   class Updater
 
-    attr_accessor :mgr, :study, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char
+    attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size, :wikidata_study_ids
 
-    def initialize(delimiters=nil)
+    def initialize(args)
+      @batch_size = 1000
+      @start_num = args[:start_num]
+      delimiters = args[:delimiters]
       delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if delimiters.blank?
       #delimiters = {:new_line=>'
 #', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if delimiters.blank?
@@ -12,7 +15,30 @@ module Util
       @space_char = delimiters[:space_char]
       @double_quote_char = delimiters[:double_quote_char]
       @forward_slash_char = delimiters[:forward_slash_char]
-      @mgr = Util::WikiDataManager.new
+      @mgr = Util::WikiDataManager2.new
+      @wikidata_study_ids=@mgr.wikidata_study_ids
+    end
+
+    def add_min_max_age
+      File.open("public/data.tmp", "w+") do |f|
+        @wikidata_study_ids.each do |id|
+          if mgr.study_already_loaded?(id)
+            @study=Study.where('nct_id=?', id).first
+            @subject=mgr.qcodes_for_nct_id(id).first
+            assign_min_max_age(f)
+          end
+        end
+      end
+    end
+
+    def self.run(start_num)
+      batch_size = 1000
+      cntr = start_num.to_i
+      until cntr > Study.count do
+        self.new({:start_num => cntr}).run
+        cntr = cntr + batch_size
+        sleep(10.minutes)
+      end
     end
 
     def add_min_max_age
@@ -33,11 +59,16 @@ module Util
 
     def run(delimiters=nil)
       @subject = 'LAST'
-      File.open("public/data.tmp", "w+") do |f|
-        loaded_ids= mgr.all_nct_ids_in_wikidata
-        # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
-        (Study.all.pluck(:nct_id) - loaded_ids)[0..69999].each do |id|
-          if !mgr.study_already_loaded?(id)
+      loaded_ids = @mgr.nctids_in(@wikidata_study_ids)
+      f=File.open("public/#{start_num}_data.tmp", "w+")
+      cntr = 1
+      # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
+      end_num = @start_num + @batch_size
+      batch_of_ids = (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num]
+      batch_of_ids.each do |id|
+        cntr = cntr+1
+        begin
+          if !loaded_ids.include? id
             @study=Study.where('nct_id=?', id).first
 
             f << 'CREATE'
@@ -60,26 +91,20 @@ module Util
             assign_pubmed_ids(f)
             assign_sponsor_qcodes(f)
             f << " #{new_line}#{new_line}"
+            loaded_ids << id
           end
-        end
-        f.close
-        puts " ====================================="
-        File.open("public/data.tmp", "r") do |out|
-          File.open("public/data.out", "w+") do |f|
-             out.each_line do |line|
-               converted_line = line.gsub(' ',space_char).gsub('"',double_quote_char).gsub('/',forward_slash_char)
-               puts converted_line
-               f << converted_line
-             end
-          end
+        rescue => e
+          puts e
+          f.close
         end
       end
+      f.close
     end
 
     def lines_for(prop_code)
       case prop_code
       when 'Len'
-        return "#{line_prefix(prop_code)}\"#{study.brief_title[0..248]}\""   # Label
+        return "#{line_prefix(prop_code)}\"#{study.brief_title[0..244]}\""   # Label
       when 'Den'
         return "#{line_prefix(prop_code)}\"clinical trial\""     # Description
       when 'P31'
@@ -219,28 +244,29 @@ module Util
         # Nope - it doesn't take a string -needs to be a QCode
         #f << "#{new_line}#{subject}#{tab}P248#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
         #  Going to use P854:  Reference URL
+        f << "#{new_line}#{subject}#{tab}P698#{tab}\"#{ref.pmid}\"" if !ref.pmid.blank?
         f << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
       }
     end
 
     def assign_sponsor_qcodes(f)
-      assigned_qcodes=[]
+      already_assigned_to_this_study=[]
       study.lead_sponsors.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+        if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P859#{tab}#{qcode}" if !qcode.blank?
-          assigned_qcodes << qcode
+          already_assigned_to_this_study << qcode
         end
       }
     end
 
     def assign_collaborators_qcodes(f)
-      assigned_qcodes=[]
+      already_assigned_to_this_study=[]
       study.collaborators.each{ |sponsor|
         qcode = Lookup::Sponsor.qcode_for(sponsor.name)
-        if !qcode.blank? and !assigned_qcodes.include?(qcode)
+        if !qcode.blank? and !already_assigned_to_this_study.include?(qcode)
           f << "#{new_line}#{subject}#{tab}P767#{tab}#{qcode}" if !qcode.blank?
-          assigned_qcodes << qcode
+          already_assigned_to_this_study << qcode
         end
       }
     end
