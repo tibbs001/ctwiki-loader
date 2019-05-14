@@ -8,6 +8,7 @@ module Lookup
     end
 
     def populate
+      add_row_for_us
       wikidata_entities.each{|entity|
         begin
           qcode= entity.item.value.chomp.split('/').last
@@ -23,6 +24,10 @@ module Lookup
           puts "#{Time.zone.now}: Unable to populate countries_lookup.  #{error.message}"
         end
       }
+    end
+
+    def add_row_for_us
+      Lookup::Country.new( :qcode=>'Q30',:name=>'United States',:downcase_name=>'united states',:iso2=>'US',:osm_relid=>'148838').save!
     end
 
     def wikidata_entities
