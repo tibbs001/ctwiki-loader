@@ -241,11 +241,8 @@ module Util
 
     def assign_pubmed_ids(f)
       study.study_references.each{ |ref|
-        # Nope - it doesn't take a string -needs to be a QCode
-        #f << "#{new_line}#{subject}#{tab}P248#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
-        #  Going to use P854:  Reference URL
-        f << "#{new_line}#{subject}#{tab}P698#{tab}\"#{ref.pmid}\"" if !ref.pmid.blank?
-        f << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
+        pub_qcode = Lookup::Publication.where('pmid=?',ref.pmid).first.try(:qcode)
+        f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}" if !pub_qcode.blank?
       }
     end
 
