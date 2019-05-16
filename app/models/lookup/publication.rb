@@ -1,6 +1,12 @@
 module Lookup
   class Publication < SuperLookup
     self.table_name = 'lookup.publications'
+    @@qcode_map = where('qcode is not null').pluck(:qcode,:pmid)
+
+    def self.qcode_for(pmid)
+      code = @@qcode_map.select{|entry| entry if entry[1] == pmid }
+      code.first[0] if code.size > 0
+    end
 
     def self.populate
       # We will need to run this in many iterations because the sparql query endpoint seems to have a limit
@@ -8,7 +14,7 @@ module Lookup
       new.populate
     end
 
-    def self.qcode_for(pmid)
+    def self.xxxxxxxqcode_for(pmid)
       return if pmid.nil?
       results = Lookup::Publication.where('qcode is not null and pmid = ?',pmid)
       return results.first.qcode if results.size > 0

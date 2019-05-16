@@ -252,12 +252,15 @@ module Util
 
     def assign_pubmed_ids(f)
       study.study_references.each{ |ref|
-        pub_qcode = Lookup::Publication.where('pmid=?',ref.pmid).first.try(:qcode)
-        # Link pub to study
-        if !pub_qcode.blank? && ref.reference_type=='results_reference'
-          f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
-          f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}"
-        end
+        #if ref.reference_type=='results_reference'
+          pub_qcode = Lookup::Publication.qcode_for(ref.pmid)
+          if !pub_qcode.blank?
+            # Link pub to study
+            f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
+            # Link study to pub
+            f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}"
+          end
+        #end
       }
     end
 
