@@ -24,8 +24,9 @@ module Util
         @wikidata_study_ids.each do |ids|
           nct_id = ids.keys.first
           @subject = ids.values.first
-          @study=Study.where('nct_id=?', nct_id).first
-          assign_pubmed_ids(f)
+          puts @subject
+          #@study=Study.where('nct_id=?', nct_id).first
+          #assign_pubmed_ids(f) if !@study.nil?
         end
       end
     end
@@ -251,7 +252,7 @@ module Util
     end
 
     def assign_pubmed_ids(f)
-      study.study_references.each{ |ref|
+      @study.study_references.each{ |ref|
         #if ref.reference_type=='results_reference'
           pub_qcode = Lookup::Publication.qcode_for(ref.pmid)
           if !pub_qcode.blank?
