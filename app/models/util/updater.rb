@@ -22,7 +22,7 @@ module Util
     def add_publication_links
       File.open("public/add_publication_links.tmp", "w+") do |f|
         wikidata_nct_ids= @wikidata_study_ids.keys
-        study_refs=StudyReference.where("reference_type='results_reference'")
+        study_refs=Ctgov::StudyReference.where("reference_type='results_reference'")
         study_refs.each{|sr|
           if wikidata_nct_ids.include? sr.nct_id
             pub_qcode = Lookup::Publication.qcode_for(sr.pmid)
@@ -43,7 +43,7 @@ module Util
       File.open("public/data.tmp", "w+") do |f|
         @wikidata_study_ids.each do |id|
           if mgr.study_already_loaded?(id)
-            @study=Study.where('nct_id=?', id).first
+            @study=Ctgov::Study.where('nct_id=?', id).first
             @subject=mgr.qcodes_for_nct_id(id).first
             assign_min_max_age(f)
           end
@@ -54,7 +54,7 @@ module Util
     def self.run(start_num)
       batch_size = 1000
       cntr = start_num.to_i
-      until cntr > Study.count do
+      until cntr > Ctgov::Study.count do
         self.new({:start_num => cntr}).run
         cntr = cntr + batch_size
         sleep(10.minutes)
@@ -66,7 +66,7 @@ module Util
         loaded_ids= mgr.all_nct_ids_in_wikidata
         loaded_ids.each do |id|
           if mgr.study_already_loaded?(id)
-            @study=Study.where('nct_id=?', id).first
+            @study=Ctgov::Study.where('nct_id=?', id).first
             @subject=mgr.qcodes_for_nct_id(id).first
             puts "==============================="
             puts "NCT ID:  #{id}  QCode: #{subject}"
@@ -78,18 +78,19 @@ module Util
     end
 
     def run(delimiters=nil)
+      @start_num=1 if delimiters.nil?
       @subject = 'LAST'
       loaded_ids = @mgr.nctids_in(@wikidata_study_ids)
       f=File.open("public/#{start_num}_data.tmp", "w+")
       cntr = 1
       # wikidata seems to restrict # of times one session can query to about 1,012.  It aborts there.
       end_num = @start_num + @batch_size
-      batch_of_ids = (Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num]
+      batch_of_ids = (Ctgov::Study.all.pluck(:nct_id) - loaded_ids)[@start_num..end_num]
       batch_of_ids.each do |id|
         cntr = cntr+1
         begin
           if !loaded_ids.include? id
-            @study=Study.where('nct_id=?', id).first
+            @study=Ctgov::Study.where('nct_id=?', id).first
 
             f << 'CREATE'
             f << lines_for('Len')    # Label
