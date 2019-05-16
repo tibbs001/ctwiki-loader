@@ -21,18 +21,18 @@ module Util
 
     def add_publication_links
       File.open("public/add_publication_links.tmp", "w+") do |f|
-        wikidata_nct_ids=[]
-        @wikidata_study_ids.each{|wsid| wikidata_nct_ids << wsid.keys.first}
+        wikidata_nct_ids= @wikidata_study_ids.keys
         study_refs=StudyReference.where("reference_type='results_reference'")
         study_refs.each{|sr|
           if wikidata_nct_ids.include? sr.nct_id
             pub_qcode = Lookup::Publication.qcode_for(sr.pmid)
-            puts "pub qcode is #{pub_qcode}"
             if !pub_qcode.blank?
+              study_qcode=@wikidata_study_ids[sr.nct_id]
+              puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> link #{pub_qcode} to #{study_qcode}"
               # Link pub to study
-              f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
+              f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{study_qcode}"
               # Link study to pub
-              f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}"
+              f << "#{new_line}#{study_qcode}#{tab}P248#{tab}#{pub_qcode}"
             end
           end
         }
