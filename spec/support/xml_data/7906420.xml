@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+        <PMID Version="1">7906420</PMID>
+        <DateCompleted>
+            <Year>1994</Year>
+            <Month>03</Month>
+            <Day>23</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2005</Year>
+            <Month>11</Month>
+            <Day>17</Day>
+        </DateRevised>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">0033-2917</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>Suppl 24</Volume>
+                    <PubDate>
+                        <Year>1993</Year>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Psychological medicine</Title>
+                <ISOAbbreviation>Psychol Med</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>The premenstrual syndrome--a reappraisal of the concept and the evidence.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>1-47</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>The Premenstrual Syndrome (PMS) remains a controversial issue. As a clinical concept it is surrounded by confusion. Attempts to establish a consensus definition have resulted in the majority of women seeking help for such problems excluded from the diagnosis. Furthermore, there is no consensus about how such problems should be treated, with a variety of methods being advocated usually on very uncertain scientific grounds. The issue also has its political implications; there are those who see PMS as a way of reducing the status of women, by linking the normal ovarian cycle to a phenomenon which, on the face of it, impairs women's ability to cope. Yet there are a substantial number of women who experience significant negative changes which vary with the menstrual cycle, and produce long-term effects on their well being and family relationship which can be serious. There is also a real possibility that recurrent perimenstrual mood changes of this kind may increase the likelihood of chronic depressive illness in susceptible individuals. In most respects the features of depression which occurs perimenstrually are essentially similar to those of major depressive disorder, except for the short duration and recurrent pattern. PMS, therefore, remains an issue not only of clinical importance, but of considerable potential relevance to our understanding of major depressive disorder, which is substantially more common in women of reproductive age than in their male counterparts. In this review the concept of PMS, and some prominent operational definitions of it, are critically evaluated; it is now questionable whether the concept, as currently applied, still carries any heuristic or clinical value. Some current theoretical and aetiological issues are considered: e.g. the role of the corpus luteum, the effects of hormonal regimes which block ovulation, such as oral contraceptives, and the possibility that cyclical mood change represents an entrained rhythm in the brain. The conclusions reached at this stage in the review lead to a 'paradigm shift' with the proposal of a three-factor model to account for the complexities of menstrual cycle-related problems.(ABSTRACT TRUNCATED AT 400 WORDS)</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Bancroft</LastName>
+                    <ForeName>J</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>MRC Reproductive Biology Unit, Royal Edinburgh Hospital.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+                <PublicationType UI="D016454">Review</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>England</Country>
+            <MedlineTA>Psychol Med</MedlineTA>
+            <NlmUniqueID>1254142</NlmUniqueID>
+            <ISSNLinking>0033-2917</ISSNLinking>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D012739">Gonadal Steroid Hormones</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D018377">Neurotransmitter Agents</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <CommentsCorrectionsList>
+            <CommentsCorrections RefType="CommentIn">
+                <RefSource>Psychol Med. 1995 May;25(3):657-8</RefSource>
+                <PMID Version="1">7480444</PMID>
+            </CommentsCorrections>
+        </CommentsCorrectionsList>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName UI="D003866" MajorTopicYN="N">Depressive Disorder</DescriptorName>
+                <QualifierName UI="Q000175" MajorTopicYN="N">diagnosis</QualifierName>
+                <QualifierName UI="Q000503" MajorTopicYN="N">physiopathology</QualifierName>
+                <QualifierName UI="Q000523" MajorTopicYN="N">psychology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005260" MajorTopicYN="N">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D012739" MajorTopicYN="N">Gonadal Steroid Hormones</DescriptorName>
+                <QualifierName UI="Q000502" MajorTopicYN="N">physiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006801" MajorTopicYN="N">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D007030" MajorTopicYN="N">Hypothalamo-Hypophyseal System</DescriptorName>
+                <QualifierName UI="Q000503" MajorTopicYN="N">physiopathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008597" MajorTopicYN="N">Menstrual Cycle</DescriptorName>
+                <QualifierName UI="Q000502" MajorTopicYN="N">physiology</QualifierName>
+                <QualifierName UI="Q000523" MajorTopicYN="N">psychology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D018377" MajorTopicYN="N">Neurotransmitter Agents</DescriptorName>
+                <QualifierName UI="Q000502" MajorTopicYN="N">physiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D010913" MajorTopicYN="N">Pituitary-Adrenal System</DescriptorName>
+                <QualifierName UI="Q000503" MajorTopicYN="N">physiopathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D011293" MajorTopicYN="N">Premenstrual Syndrome</DescriptorName>
+                <QualifierName UI="Q000175" MajorTopicYN="N">diagnosis</QualifierName>
+                <QualifierName UI="Q000503" MajorTopicYN="N">physiopathology</QualifierName>
+                <QualifierName UI="Q000523" MajorTopicYN="Y">psychology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D012307" MajorTopicYN="N">Risk Factors</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+        <NumberOfReferences>250</NumberOfReferences>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>1993</Year>
+                <Month>1</Month>
+                <Day>1</Day>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>1993</Year>
+                <Month>1</Month>
+                <Day>1</Day>
+                <Hour>0</Hour>
+                <Minute>1</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>1993</Year>
+                <Month>1</Month>
+                <Day>1</Day>
+                <Hour>0</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">7906420</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>
