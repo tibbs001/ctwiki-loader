@@ -3,7 +3,7 @@ module Util
 
     attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size, :wikidata_study_ids
 
-    def initialize(args)
+    def initialize(args={})
       @batch_size = 1000
       @start_num = args[:start_num]
       delimiters = args[:delimiters]
@@ -17,6 +17,17 @@ module Util
       @forward_slash_char = delimiters[:forward_slash_char]
       @mgr = Util::WikiDataManager2.new
       @wikidata_study_ids=@mgr.wikidata_study_ids
+    end
+
+    def add_publication_links
+      File.open("public/add_publication_links.tmp", "w+") do |f|
+        @wikidata_study_ids.each do |ids|
+          nct_id = ids.keys.first
+          @subject = ids.values.first
+          @study=Study.where('nct_id=?', nct_id).first
+          assign_pubmed_ids(f)
+        end
+      end
     end
 
     def add_min_max_age
@@ -242,7 +253,11 @@ module Util
     def assign_pubmed_ids(f)
       study.study_references.each{ |ref|
         pub_qcode = Lookup::Publication.where('pmid=?',ref.pmid).first.try(:qcode)
-        f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}" if !pub_qcode.blank?
+        # Link pub to study
+        if !pub_qcode.blank? && ref.reference_type=='results_reference'
+          f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
+          f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}"
+        end
       }
     end
 
