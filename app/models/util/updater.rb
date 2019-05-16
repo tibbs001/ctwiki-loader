@@ -21,13 +21,21 @@ module Util
 
     def add_publication_links
       File.open("public/add_publication_links.tmp", "w+") do |f|
-        @wikidata_study_ids.each do |ids|
-          nct_id = ids.keys.first
-          @subject = ids.values.first
-          puts @subject
-          #@study=Study.where('nct_id=?', nct_id).first
-          #assign_pubmed_ids(f) if !@study.nil?
-        end
+        wikidata_nct_ids=[]
+        @wikidata_study_ids.each{|wsid| wikidata_nct_ids << wsid.keys.first}
+        study_refs=StudyReference.where("reference_type='results_reference'")
+        study_refs.each{|sr|
+          if wikidata_nct_ids.include? sr.nct_id
+            pub_qcode = Lookup::Publication.qcode_for(sr.pmid)
+            puts "pub qcode is #{pub_qcode}"
+            if !pub_qcode.blank?
+              # Link pub to study
+              f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
+              # Link study to pub
+              f << "#{new_line}#{subject}#{tab}P248#{tab}#{pub_qcode}"
+            end
+          end
+        }
       end
     end
 
@@ -252,9 +260,11 @@ module Util
     end
 
     def assign_pubmed_ids(f)
+      puts "Study has #{@study.references.size} publications"
       @study.study_references.each{ |ref|
         #if ref.reference_type=='results_reference'
           pub_qcode = Lookup::Publication.qcode_for(ref.pmid)
+          puts "pub qcode is #{pub_qcode}"
           if !pub_qcode.blank?
             # Link pub to study
             f << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{subject}"
