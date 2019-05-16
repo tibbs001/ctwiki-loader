@@ -11,7 +11,9 @@ namespace :db do
   def set_search_path
     puts "Setting search path to lookup only..."
     con=ActiveRecord::Base.connection
-    con.execute("alter role #{ENV['WIKI_DB_SUPER_USERNAME']} IN DATABASE aact set search_path to lookup;")
+    con.execute("create schema wikidata;")
+    con.execute("create schema lookup;")
+    con.execute("alter role #{ENV['WIKI_DB_SUPER_USERNAME']} IN DATABASE aact set search_path to lookup, wikidata, ctgov;")
     con.reset!
   end
 

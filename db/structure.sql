@@ -65,6 +65,13 @@ CREATE SCHEMA proj_tag_study_characteristics;
 
 
 --
+-- Name: wikidata; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA wikidata;
+
+
+--
 -- Name: count_estimate(text); Type: FUNCTION; Schema: ctgov; Owner: -
 --
 
@@ -2931,6 +2938,78 @@ ALTER SEQUENCE proj_tag_study_characteristics.tagged_terms_id_seq OWNED BY proj_
 
 
 --
+-- Name: pub_xml_records; Type: TABLE; Schema: wikidata; Owner: -
+--
+
+CREATE TABLE wikidata.pub_xml_records (
+    id integer NOT NULL,
+    pmid character varying,
+    content xml,
+    created_pub_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: wikidata; Owner: -
+--
+
+CREATE SEQUENCE wikidata.pub_xml_records_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: wikidata; Owner: -
+--
+
+ALTER SEQUENCE wikidata.pub_xml_records_id_seq OWNED BY wikidata.pub_xml_records.id;
+
+
+--
+-- Name: publications; Type: TABLE; Schema: wikidata; Owner: -
+--
+
+CREATE TABLE wikidata.publications (
+    id integer NOT NULL,
+    pmid character varying,
+    issn character varying,
+    volume character varying,
+    issue character varying,
+    published_in character varying,
+    publication_date character varying,
+    title character varying,
+    pagination character varying,
+    abstract character varying
+);
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: wikidata; Owner: -
+--
+
+CREATE SEQUENCE wikidata.publications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: wikidata; Owner: -
+--
+
+ALTER SEQUENCE wikidata.publications_id_seq OWNED BY wikidata.publications.id;
+
+
+--
 -- Name: baseline_counts id; Type: DEFAULT; Schema: ctgov; Owner: -
 --
 
@@ -3397,6 +3476,20 @@ ALTER TABLE ONLY proj_tag_study_characteristics.oncology_studies ALTER COLUMN id
 --
 
 ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag_study_characteristics.tagged_terms_id_seq'::regclass);
+
+
+--
+-- Name: pub_xml_records id; Type: DEFAULT; Schema: wikidata; Owner: -
+--
+
+ALTER TABLE ONLY wikidata.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('wikidata.pub_xml_records_id_seq'::regclass);
+
+
+--
+-- Name: publications id; Type: DEFAULT; Schema: wikidata; Owner: -
+--
+
+ALTER TABLE ONLY wikidata.publications ALTER COLUMN id SET DEFAULT nextval('wikidata.publications_id_seq'::regclass);
 
 
 --
@@ -3933,6 +4026,22 @@ ALTER TABLE ONLY proj_tag_study_characteristics.oncology_studies
 
 ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms
     ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: wikidata; Owner: -
+--
+
+ALTER TABLE ONLY wikidata.pub_xml_records
+    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: publications publications_pkey; Type: CONSTRAINT; Schema: wikidata; Owner: -
+--
+
+ALTER TABLE ONLY wikidata.publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
 
 
 --
@@ -5372,7 +5481,7 @@ ALTER TABLE ONLY ctgov.study_references
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO lookup;
+SET search_path TO lookup, wikidata, ctgov;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
