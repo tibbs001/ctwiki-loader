@@ -22,8 +22,8 @@ module Util
       end
     end
 
-    def create_xml_record({:pmid=>pmid, :xml => xml})
-      Wikidata::PubXmlRecord.where(pmid: pmid).first_or_create {|rec|rec.content = xml}
+    def create_xml_record(args)
+      Wikidata::PubXmlRecord.where(pmid: args[:pmid]).first_or_create {|rec|rec.content = args[:xml]}
     end
 
     def populate_publications
