@@ -10,11 +10,6 @@ require "rspec/rails"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |file| require file }
 
-module Features
-  # Extend this module in spec/support/features/*.rb
-  include Formulaic::Dsl
-end
-
 RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
@@ -32,7 +27,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = strategy
     DatabaseCleaner[:active_record, { model: Wikidata::Publication }].clean_with(:truncation)
 
-    DatabaseCleaner.start
+    #DatabaseCleaner.start
 
     # ensure app user logged into db connections
     ActiveRecord::Base.establish_connection(
