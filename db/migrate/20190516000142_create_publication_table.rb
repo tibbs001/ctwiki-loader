@@ -14,6 +14,7 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'issn'
       t.string  'volume'
       t.string  'issue'
+      t.string  'iso_abbreviation'
       t.string  'published_in'
       t.string  'publication_date'
       t.string  'title'
