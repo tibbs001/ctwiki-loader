@@ -10,19 +10,19 @@ module Wikidata
       self.pmid = hash[:pmid]
     end
 
-    def populate
+    def self.populate
       #pmids=Ctgov::StudyReference.where("reference_type='results_reference'").pluck(:pmid).compact
       sample_pmids.each {|pmid|
         not_loaded = (where('pmid=?',pmid).first) == nil
         not_in_wikidata = (Lookup::Publication.where('pmid=?',pmid).first) == nil
         if not_loaded and not_in_wikidata
-          xml=client.get_xml_for(pmid)
-          Wikidata::Publication.new({xml: xml, pmid: pmid}).create
+          xml=Util::Client.new.get_xml_for(pmid)
+          new({xml: xml, pmid: pmid}).create
         end
       }
     end
 
-    def sample_pmids
+    def self.sample_pmids
        ['20025029',
        '19648180',
        '17923590',
