@@ -1,22 +1,16 @@
 module Util
-  class Updater
+  class StudyPrepper < Util::Prepper
 
     attr_accessor :mgr, :study, :start_num, :subject, :new_line, :tab, :space_char, :double_quote_char, :forward_slash_char, :batch_size, :wikidata_study_ids
 
     def initialize(args={})
-      @batch_size = 1000
-      @start_num = args[:start_num]
-      delimiters = args[:delimiters]
-      delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if delimiters.blank?
-      #delimiters = {:new_line=>'
-#', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if delimiters.blank?
-      @new_line = delimiters[:new_line]
-      @tab = delimiters[:tab]
-      @space_char = delimiters[:space_char]
-      @double_quote_char = delimiters[:double_quote_char]
-      @forward_slash_char = delimiters[:forward_slash_char]
+      super
       @mgr = Util::WikiDataManager2.new
       @wikidata_study_ids=@mgr.wikidata_study_ids
+    end
+
+    def self.data_source
+      Ctgov::Study
     end
 
     def add_publication_links
@@ -48,16 +42,6 @@ module Util
             assign_min_max_age(f)
           end
         end
-      end
-    end
-
-    def self.run(start_num)
-      batch_size = 1000
-      cntr = start_num.to_i
-      until cntr > Ctgov::Study.count do
-        self.new({:start_num => cntr}).run
-        cntr = cntr + batch_size
-        sleep(10.minutes)
       end
     end
 

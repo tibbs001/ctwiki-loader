@@ -23,6 +23,8 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     unit_test = ![:feature, :request].include?(example.metadata[:type])
     strategy = unit_test ? :transaction : :truncation
+    allow_any_instance_of(Util::StudyPrepper).to receive(:wikidata_study_ids).and_return([])
+    allow_any_instance_of(Util::PubPrepper).to receive(:wikidata_study_ids).and_return([])
 
     DatabaseCleaner.strategy = strategy
     DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
