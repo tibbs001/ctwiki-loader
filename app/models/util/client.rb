@@ -6,10 +6,11 @@ module Util
       tries ||= 5
       begin
         #url="#{BASE_URL}&id=#{pmid}&retmode=xml&rettype=abstract"
+        #https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=16002928
         url="#{BASE_URL}&id=#{pmid}"
         puts url
         xml=Nokogiri::XML(Faraday.get(url).body)
-        sleep(1.second)
+        sleep(10.seconds)
         return xml
       rescue => e
         #  have been encountering timeout errors.  If encountered, try again
