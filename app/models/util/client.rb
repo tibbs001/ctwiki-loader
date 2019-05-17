@@ -23,43 +23,5 @@ module Util
       end
     end
 
-    def create_xml_record(args)
-      Wikidata::PubXmlRecord.where(pmid: args[:pmid]).first_or_create {|rec|rec.content = args[:xml]}
-    end
-
-    def populate_publications
-      cntr=Wikidata::PubXmlRecord.not_yet_loaded.count
-      start_time=Time.zone.now
-      puts "Load #{cntr} publications Start Time.....#{start_time}"
-
-      while cntr > 0
-        Wikidata::PubXmlRecord.find_each do |xml_record|
-          stime=Time.zone.now
-          if xml_record.created_study_at.blank?
-            import_xml_file(xml_record.content)
-            xml_record.created_study_at=Date.today
-            xml_record.save!
-            puts "#{cntr} saved #{xml_record.nct_id}:  #{Time.zone.now - stime}"
-          end
-          cntr=cntr-1
-        end
-      end
-      puts "Total Load Time:.....#{Time.zone.now - start_time}"
-    end
-
-    def import_xml_file(xml, benchmark: false)
-      pub = Nokogiri::XML(xml)
-      id = extract_id_from(xml)
-      unless Study.find_by(pmid: id).present?
-        Wikidata::Publication.new({xml: pub, pmid: id}).create
-      end
-    end
-
-    private
-
-    def extract_id_from(xml)
-      Nokogiri::XML(xml).xpath('//pmid').text
-    end
-
   end
 end

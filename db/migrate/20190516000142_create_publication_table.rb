@@ -2,14 +2,7 @@ class CreatePublicationTable < ActiveRecord::Migration
 
   def change
 
-    create_table "wikidata.pub_xml_records", force: :cascade do |t|
-      t.string   "pmid"
-      t.xml      "content"
-      t.datetime "created_pub_at"
-      t.timestamps null: false
-    end
-
-    create_table 'wikidata.publications' do |t|
+    create_table 'pubmed.publications' do |t|
       t.string  'pmid'
       t.string  'issn'
       t.string  'volume'

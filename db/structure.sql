@@ -65,10 +65,10 @@ CREATE SCHEMA proj_tag_study_characteristics;
 
 
 --
--- Name: wikidata; Type: SCHEMA; Schema: -; Owner: -
+-- Name: pubmed; Type: SCHEMA; Schema: -; Owner: -
 --
 
-CREATE SCHEMA wikidata;
+CREATE SCHEMA pubmed;
 
 
 --
@@ -2435,15 +2435,6 @@ ALTER SEQUENCE lookup.publications_id_seq OWNED BY lookup.publications.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.schema_migrations (
-    version character varying NOT NULL
-);
-
-
---
 -- Name: sponsors; Type: TABLE; Schema: lookup; Owner: -
 --
 
@@ -2938,49 +2929,16 @@ ALTER SEQUENCE proj_tag_study_characteristics.tagged_terms_id_seq OWNED BY proj_
 
 
 --
--- Name: pub_xml_records; Type: TABLE; Schema: wikidata; Owner: -
+-- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
 --
 
-CREATE TABLE wikidata.pub_xml_records (
-    id integer NOT NULL,
-    pmid character varying,
-    content xml,
-    created_pub_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: wikidata; Owner: -
---
-
-CREATE SEQUENCE wikidata.pub_xml_records_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: wikidata; Owner: -
---
-
-ALTER SEQUENCE wikidata.pub_xml_records_id_seq OWNED BY wikidata.pub_xml_records.id;
-
-
---
--- Name: publications; Type: TABLE; Schema: wikidata; Owner: -
---
-
-CREATE TABLE wikidata.publications (
+CREATE TABLE pubmed.publications (
     id integer NOT NULL,
     pmid character varying,
     issn character varying,
     volume character varying,
     issue character varying,
+    iso_abbreviation character varying,
     published_in character varying,
     publication_date character varying,
     title character varying,
@@ -2990,10 +2948,10 @@ CREATE TABLE wikidata.publications (
 
 
 --
--- Name: publications_id_seq; Type: SEQUENCE; Schema: wikidata; Owner: -
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
 --
 
-CREATE SEQUENCE wikidata.publications_id_seq
+CREATE SEQUENCE pubmed.publications_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -3003,10 +2961,19 @@ CREATE SEQUENCE wikidata.publications_id_seq
 
 
 --
--- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: wikidata; Owner: -
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
 --
 
-ALTER SEQUENCE wikidata.publications_id_seq OWNED BY wikidata.publications.id;
+ALTER SEQUENCE pubmed.publications_id_seq OWNED BY pubmed.publications.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.schema_migrations (
+    version character varying NOT NULL
+);
 
 
 --
@@ -3479,17 +3446,10 @@ ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms ALTER COLUMN id SET
 
 
 --
--- Name: pub_xml_records id; Type: DEFAULT; Schema: wikidata; Owner: -
+-- Name: publications id; Type: DEFAULT; Schema: pubmed; Owner: -
 --
 
-ALTER TABLE ONLY wikidata.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('wikidata.pub_xml_records_id_seq'::regclass);
-
-
---
--- Name: publications id; Type: DEFAULT; Schema: wikidata; Owner: -
---
-
-ALTER TABLE ONLY wikidata.publications ALTER COLUMN id SET DEFAULT nextval('wikidata.publications_id_seq'::regclass);
+ALTER TABLE ONLY pubmed.publications ALTER COLUMN id SET DEFAULT nextval('pubmed.publications_id_seq'::regclass);
 
 
 --
@@ -4029,18 +3989,10 @@ ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms
 
 
 --
--- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: wikidata; Owner: -
+-- Name: publications publications_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
 --
 
-ALTER TABLE ONLY wikidata.pub_xml_records
-    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
-
-
---
--- Name: publications publications_pkey; Type: CONSTRAINT; Schema: wikidata; Owner: -
---
-
-ALTER TABLE ONLY wikidata.publications
+ALTER TABLE ONLY pubmed.publications
     ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
 
 
@@ -4892,13 +4844,6 @@ CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: lookup; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON lookup.schema_migrations USING btree (version);
-
-
---
 -- Name: index_mesh_archive.y2010_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
@@ -4987,6 +4932,13 @@ CREATE INDEX "index_mesh_archive.y2018_mesh_terms_on_mesh_term" ON mesh_archive.
 --
 
 CREATE INDEX "index_mesh_archive.y2018_mesh_terms_on_qualifier" ON mesh_archive.y2018_mesh_terms USING btree (qualifier);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON pubmed.schema_migrations USING btree (version);
 
 
 --
@@ -5481,7 +5433,7 @@ ALTER TABLE ONLY ctgov.study_references
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO lookup, wikidata, ctgov;
+SET search_path TO pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 

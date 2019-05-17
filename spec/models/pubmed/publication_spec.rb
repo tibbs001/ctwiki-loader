@@ -1,12 +1,10 @@
 require 'rails_helper'
 
-describe Wikidata::Publication do
+describe Pubmed::Publication do
   it "saves a pub xml to the pub_xml_record" do
     pmid='7906420'
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
-    xml_record=Util::Client.new.create_xml_record({:pmid => pmid, xml: xml})
-    expect(xml_record.pmid).to eq(pmid)
-    pub=Wikidata::Publication.new({xml: xml, pmid: pmid}).create
+    pub=Pubmed::Publication.new({xml: xml, pmid: pmid}).create
     expect(pub.pmid).to eq(pmid)
     expect(pub.issn).to eq('0033-2917')
     expect(pub.volume).to eq('Suppl 24')

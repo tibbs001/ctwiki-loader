@@ -1,6 +1,6 @@
-module Wikidata
+module Pubmed
   class Publication < ActiveRecord::Base
-    self.table_name = 'wikidata.publications'
+    self.table_name = 'pubmed.publications'
 
     attr_accessor :xml
 
@@ -42,7 +42,7 @@ module Wikidata
 
     def create
       ActiveRecord::Base.logger=nil
-      p=Wikidata::Publication.where('pmid=?',pmid).first
+      p=Pubmed::Publication.where('pmid=?',pmid).first
       p.try(:destroy)
       update(attribs)
       self

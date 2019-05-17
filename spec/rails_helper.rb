@@ -17,7 +17,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:active_record, { model: Wikidata::Publication }].clean_with(:truncation)
+    DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
   end
 
   config.before(:each) do |example|
@@ -25,7 +25,7 @@ RSpec.configure do |config|
     strategy = unit_test ? :transaction : :truncation
 
     DatabaseCleaner.strategy = strategy
-    DatabaseCleaner[:active_record, { model: Wikidata::Publication }].clean_with(:truncation)
+    DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
 
     #DatabaseCleaner.start
 
@@ -42,7 +42,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
-    DatabaseCleaner[:active_record, { model: Wikidata::Publication }].clean
+    DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean
   end
 
 end
