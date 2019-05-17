@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+        <PMID Version="1">16002928</PMID>
+        <DateCompleted>
+            <Year>2005</Year>
+            <Month>09</Month>
+            <Day>01</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2007</Year>
+            <Month>11</Month>
+            <Day>14</Day>
+        </DateRevised>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">0012-3692</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>128</Volume>
+                    <Issue>1</Issue>
+                    <PubDate>
+                        <Year>2005</Year>
+                        <Month>Jul</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Chest</Title>
+                <ISOAbbreviation>Chest</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Impaired respiratory and skeletal muscle strength in patients prior to hematopoietic stem-cell transplantation.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>145-52</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText Label="STUDY OBJECTIVES" NlmCategory="OBJECTIVE">The primary aim was to determine if respiratory and skeletal muscle strength and submaximal exercise capacity were reduced in subjects prior to sibling- or unrelated-donor hematopoietic stem-cell transplantation (HSCT).</AbstractText>
+                <AbstractText Label="DESIGN" NlmCategory="METHODS">Prospective observational study.</AbstractText>
+                <AbstractText Label="SETTING" NlmCategory="METHODS">Tufts-New England Medical Center, a tertiary referral center in Boston, MA.</AbstractText>
+                <AbstractText Label="PATIENTS" NlmCategory="METHODS">All patients (n = 56) undergoing either sibling- or unrelated-donor HSCT from January 1, 2002, to December 31, 2002.</AbstractText>
+                <AbstractText Label="MEASUREMENTS" NlmCategory="METHODS">Demographic data, chemotherapy burden, pulmonary function tests (PFTs), maximal inspiratory muscle strength (PImax), maximal expiratory muscle strength (PEmax), dominant hand grip strength (GS), 6-min walk test (6MWT), and survival as of May 21, 2004.</AbstractText>
+                <AbstractText Label="RESULTS" NlmCategory="RESULTS">PImax was reduced to &lt; 80% predicted in 42% of subjects and to &lt; 60% predicted in 18% of subjects. PEmax was reduced to &lt; 80% predicted in 89% of subjects and to &lt; 60% of predicted in 80% of subjects. A significant correlation was observed between PImax and PEmax (r = 0.65, p &lt; 0.0001). GS was reduced to &lt; 80% predicted in 39% of subjects and &lt; 60% predicted in 15% of subjects. The 6MWT was reduced to &lt; 80% predicted in 58% of subjects and to &lt; 60% predicted in 9.6% of subjects. Diffusing capacity of the lung for carbon monoxide (Dlco) was the only PFT that was significantly correlated with 6MWT distance (r = 0.44, p = 0.015). The mean calculated load of chemotherapy was 14.8 +/- 16.5 U (+/- SD). The mean time elapsed from date of hematologic diagnosis to date of HSCT was 874 +/- 1,109 days. The median survival of the cohort was 374 days (95% confidence interval, 177 to 665 days). Respiratory or skeletal muscle strength, 6MWT distance, or calculated burden of chemotherapy did not predict survival.</AbstractText>
+                <AbstractText Label="CONCLUSIONS" NlmCategory="CONCLUSIONS">Respiratory and skeletal muscle strength and submaximal exercise capacity are reduced in a significant percentage of patients prior to undergoing HSCT. These observations may help explain musculoskeletal weakness that has been reported in the posttransplant period.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>White</LastName>
+                    <ForeName>Alexander C</ForeName>
+                    <Initials>AC</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Pulmonary, Critical Care and Sleep Division, New England Medical Center, NEMC #369, 750 Washington St, Boston, MA 02111, USA. Awhite1@Tufts-NEMC.org</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Terrin</LastName>
+                    <ForeName>Norma</ForeName>
+                    <Initials>N</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Miller</LastName>
+                    <ForeName>Kenneth B</ForeName>
+                    <Initials>KB</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ryan</LastName>
+                    <ForeName>Helen F</ForeName>
+                    <Initials>HF</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <GrantList CompleteYN="Y">
+                <Grant>
+                    <GrantID>K23 HL 04411</GrantID>
+                    <Acronym>HL</Acronym>
+                    <Agency>NHLBI NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+            </GrantList>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+                <PublicationType UI="D052061">Research Support, N.I.H., Extramural</PublicationType>
+                <PublicationType UI="D013487">Research Support, U.S. Gov't, P.H.S.</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Chest</MedlineTA>
+            <NlmUniqueID>0231335</NlmUniqueID>
+            <ISSNLinking>0012-3692</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>AIM</CitationSubset>
+        <CitationSubset>IM</CitationSubset>
+        <CommentsCorrectionsList>
+            <CommentsCorrections RefType="CommentIn">
+                <RefSource>Chest. 2005 Jul;128(1):8-10</RefSource>
+                <PMID Version="1">16002906</PMID>
+            </CommentsCorrections>
+        </CommentsCorrectionsList>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName UI="D000328" MajorTopicYN="N">Adult</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005080" MajorTopicYN="N">Exercise Test</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D017079" MajorTopicYN="Y">Exercise Tolerance</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005260" MajorTopicYN="N">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D018380" MajorTopicYN="Y">Hematopoietic Stem Cell Transplantation</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006801" MajorTopicYN="N">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008297" MajorTopicYN="N">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D018908" MajorTopicYN="N">Muscle Weakness</DescriptorName>
+                <QualifierName UI="Q000175" MajorTopicYN="Y">diagnosis</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D018482" MajorTopicYN="N">Muscle, Skeletal</DescriptorName>
+                <QualifierName UI="Q000502" MajorTopicYN="Y">physiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D011446" MajorTopicYN="N">Prospective Studies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D012044" MajorTopicYN="N">Regression Analysis</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D012129" MajorTopicYN="Y">Respiratory Function Tests</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D016019" MajorTopicYN="N">Survival Analysis</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2005</Year>
+                <Month>7</Month>
+                <Day>9</Day>
+                <Hour>9</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2005</Year>
+                <Month>9</Month>
+                <Day>2</Day>
+                <Hour>9</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2005</Year>
+                <Month>7</Month>
+                <Day>9</Day>
+                <Hour>9</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">16002928</ArticleId>
+            <ArticleId IdType="pii">S0012-3692(15)37939-3</ArticleId>
+            <ArticleId IdType="doi">10.1378/chest.128.1.145</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>
