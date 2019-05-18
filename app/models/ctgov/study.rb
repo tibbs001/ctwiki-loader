@@ -11,26 +11,6 @@ class Study < ActiveRecord::Base
 
   attr_accessor :xml, :with_related_records, :with_related_organizations
 
-  def phase_for_wikidata
-    #TODO
-  end
-
-  def as_indexed_json(options = {})
-    self.as_json({
-      only: [:nct_id, :acronym, :brief_title, :overall_status, :phase, :start_date, :primary_completion_date],
-      include: {
-        browse_conditions: { only: :mesh_term },
-        browse_interventions: { only: :mesh_term },
-        keywords: { only: :name },
-        sponsors: { only: :name },
-      }
-    })
-  end
-
-  def self.current_interventional
-    self.interventional and self.current
-  end
-
   scope :started_between, lambda {|sdate, edate| where("start_date >= ? AND created_at <= ?", sdate, edate )}
   scope :changed_since,   lambda {|cdate| where("last_changed_date >= ?", cdate )}
   scope :completed_since, lambda {|cdate| where("completion_date >= ?", cdate )}
@@ -82,45 +62,56 @@ class Study < ActiveRecord::Base
   has_many :result_contacts,       :foreign_key => 'nct_id', :dependent => :delete_all
   has_many :result_groups,         :foreign_key => 'nct_id', :dependent => :delete_all
   has_many :sponsors,              :foreign_key => 'nct_id', :dependent => :delete_all
-  accepts_nested_attributes_for :outcomes
 
-  def initialize(hash)
-    super
-    @xml=hash[:xml]
-    self.nct_id=hash[:nct_id]
+  def self.all_ids
+    all.pluck(:nct_id)
   end
 
-  def self.all_nctids
-    all.collect{|s|s.nct_id}
+  def quickstatement_for(prop_code, prefix)
+    case prop_code
+      when 'Len'
+        return "#{prefix}\"#{brief_title[0..244]}\""   # Label
+      when 'Den'
+        return "#{prefix}\"clinical trial\""     # Description
+      when 'P31'
+        return "#{prefix}Q30612"   # instance of a clinical trial
+      when 'P3098'  # NCT ID
+        return "#{prefix}\"#{nct_id}\""
+      when 'P1476'  # title
+        return "#{prefix}en:\"#{official_title}\"" if official_title
+      when 'P1813'  # acronym
+        return "#{prefix}en:\"#{acronym}\"" if acronym
+      when 'P1132'  # number of participants
+        return "#{prefix}#{enrollment}" if enrollment
+      when 'P6099'  # source_entity phase
+        return nil if phase.blank?
+        return_str=''
+        return_str << "#{prefix}Q42824069" if phase.include? '1'
+        return_str << "#{prefix}Q42824440" if phase.include? '2'
+        return_str << "#{prefix}Q42824827" if phase.include? '3'
+        return_str << "#{prefix}Q42825046" if phase.include? '4'
+        return return_str
+      when 'P580'   # start date
+        return "#{prefix}+#{quickstatement_date(start_date, start_month_year)}" if start_date
+      when 'P582'   # primary completion date
+        return "#{prefix}+#{quickstatement_date(primary_completion_date, primary_completion_month_year)}" if primary_completion_date
+    else
+      puts "unknown property:  #{prop_code}"
+    end
   end
 
-  def summary
-    brief_summary.description
+  def quickstatement_date(dt, dt_str)
+    # TODO Refine date so it has month precision when the day isn't provided
+    # TODO Add qualifiers for Anticipated vs Actual
+    #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
+    if dt_str.count(' ') == 1  # if only one space in the date string, it must not have a day, so set to month precision.
+      "#{dt}T00:00:00Z/10"
+    else
+      "#{dt}T00:00:00Z/11"
+    end
   end
 
-  def sampling_method
-    eligibility.sampling_method
-  end
-
-  def study_population
-    eligibility.study_population
-  end
-
-  def healthy_volunteers?
-    eligibility.healthy_volunteers
-  end
-
-  def minimum_age
-    eligibility.minimum_age
-  end
-
-  def maximum_age
-    eligibility.maximum_age
-  end
-
-  def age_range
-    "#{minimum_age} - #{maximum_age}"
-  end
+  #  convenience methods
 
   def study_references
     references.select{|r|r.type!='results_reference'}
@@ -130,78 +121,24 @@ class Study < ActiveRecord::Base
     references.select{|r|r.type=='results_reference'}
   end
 
-
-  def lead_sponsors
-    sponsors.where(lead_or_collaborator: 'lead') if !sponsors.empty?
+  def active_countries
+    self.countries.select{ |c| c.removed != true }
   end
 
   def collaborators
     sponsors.where(lead_or_collaborator: 'collaborator')
   end
 
-  def lead_sponsor_names
-    lead_sponsors.select{|s|s.name}
+  def lead_sponsors
+    sponsors.where(lead_or_collaborator: 'lead') if !sponsors.empty?
   end
 
-  def number_of_sites
-    facilities.size
+  def minimum_age
+    eligibility.minimum_age
   end
 
-  def pi
-    val=''
-    responsible_parties.each{|r|val=r.investigator_full_name if r.responsible_party_type=='Principal Investigator'}
-    val
-  end
-
-  def status
-    overall_status
-  end
-
-  def name
-    brief_title
-  end
-
-  def outcome_analyses
-    OutcomeAnalysis.where('nct_id=?',nct_id)
-  end
-
-  def outcome_measurements
-    OutcomeMeasurement.where('nct_id=?',nct_id)
-  end
-
-  def outcome_counts
-    OutcomeCount.where('nct_id=?',nct_id)
-  end
-
-  def intervention_names
-    interventions.collect{|x|x.name}.join(', ')
-  end
-
-  def condition_names
-    conditions.collect{|x|x.name}.join(', ')
-  end
-
-  def prime_address
-    #  This isn't real.  Just proof of concept.
-    return facilities.first.address if facilities.size > 0
-    return lead_sponsor.agency
-  end
-
-  def lead_sponsor_name
-    lead_sponsors.first.try(:name)
-  end
-
-  def active_countries
-    self.countries.select{ |c| c.removed != true }
-  end
-
-  def self.with_organization(user_provided_org)
-    org=make_queriable(user_provided_org)
-    ids=(ResponsibleParty.where('organization like ?',"%#{org}%").pluck(:nct_id) \
-      + OverallOfficial.where('affiliation like ?',"%#{org}%").pluck(:nct_id) \
-      + Facility.where('name like ?',"%#{org}%").pluck(:nct_id) \
-      + where('source like ?',"%#{org}%").pluck(:nct_id)).flatten.uniq
-    where(nct_id: ids).includes(:sponsors).includes(:facilities).includes(:brief_summary).includes(:detailed_description).includes(:design).includes(:eligibility).includes(:overall_officials).includes(:responsible_parties)
+  def maximum_age
+    eligibility.maximum_age
   end
 end
 
