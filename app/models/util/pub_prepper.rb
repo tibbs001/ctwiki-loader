@@ -9,7 +9,11 @@ module Util
       @wikidata_ids=@mgr.wikidata_pub_ids
     end
 
-    def self.data_source
+    def self.source_model_name
+      Pubmed::Publication
+    end
+
+    def source_model_name
       Pubmed::Publication
     end
 

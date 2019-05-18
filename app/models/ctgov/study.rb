@@ -83,7 +83,7 @@ class Study < ActiveRecord::Base
         return "#{prefix}en:\"#{acronym}\"" if acronym
       when 'P1132'  # number of participants
         return "#{prefix}#{enrollment}" if enrollment
-      when 'P6099'  # source_entity phase
+      when 'P6099'  # source_obj phase
         return nil if phase.blank?
         return_str=''
         return_str << "#{prefix}Q42824069" if phase.include? '1'
