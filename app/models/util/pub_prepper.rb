@@ -61,6 +61,29 @@ module Util
       f.close
     end
 
+    def pubmed_quickstatements
+      return_str = ''
+      File.open("public/add_publication_links.tmp", "w+") do |f|
+        wikidata_nct_ids= @wikidata_study_ids.keys
+        study_refs=Ctgov::StudyReference.where("reference_type='results_reference'")
+        study_refs.each{|sr|
+          if wikidata_nct_ids.include? sr.nct_id
+            pub_qcode = Lookup::Publication.qcode_for(sr.pmid)
+            if !pub_qcode.blank?
+              study_qcode=@wikidata_study_ids[sr.nct_id]
+              # Link pub to study
+              return_str << "#{new_line}#{pub_qcode}#{tab}P921#{tab}#{study_qcode}"
+              # Link study to pub
+              return_str << "#{new_line}#{study_qcode}#{tab}P248#{tab}#{pub_qcode}"
+              # provide reference to NCBI URL
+              return_str << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{sr.url}\"" if !sr.url.blank?
+            end
+          end
+        }
+      end
+      return return_str
+    end
+
     def retrieve_xml_from_pubmed
       pmids=Ctgov::StudyReference.where("reference_type='results_reference'").pluck(:pmid).compact
       pmids.each {|pmid| client.create_pub_xml_record(pmid, client.get_xml_for(pmid)) }
