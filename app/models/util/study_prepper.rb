@@ -3,7 +3,7 @@ module Util
 
     def initialize(args={})
       super
-      @mgr = Util::WikiDataManager2.new
+      @mgr = Util::WikiDataManager.new
       @wikidata_ids=@mgr.wikidata_study_ids
     end
 

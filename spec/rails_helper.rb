@@ -15,16 +15,12 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
-  end
-
   config.before(:each) do |example|
     unit_test = ![:feature, :request].include?(example.metadata[:type])
     strategy = unit_test ? :transaction : :truncation
     allow_any_instance_of(Util::StudyPrepper).to receive(:wikidata_ids).and_return([])
     allow_any_instance_of(Util::PubPrepper).to receive(:wikidata_ids).and_return([])
+    allow(Util::Prepper).to receive(:sleep).and_return(nil)
 
     DatabaseCleaner.strategy = strategy
     DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
@@ -32,14 +28,14 @@ RSpec.configure do |config|
     #DatabaseCleaner.start
 
     # ensure app user logged into db connections
-    ActiveRecord::Base.establish_connection(
-      adapter: 'postgresql',
-      encoding: 'utf8',
-      hostname: ENV['WIKI_PUBLIC_HOSTNAME'],
-      database: ENV['WIKI_DATABASE_NAME'],
-      username: ENV['WIKI_DB_SUPER_USERNAME'])
-    @dbconfig = YAML.load(File.read('config/database.yml'))
-    ActiveRecord::Base.establish_connection @dbconfig[:test]
+    #ActiveRecord::Base.establish_connection(
+    #  adapter: 'postgresql',
+    #  encoding: 'utf8',
+    #  hostname: ENV['WIKI_PUBLIC_HOSTNAME'],
+    #  database: ENV['WIKI_DATABASE_NAME'],
+    #  username: ENV['WIKI_DB_SUPER_USERNAME'])
+    #@dbconfig = YAML.load(File.read('config/database.yml'))
+    #ActiveRecord::Base.establish_connection @dbconfig[:test]
   end
 
   config.after(:each) do

@@ -5,16 +5,6 @@ module Util
   class WikiDataManager
     attr_accessor :property_mgr
 
-    def initialize
-      @property_mgr = Util::PropertyManager.new
-    end
-
-    def aact_values_for_property(nct_id, property_code)
-      study=Study.where('nct_id=?',nct_id).first
-      return [] if !study
-      property_mgr.aact_values_for_property(study, property_code)
-    end
-
     def wiki_api_call(search_string, search_strings_tried, delimiter=nil)
       if !search_strings_tried.include?(search_string)
         search_strings_tried << search_string
