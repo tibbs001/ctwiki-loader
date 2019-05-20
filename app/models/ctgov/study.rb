@@ -85,14 +85,6 @@ module Ctgov
     def create_all_quickstatements(f)
       f << 'CREATE'
       prop_codes.each{ |prop_code| f << quickstatement_for(prop_code) }
-      f << keyword_quickstatements
-      f << country_quickstatements
-      #f << facility_quickstatements
-      #f << design_quickstatements
-      f << intervention_quickstatements
-      f << pubmed_quickstatements
-      f << sponsor_quickstatements
-      f << collaborator_quickstatements
       f << " #{new_line}#{new_line}"
     end
 
@@ -116,15 +108,22 @@ module Ctgov
     def prop_codes
       ['Len',    # label
        'Den',    # description
+       'P17',    # countries
        'P31',    # instance of
-       'P3098',  # nct id
-       'P1476',  # title
-       'P1813',  # acronym
+       'P248',   # publications
        'P580',   # start date
        'P582',   # primary completion date
+       'P767',   # collaborators
+       'P859',   # sponsors
+       'P921',   # keywords
+       'P1050',  # conditions
        'P1132',  # number of participants
+       'P1476',  # title
+       'P1813',  # acronym
+       'P2899',  # min/max age
+       'P3098',  # nct id
+       'P4844',  # interventions
        'P6099',  # phase
-       'P2899'   # min/max age
       ]
     end
 
@@ -135,16 +134,36 @@ module Ctgov
           return "#{reg_prefix}\"#{brief_title[0..244]}\""   # Label
         when 'Den'
           return "#{reg_prefix}\"clinical trial\""     # Description
-        when 'P31'
+        when 'P17'    # country
+          return country_quickstatements
+        when 'P31'    # instance of
           return "#{reg_prefix}Q30612"   # instance of a clinical trial
-        when 'P3098'  # NCT ID
-          return "#{reg_prefix}\"#{nct_id}\""
+        when 'P248'   # publications
+          return pubmed_quickstatements
+        when 'P580'   # start date
+          return "#{reg_prefix}+#{quickstatement_date(start_date, start_month_year)}" if start_date
+        when 'P582'   # primary completion date
+          return "#{reg_prefix}+#{quickstatement_date(primary_completion_date, primary_completion_month_year)}" if primary_completion_date
+        when 'P767'   # collaborators
+          return collaborator_quickstatements
+        when 'P859'   # sponsors
+          return sponsor_quickstatements
+        when 'P921'   # keywords
+          return keyword_quickstatements
+        when 'P1050'   # conditions
+          return condition_quickstatements
+        when 'P1132'  # number of participants
+          return "#{reg_prefix}#{enrollment}" if enrollment
         when 'P1476'  # title
           return "#{reg_prefix}en:\"#{official_title}\"" if official_title
         when 'P1813'  # acronym
           return "#{reg_prefix}en:\"#{acronym}\"" if acronym
-        when 'P1132'  # number of participants
-          return "#{reg_prefix}#{enrollment}" if enrollment
+        when 'P2899'   # min/max age
+          return min_max_age_quickstatements
+        when 'P3098'  # NCT ID
+          return "#{reg_prefix}\"#{nct_id}\""
+        when 'P4844'   # interventions
+          return intervention_quickstatements
         when 'P6099'  # phase
           return nil if phase.blank?
           return_str=''
@@ -153,14 +172,6 @@ module Ctgov
           return_str << "#{reg_prefix}Q42824827" if phase.include? '3'
           return_str << "#{reg_prefix}Q42825046" if phase.include? '4'
           return return_str
-        when 'P580'   # start date
-          return "#{reg_prefix}+#{quickstatement_date(start_date, start_month_year)}" if start_date
-        when 'P582'   # primary completion date
-          return "#{reg_prefix}+#{quickstatement_date(primary_completion_date, primary_completion_month_year)}" if primary_completion_date
-        when 'P2899'   # min/max age
-          return min_max_age_quickstatements
-        when 'P1050'   # min/max age
-          return condition_quickstatements
       else
         puts "unknown property:  #{prop_code}"
       end
@@ -253,7 +264,7 @@ module Ctgov
         # Link study to pub
         return_str << "#{prefix}P248#{tab}#{pub_qcode}"
         # provide reference to NCBI URL
-        return_str << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{sr.url}\"" if !sr.url.blank?
+        return_str << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
       }
       return return_str
     end
@@ -284,7 +295,7 @@ module Ctgov
     end
 
     def condition_quickstatements
-      reg_prefix="#{prefix}#{prop_code}#{tab}"
+      reg_prefix="#{prefix}P1050#{tab}"
       assigned_qcodes=[]
       return_str = ''
       conditions = browse_conditions.pluck(:downcase_mesh_term).uniq
