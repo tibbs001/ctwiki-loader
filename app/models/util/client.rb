@@ -10,7 +10,7 @@ module Util
         url="#{BASE_URL}&id=#{pmid}"
         puts url
         xml=Nokogiri::XML(Faraday.get(url).body)
-        sleep(10.seconds)
+        sleep(2.seconds)
         return xml
       rescue => e
         #  have been encountering timeout errors.  If encountered, try again
