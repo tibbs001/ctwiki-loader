@@ -34,6 +34,7 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'first_name'
       t.string  'initials'
       t.string  'name'
+      t.string  'affiliation'
     end
 
     create_table 'pubmed.types' do |t|

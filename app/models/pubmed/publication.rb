@@ -4,7 +4,10 @@ module Pubmed
 
     attr_accessor :xml
 
+    has_many :authors,   :foreign_key => 'pmid', :dependent => :delete_all
+    has_many :grants,    :foreign_key => 'pmid', :dependent => :delete_all
     has_many :other_ids, :foreign_key => 'pmid', :dependent => :delete_all
+    has_many :types,     :foreign_key => 'pmid', :dependent => :delete_all
 
     def initialize(hash={})
       super
@@ -30,7 +33,10 @@ module Pubmed
       p.try(:destroy)
       update(attribs)
       args={:pmid => pmid, :xml => xml}
-      self.other_ids=Pubmed::OtherId.create_all_from(args)
+      self.authors   = Pubmed::Author.create_all_from(args)
+      self.grants    = Pubmed::Grant.create_all_from(args)
+      self.other_ids = Pubmed::OtherId.create_all_from(args)
+      self.types     = Pubmed::Type.create_all_from(args)
       self
     end
 
