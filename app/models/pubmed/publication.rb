@@ -4,6 +4,8 @@ module Pubmed
 
     attr_accessor :xml
 
+    has_many :other_ids, :foreign_key => 'pmid', :dependent => :delete_all
+
     def initialize(hash={})
       super
       @xml = hash[:xml]
@@ -22,29 +24,13 @@ module Pubmed
       }
     end
 
-    def self.sample_pmids
-       ['20025029',
-       '19648180',
-       '17923590',
-       '30325889',
-       '16188811',
-       '26473001',
-       '26874298',
-       '16989935',
-       '18492509',
-       '11900034',
-       '30538976',
-       '29895572',
-       '15036740',
-       '20483522',
-       '30262463']
-    end
-
     def create
       ActiveRecord::Base.logger=nil
       p=Pubmed::Publication.where('pmid=?',pmid).first
       p.try(:destroy)
       update(attribs)
+      args={:pmid => pmid, :xml => xml}
+      self.other_ids=Pubmed::OtherId.create_all_from(args)
       self
     end
 
@@ -62,8 +48,26 @@ module Pubmed
     end
 
     def get(label)
-      value=(xml.xpath('//Article').xpath("//#{label}").text).strip
+      value=(xml.xpath('//PubmedArticle').xpath("//#{label}").text).strip
       value=='' ? nil : value
+    end
+
+    def self.sample_pmids
+       ['20025029',
+       '19648180',
+       '17923590',
+       '30325889',
+       '16188811',
+       '26473001',
+       '26874298',
+       '16989935',
+       '18492509',
+       '11900034',
+       '30538976',
+       '29895572',
+       '15036740',
+       '20483522',
+       '30262463']
     end
 
   end

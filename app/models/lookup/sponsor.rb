@@ -87,7 +87,7 @@ module Lookup
     end
 
     def self.names_to_ignore
-      [        'argos'                         ,  # 'q4789707 british retail company
+      [ 'argos'                         ,  # 'q4789707 british retail company
         'baronova, inc.'                ,  # 'q2467415 ballerina
         'brendan lee'                   ,  # 'q4960963 australian rules footballer
         'brian walters'                 ,  # 'q4965569 australian politician
