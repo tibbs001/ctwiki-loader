@@ -38,6 +38,34 @@ describe Util::StudyPrepper do
            }).
          to_return(status: 200, body: [], headers: {})
 
+    Lookup::Sponsor.destroy_all
+    Lookup::Country.destroy_all
+    Lookup::Intervention.destroy_all
+    Lookup::Keyword.destroy_all
+    Lookup::Sponsor.new({:qcode=>'Q3519875',
+                         :name=>'National Institute of Allergy and Infectious Diseases (NIAID)',
+                         :downcase_name=>'national institute of allergy and infectious diseases (niaid)'}).save!
+    Lookup::Sponsor.new({:qcode=>'Q664846',
+                         :name=>'National Cancer Institute (NCI)',
+                         :downcase_name=>'national cancer institute (nci)'}).save!
+    Lookup::Sponsor.new({:qcode=>'Q1967405',
+                         :name=>'National Institute of Mental Health (NIMH)',
+                         :downcase_name=>'national institute of mental health (nimh)'}).save!
+    Lookup::Country.new({:qcode=>'Q30',
+                         :name=>'United States',
+                         :downcase_name=>'united states'}).save!
+    Lookup::Intervention.new({:qcode=>'Q56953162',
+                         :name=>'Anti-Retroviral Agents',
+                         :downcase_name=>'anti-retroviral agents'}).save!
+    Lookup::Keyword.new({:qcode=>'Q34731367',
+                         :name=>'Viral Suppression',
+                         :downcase_name=>'viral suppression'}).save!
+    Lookup::Keyword.new({:qcode=>'Q15787',
+                         :name=>'Immunodeficiency',
+                         :downcase_name=>'immunodeficiency'}).save!
+
+    #Lookup::Organization.populate_predefined_qcode
+
     # data source method should return a Study-type that answers to nct_id.  Would raise an error if no nct_id
     Util::StudyPrepper.run
     quickstatement_file_name=Rails.root.join("public/0_quickstatements.txt")
@@ -48,6 +76,7 @@ describe Util::StudyPrepper do
     expect(content).to include("NCT00055575")
     expect(content).to include("NCT00011414")
     expect(content.scan(/(?=CREATE)/).count).to eq(3)
+    #expect(content).to include('Q3519875')
   end
 
   def populate_studies_db
