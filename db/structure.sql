@@ -2938,7 +2938,8 @@ CREATE TABLE pubmed.authors (
     last_name character varying,
     first_name character varying,
     initials character varying,
-    name character varying
+    name character varying,
+    affiliation character varying
 );
 
 
@@ -2960,6 +2961,39 @@ CREATE SEQUENCE pubmed.authors_id_seq
 --
 
 ALTER SEQUENCE pubmed.authors_id_seq OWNED BY pubmed.authors.id;
+
+
+--
+-- Name: chemicals; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.chemicals (
+    id integer NOT NULL,
+    pmid character varying,
+    registry_number character varying,
+    ui character varying,
+    name character varying
+);
+
+
+--
+-- Name: chemicals_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.chemicals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: chemicals_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.chemicals_id_seq OWNED BY pubmed.chemicals.id;
 
 
 --
@@ -3004,8 +3038,11 @@ CREATE TABLE pubmed.mesh_terms (
     id integer NOT NULL,
     pmid character varying,
     ui character varying,
-    mesh_term character varying,
-    major_topic boolean
+    name character varying,
+    major_topic boolean,
+    qualifier_name character varying,
+    qualifier_ui character varying,
+    qualifier_major_topic character varying
 );
 
 
@@ -3076,9 +3113,14 @@ CREATE TABLE pubmed.publications (
     completion_date date,
     revision_date date,
     publication_date date,
+    publication_date_str character varying,
+    publication_year integer,
+    publication_month integer,
+    publication_day integer,
     title character varying,
     pagination character varying,
     abstract character varying,
+    country character varying,
     language character varying,
     medline_ta character varying,
     nlm_unique_id character varying,
@@ -3621,6 +3663,13 @@ ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms ALTER COLUMN id SET
 --
 
 ALTER TABLE ONLY pubmed.authors ALTER COLUMN id SET DEFAULT nextval('pubmed.authors_id_seq'::regclass);
+
+
+--
+-- Name: chemicals id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.chemicals ALTER COLUMN id SET DEFAULT nextval('pubmed.chemicals_id_seq'::regclass);
 
 
 --
@@ -4200,6 +4249,14 @@ ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms
 
 ALTER TABLE ONLY pubmed.authors
     ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chemicals chemicals_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.chemicals
+    ADD CONSTRAINT chemicals_pkey PRIMARY KEY (id);
 
 
 --
