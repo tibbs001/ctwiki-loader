@@ -21,6 +21,7 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'pagination'
       t.string  'abstract'
       t.string  'country'
+      t.string  'country_qcode'
       t.string  'language'
       t.string  'medline_ta'
       t.string  'nlm_unique_id'
@@ -61,6 +62,7 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'acronym'
       t.string  'agency'
       t.string  'country'
+      t.string  'country_qcode'
     end
 
     create_table 'pubmed.mesh_terms' do |t|

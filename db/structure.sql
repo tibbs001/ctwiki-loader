@@ -3006,7 +3006,8 @@ CREATE TABLE pubmed.grants (
     grant_id character varying,
     acronym character varying,
     agency character varying,
-    country character varying
+    country character varying,
+    country_qcode character varying
 );
 
 
@@ -3099,6 +3100,40 @@ ALTER SEQUENCE pubmed.other_ids_id_seq OWNED BY pubmed.other_ids.id;
 
 
 --
+-- Name: pub_xml_records; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.pub_xml_records (
+    id integer NOT NULL,
+    pmid character varying,
+    content xml,
+    created_pub_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.pub_xml_records_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.pub_xml_records_id_seq OWNED BY pubmed.pub_xml_records.id;
+
+
+--
 -- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
 --
 
@@ -3121,6 +3156,7 @@ CREATE TABLE pubmed.publications (
     pagination character varying,
     abstract character varying,
     country character varying,
+    country_qcode character varying,
     language character varying,
     medline_ta character varying,
     nlm_unique_id character varying,
@@ -3691,6 +3727,13 @@ ALTER TABLE ONLY pubmed.mesh_terms ALTER COLUMN id SET DEFAULT nextval('pubmed.m
 --
 
 ALTER TABLE ONLY pubmed.other_ids ALTER COLUMN id SET DEFAULT nextval('pubmed.other_ids_id_seq'::regclass);
+
+
+--
+-- Name: pub_xml_records id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('pubmed.pub_xml_records_id_seq'::regclass);
 
 
 --
@@ -4281,6 +4324,14 @@ ALTER TABLE ONLY pubmed.mesh_terms
 
 ALTER TABLE ONLY pubmed.other_ids
     ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.pub_xml_records
+    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -5747,4 +5798,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181230000144');
 INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 
 INSERT INTO schema_migrations (version) VALUES ('20190516000142');
+
+INSERT INTO schema_migrations (version) VALUES ('20190526000642');
 

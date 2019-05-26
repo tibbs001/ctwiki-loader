@@ -2,7 +2,7 @@ module Pubmed
   class Publication < ActiveRecord::Base
     self.table_name = 'pubmed.publications'
 
-    attr_accessor :xml
+    attr_accessor :xml, :lookup_mgr
 
     has_many :authors,    :foreign_key => 'pmid', :dependent => :delete_all
     has_many :chemicals,  :foreign_key => 'pmid', :dependent => :delete_all
@@ -11,28 +11,18 @@ module Pubmed
     has_many :other_ids,  :foreign_key => 'pmid', :dependent => :delete_all
     has_many :types,      :foreign_key => 'pmid', :dependent => :delete_all
 
-    def initialize(hash={})
+    def self.initialize(hash={})
+      puts "in pubmed::publication.initializer"
       super
-      @xml = hash[:xml]
+      @xml = Nokogiri::XML(hash[:xml]).css("PubmedArticle").to_xml
+      @lookup_mgr = hash[:lookup_mgr]
       self.pmid = hash[:pmid]
-    end
-
-    def self.populate
-      #pmids=Ctgov::StudyReference.where("reference_type='results_reference'").pluck(:pmid).compact
-      sample_pmids.each {|pmid|
-        not_loaded = (where('pmid=?',pmid).first) == nil
-        not_in_wikidata = (Lookup::Publication.where('pmid=?',pmid).first) == nil
-        if not_loaded and not_in_wikidata
-          xml=Util::Client.new.get_xml_for(pmid)
-          new({xml: xml, pmid: pmid}).create
-        end
-      }
     end
 
     def create
       ActiveRecord::Base.logger=nil
-      p=Pubmed::Publication.where('pmid=?',pmid).first
-      p.try(:destroy)
+      existing=Pubmed::Publication.where('pmid=?',self.pmid).first
+      existing.try(:destroy)
       update(attribs)
       args={:pmid => pmid, :xml => xml}
       self.authors    = Pubmed::Author.create_all_from(args)
@@ -46,6 +36,7 @@ module Pubmed
 
     def attribs
       date_info = get_date_info('//PubDate')
+      country_info = get_country_info
       {
         :issn                  => get('ISSN'),
         :volume                => get('Volume'),
@@ -58,10 +49,21 @@ module Pubmed
         :publication_date      => (date_info[:full_date] if date_info[:full_date]),
         :publication_date_str  => (date_info[:date_str]  if date_info[:date_str]),
         :title                 => get('ArticleTitle'),
-        :country               => get('MedlineJournalInfo','Country'),
+        :country               => (country_info[:name]   if country_info[:name]),
+        :country_qcode         => (country_info[:qcode]  if country_info[:qcode]),
         :pagination            => get('MedlinePgn'),
         :abstract              => get('AbstractText'),
       }
+    end
+
+    def get_country_info
+      info={}
+      name = get('MedlineJournalInfo','Country')
+      if !name.blank?
+        info[:name]  = name
+        info[:qcode] = @lookup_mgr.countries[name]
+      end
+      return info
     end
 
     def get_date_info(label)
