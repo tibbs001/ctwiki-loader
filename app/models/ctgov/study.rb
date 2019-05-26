@@ -101,7 +101,6 @@ module Ctgov
       @delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if @delimiters.blank?
       #@delimiters = {:new_line=>'
   #', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if @delimiters.blank?
-      puts @delimiters
       return self
     end
 
@@ -207,13 +206,14 @@ module Ctgov
     def country_quickstatements
       return_str = ''
       assigned_qcodes=[]
+      puts "================ active countries:  #{active_countries.count}"
       active_countries.each{ |country|
         qcode = Lookup::Country.qcode_for(country.name)
-        if !qcode.blank? and !assigned_qcodes.include?(qcode)
-          return_str << "#{new_line}#{subject}#{tab}P17#{tab}#{qcode}" if !qcode.blank?
-          assigned_qcodes << qcode
-        end
+        puts "====================   number of rows in Lookup::Country:  #{Lookup::Country.count}"
+        puts "====================   #{country.name}   #{qcode}"
+        assigned_qcodes << qcode
       }
+      puts "================ return_str :  #{return_str}"
       return return_str
     end
 
