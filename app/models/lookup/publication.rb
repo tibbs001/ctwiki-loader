@@ -14,24 +14,18 @@ module Lookup
       new.populate
     end
 
-    def self.xxxxxxxqcode_for(pmid)
-      return if pmid.nil?
-      results = Lookup::Publication.where('qcode is not null and pmid = ?',pmid)
-      return results.first.qcode if results.size > 0
-    end
-
     def populate
       mgr = Util::WikiDataManager.new
       existing_qcodes = Lookup::Publication.where('qcode is not null')
       study_ref_ids_yet_to_load.each {|val|
-        ref = StudyReference.find(val['id'])
+        ref = Ctgov::StudyReference.find(val['id'])
         qcode = mgr.get_qcode_for_pmid(ref.pmid)
         unless existing_qcodes.include? qcode
           begin
             Lookup::Publication.new(
               :qcode         => qcode,
-              :name          => ref.study.name,
-              :downcase_name => name.try(:downcase),
+              :name          => ref.citation,
+              :downcase_name => ref.citation.try(:downcase),
               :pmid          => ref.pmid,
             ).save!
           rescue => error
