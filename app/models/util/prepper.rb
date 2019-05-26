@@ -4,6 +4,7 @@ module Util
     attr_accessor :f, :mgr, :start_num, :end_num, :batch_of_ids, :batch_size, :wikidata_ids, :loaded_ids
 
     def initialize(args={})
+      #  Util::StudyPrepper.new({:start_num=>'78000'}).run
       @batch_size = args[:batch_size] || 1000
       @start_num = args[:start_num].to_i || 1
     end
