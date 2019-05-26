@@ -8,7 +8,7 @@ module Lookup
     end
 
     def populate
-      add_row_for_us
+      add_other_rows
       wikidata_entities.each{|entity|
         begin
           qcode= entity.item.value.chomp.split('/').last
@@ -26,8 +26,9 @@ module Lookup
       }
     end
 
-    def add_row_for_us
+    def add_other_rows
       Lookup::Country.new( :qcode=>'Q30',:name=>'United States',:downcase_name=>'united states',:iso2=>'US',:osm_relid=>'148838').save!
+      Lookup::Country.new( :qcode=>'Q145',:name=>'England',:downcase_name=>'england',:iso2=>'GB',:osm_relid=>'62149').save!
     end
 
     def wikidata_entities
