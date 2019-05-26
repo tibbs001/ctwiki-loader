@@ -1,12 +1,16 @@
 module Util
   class PubPrepper < Util::Prepper
 
-    attr_reader :client
+    attr_reader :client, :country_lookup
 
     def initialize
       super
       @client = Util::Client.new
-      @wikidata_ids=@mgr.wikidata_pub_ids
+      @wikidata_ids = @mgr.wikidata_pub_ids
+      @country_lookup={}
+      Lookup::Country.all.pluck(:downcase_name, :qcode).each {|c|
+        @country_lookup[c.first] = c.last
+      }
     end
 
     def self.source_model_name
