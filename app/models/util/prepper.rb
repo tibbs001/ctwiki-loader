@@ -7,6 +7,8 @@ module Util
       #  Util::StudyPrepper.new({:start_num=>'78000'}).run
       @batch_size = args[:batch_size] || 1000
       @start_num = args[:start_num].to_i || 1
+      @mgr = Util::WikiDataManager.new
+      @wikidata_ids=get_id_maps
     end
 
     def self.run(args={})
@@ -16,7 +18,7 @@ module Util
       until cntr > source_model_name.count do
         new({:start_num => cntr, :batch_size => batch_size}).run
         cntr = cntr + batch_size
-        sleep(1.minutes)
+        sleep(1.minute)
       end
     end
 
@@ -24,10 +26,11 @@ module Util
       # Iterate over a collection of objects of a certain type & create a file containing quickstatements
       # that can be loaded into wikidata via the url: https://tools.wmflabs.org/quickstatements/#/batch
 
-      @loaded_ids = mgr.nctids_in(wikidata_ids)  # IDs of the objects currently  in wikidata - no need to load these
+      @loaded_ids = mgr.non_qcode_ids_in(wikidata_ids)  # IDs of the objects currently  in wikidata - no need to load these
+      # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
       @end_num = @start_num + @batch_size  # the website can only handle batches of quickstatements of about 1,000 objects
       @batch_of_ids = (source_model_name.all_ids - loaded_ids)[start_num..end_num]
-      @f=File.open("public/#{start_num}_quickstatements.txt", "w+")
+      @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       batch_of_ids.each do |id|
         cntr = cntr + 1
@@ -44,6 +47,10 @@ module Util
         #end
       end
       f.close
+    end
+
+    def load_type
+      source_model_name.to_s.split(':').last.downcase
     end
 
   end

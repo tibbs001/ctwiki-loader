@@ -1,6 +1,8 @@
 module Pubmed
   class Publication < ActiveRecord::Base
     self.table_name = 'pubmed.publications'
+    self.primary_key = 'pmid'
+    include Util::QuickstatementExtension
 
     attr_accessor :xml, :lookup_mgr
 
@@ -11,12 +13,87 @@ module Pubmed
     has_many :other_ids,  :foreign_key => 'pmid', :dependent => :delete_all
     has_many :types,      :foreign_key => 'pmid', :dependent => :delete_all
 
+    def self.all_ids
+      # These are all the IDs to be loaded into wikidata
+      all.pluck(:pmid)
+    end
+
+    def self.get_for(id)
+      where('pmid=?', id).first.set_delimiters
+    end
+
     def self.initialize(hash={})
       puts "in pubmed::publication.initializer"
       super
       @xml = Nokogiri::XML(hash[:xml]).css("PubmedArticle").to_xml
       @lookup_mgr = hash[:lookup_mgr]
       self.pmid = hash[:pmid]
+    end
+
+    def prop_codes
+      [
+      'Len',    # Label
+      'Den',    # Description
+      'P31',    # instance of a scholarly article
+      'P698',   # pmid
+      'P236',   # issn
+      'P478',   # volume
+      'P433',   # issue
+      'P1433',  # published in
+      'P1160',  # iso abbreviation
+      'P577',   # publication date
+      'P407',   # language
+      'P1476',  # title
+      'P1055',  # nlm unique id  Q57589544
+      #'P17',    # country
+      #'',  # completion date
+      #'',  # revision date
+      #'',  # pagination
+      #'',  # abstract
+      #'',  # country_qcode
+      #'',  # issn linking
+      #'',  # grants
+      #'',  # chemicals
+      #'',  # mesh terms
+      ]
+    end
+
+        def quickstatement_for(prop_code)
+      reg_prefix="#{prefix}#{prop_code}#{tab}"
+      case prop_code
+        when 'Len'
+          if title.blank?
+            return "#{reg_prefix}\"#{pmid}"  # Label
+          else
+            return "#{reg_prefix}\"#{title[0..244]}\""  # Label
+          end
+        when 'Den'
+          return "#{reg_prefix}\"scholarly article\""     # Description
+        when 'P31'    # instance of
+          return "#{reg_prefix}Q13442814"  # or Q191067?  # instance of a scholarly article
+        when 'P698'   # pmid
+          return "#{reg_prefix}\"#{pmid}\""
+        when 'P236'   # issn
+          return "#{reg_prefix}\"#{issn}\"" if issn
+        when 'P478'   # volume
+          return "#{reg_prefix}\"#{volume}\"" if volume
+        when 'P433'   # issue
+          return "#{reg_prefix}\"#{issue}\"" if issue
+        when 'P1160'   # iso abbreviation
+          return "#{reg_prefix}\"#{iso_abbreviation}\"" if iso_abbreviation
+        when 'P1476'  # title
+          return "#{reg_prefix}en:\"#{title}\"" if title
+        when 'P577'   # publication date
+          return "#{reg_prefix}+#{quickstatement_date(publication_date, publication_year.to_s)}" if publication_date
+        when 'P407'  # language
+          return "#{reg_prefix}Q1860" if language == 'eng'
+        #when 'P1433'   # published in
+        #  return published_in_quickstatements
+        #when 'P17'    # country
+        #  return country_quickstatements if countries.size > 0
+     else
+        puts "unknown property:  #{prop_code}"
+      end
     end
 
     def create
