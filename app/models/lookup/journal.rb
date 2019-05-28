@@ -10,19 +10,30 @@ module Lookup
     def self.predefined_qcode
       # Most common - ordered list.
       {
+        'acta paediatrica (oslo, norway : 1992)'        => 'Q27718123',
+        'acta radiologica (stockholm, sweden : 1987)'   => 'Q4033350',
+        'addiction (abingdon, england)'                 => 'Q4681106',
+        'advances in neonatal care : official journal of the national association of neonatal nurses' => 'Q4686388',
         'american journal of obstetrics and gynecology' => 'Q4744256',
         'anz journal of surgery'                        => 'Q15751460',
         'archives of dermatology'                       => 'Q27720869',
         'cancer'                                        =>'Q326041',
         'cancer research'                               => 'Q326097',
+        'endocrine practice : official journal of the american college of endocrinology' => 'Q15761577',
         'fertility and sterility'                       => 'Q15724525',
         'emergency medicine journal'                    => 'Q5370622',
         'international journal of cancer '              => 'Q332492',
         'neuroreport'                                   => 'Q15710007',
         'journal of anesthesia'                         => 'Q2308373',
+        'journal of hand therapy : official journal of the american society of hand therapists' => 'Q15746463',
+        'journal of intellectual disability research : jidr' => 'Q15757812',
         'journal of the american college of cardiology' =>'Q2984355',
         'journal of the american heart association'     => 'Q19880670',
         'nephrology, dialysis, transplantation : official publication of the european dialysis and transplant association - european renal association' => 'Q15710302',
+        'revista espanola de enfermedades digestivas : organo oficial de la sociedad espanola de patologia digestiva' => 'Q26854018',
+        'the journal of craniofacial surgery'          => 'Q15759095',
+        'the journal of neuroscience : the official journal of the society for neuroscience' => 'Q1709864',
+        'the journal of small animal practice' => 'Q15762435',
       }
     end
 
