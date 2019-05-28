@@ -3266,7 +3266,8 @@ CREATE TABLE pubmed.publications (
     medline_ta character varying,
     nlm_unique_id character varying,
     issn_linking character varying,
-    name character varying
+    name character varying,
+    journal_qcode character varying
 );
 
 
@@ -5910,4 +5911,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190526000642');
 INSERT INTO schema_migrations (version) VALUES ('20190527000442');
 
 INSERT INTO schema_migrations (version) VALUES ('20190527800143');
+
+INSERT INTO schema_migrations (version) VALUES ('20190528800143');
 
