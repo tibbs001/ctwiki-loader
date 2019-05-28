@@ -54,11 +54,12 @@ module Pubmed
       #'',  # issn linking
       #'',  # grants
       #'',  # chemicals
-      #'',  # mesh terms
+      'P486',  # mesh DCode
+      'OtherIds',  # Other IDs
       ]
     end
 
-        def quickstatement_for(prop_code)
+    def quickstatement_for(prop_code)
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code
         when 'Len'
@@ -87,6 +88,10 @@ module Pubmed
           return "#{reg_prefix}+#{quickstatement_date(publication_date, publication_year.to_s)}" if publication_date
         when 'P407'  # language
           return "#{reg_prefix}Q1860" if language == 'eng'
+        when 'P486'  # MeSH Codes
+          return mesh_code_quickstatements
+        when 'OtherIds'  # Other IDs
+          return other_id_quickstatements
         #when 'P1433'   # published in
         #  return published_in_quickstatements
         #when 'P17'    # country
@@ -94,6 +99,22 @@ module Pubmed
      else
         puts "unknown property:  #{prop_code}"
       end
+    end
+
+    def mesh_code_quickstatements
+      return_str = ''
+      mesh_terms.each{ |mesh|
+        return_str << "#{new_line}#{subject}#{tab}P6153#{tab}#{mesh.ui}" if !mesh.ui.blank? && mesh.major_topic
+      }
+      return return_str
+    end
+
+    def other_id_quickstatements
+      return_str = ''
+      other_ids.each{ |other|
+        return_str << "#{new_line}#{subject}#{tab}P356#{tab}#{other.id_value}" if !other.id_type == 'doi'
+      }
+      return return_str
     end
 
     def create
@@ -120,6 +141,7 @@ module Pubmed
         :issue                 => get('completion_date'),
         :nlm_unique_id         => get('NlmUniqueID'),
         :published_in          => get('Title'),
+        :name                  => get('Title'),
         :publication_year      => (date_info[:year]      if date_info[:year]),
         :publication_month     => (date_info[:month]     if date_info[:month]),
         :publication_day       => (date_info[:day]       if date_info[:day]),

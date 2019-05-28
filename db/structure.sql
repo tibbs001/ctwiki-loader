@@ -93,6 +93,122 @@ CREATE FUNCTION ctgov.count_estimate(query text) RETURNS integer
 
 
 --
+-- Name: ctgov_summaries(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
+--
+
+CREATE FUNCTION ctgov.ctgov_summaries(character varying) RETURNS TABLE(nct_id character varying, title text, recruitment character varying, were_results_reported boolean, conditions text, interventions text, sponsors text, gender character varying, age text, phase character varying, enrollment integer, study_type character varying, other_ids text, study_first_submitted_date date, start_date date, completion_month_year character varying, last_update_submitted_date date, verification_month_year character varying, results_first_submitted_date date, acronym character varying, primary_completion_month_year character varying, outcome_measures text, disposition_first_submitted_date date, allocation character varying, intervention_model character varying, observational_model character varying, primary_purpose character varying, time_perspective character varying, masking character varying, masking_description text, intervention_model_description text, subject_masked boolean, caregiver_masked boolean, investigator_masked boolean, outcomes_assessor_masked boolean, number_of_facilities integer)
+    LANGUAGE sql
+    AS $_$
+
+      SELECT DISTINCT s.nct_id,
+          s.brief_title,
+          s.overall_status,
+          cv.were_results_reported,
+          bc.mesh_term,
+          i.intervention,
+          sp.name,
+          e.gender,
+          CASE
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
+            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
+            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
+          END,
+          CASE
+            WHEN s.phase='N/A' THEN NULL
+            ELSE s.phase
+          END,
+          s.enrollment, s.study_type,
+          id.id_value,
+          s.study_first_submitted_date, s.start_date,
+          s.completion_month_year, s.last_update_submitted_date, s.verification_month_year,
+          s.results_first_submitted_date, s.acronym, s.primary_completion_month_year,
+          o.measure, s.disposition_first_submitted_date,
+          d.allocation, d.intervention_model, d.observational_model, d.primary_purpose, d.time_perspective, d.masking,
+          d.masking_description, d.intervention_model_description, d.subject_masked, d.caregiver_masked, d.investigator_masked,
+          d.outcomes_assessor_masked,
+          cv.number_of_facilities
+
+      FROM studies s
+        INNER JOIN browse_conditions bc ON s.nct_id = bc.nct_id and bc.mesh_term  like $1
+        LEFT OUTER JOIN calculated_values cv ON s.nct_id = cv.nct_id
+        LEFT OUTER JOIN all_conditions c ON s.nct_id = c.nct_id
+        LEFT OUTER JOIN all_interventions i ON s.nct_id = i.nct_id
+        LEFT OUTER JOIN all_sponsors sp ON s.nct_id = sp.nct_id
+        LEFT OUTER JOIN eligibilities e ON s.nct_id=e.nct_id
+        LEFT OUTER JOIN all_id_information id ON s.nct_id = id.nct_id
+        LEFT OUTER JOIN all_design_outcomes o ON s.nct_id=o.nct_id
+        LEFT OUTER JOIN designs d ON s.nct_id = d.nct_id
+
+
+     UNION
+
+      SELECT DISTINCT s.nct_id,
+          s.brief_title,
+          s.overall_status,
+          cv.were_results_reported,
+          k.name,
+          i.intervention,
+          sp.name,
+          e.gender,
+          CASE
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age = 'N/A' THEN 'No age restriction'
+            WHEN e.minimum_age != 'N/A' AND e.maximum_age = 'N/A' THEN concat(e.minimum_age, ' and older')
+            WHEN e.minimum_age = 'N/A' AND e.maximum_age != 'N/A' THEN concat('up to ', e.maximum_age)
+            ELSE concat(e.minimum_age, ' to ', e.maximum_age)
+          END,
+          CASE
+            WHEN s.phase='N/A' THEN NULL
+            ELSE s.phase
+          END,
+          s.enrollment, s.study_type,
+          id.id_value,
+          s.study_first_submitted_date, s.start_date,
+          s.completion_month_year, s.last_update_submitted_date, s.verification_month_year,
+          s.results_first_submitted_date, s.acronym, s.primary_completion_month_year,
+          o.measure, s.disposition_first_submitted_date,
+          d.allocation, d.intervention_model, d.observational_model, d.primary_purpose, d.time_perspective, d.masking,
+          d.masking_description, d.intervention_model_description, d.subject_masked, d.caregiver_masked, d.investigator_masked,
+          d.outcomes_assessor_masked,
+          cv.number_of_facilities
+
+      FROM studies s
+        INNER JOIN keywords k ON s.nct_id = k.nct_id and k.name like $1
+        LEFT OUTER JOIN calculated_values cv ON s.nct_id = cv.nct_id
+        LEFT OUTER JOIN all_conditions c ON s.nct_id = c.nct_id
+        LEFT OUTER JOIN all_interventions i ON s.nct_id = i.nct_id
+        LEFT OUTER JOIN all_sponsors sp ON s.nct_id = sp.nct_id
+        LEFT OUTER JOIN eligibilities e ON s.nct_id=e.nct_id
+        LEFT OUTER JOIN all_id_information id ON s.nct_id = id.nct_id
+        LEFT OUTER JOIN all_design_outcomes o ON s.nct_id=o.nct_id
+        LEFT OUTER JOIN designs d ON s.nct_id = d.nct_id
+
+        ;
+        $_$;
+
+
+--
+-- Name: ids_for(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
+--
+
+CREATE FUNCTION ctgov.ids_for(character varying) RETURNS TABLE(nct_id character varying)
+    LANGUAGE sql
+    AS $_$
+
+        SELECT DISTINCT nct_id FROM browse_conditions WHERE mesh_term like $1
+        UNION
+        SELECT DISTINCT nct_id FROM browse_interventions WHERE mesh_term like $1
+        UNION
+        SELECT DISTINCT nct_id FROM keywords WHERE name like $1
+        UNION
+        SELECT DISTINCT nct_id FROM facilities WHERE name like $1 or city like $1 or state like $1 or country like $1
+        UNION
+        SELECT DISTINCT nct_id FROM sponsors WHERE name like $1
+        ;
+        $_$;
+
+
+--
 -- Name: ids_for_org(character varying); Type: FUNCTION; Schema: ctgov; Owner: -
 --
 
@@ -626,7 +742,6 @@ CREATE TABLE ctgov.baseline_counts (
 --
 
 CREATE SEQUENCE ctgov.baseline_counts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -672,7 +787,6 @@ CREATE TABLE ctgov.baseline_measurements (
 --
 
 CREATE SEQUENCE ctgov.baseline_measurements_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -703,7 +817,6 @@ CREATE TABLE ctgov.brief_summaries (
 --
 
 CREATE SEQUENCE ctgov.brief_summaries_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -723,7 +836,6 @@ ALTER SEQUENCE ctgov.brief_summaries_id_seq OWNED BY ctgov.brief_summaries.id;
 --
 
 CREATE SEQUENCE ctgov.browse_conditions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -743,7 +855,6 @@ ALTER SEQUENCE ctgov.browse_conditions_id_seq OWNED BY ctgov.browse_conditions.i
 --
 
 CREATE SEQUENCE ctgov.browse_interventions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -790,7 +901,6 @@ CREATE TABLE ctgov.calculated_values (
 --
 
 CREATE SEQUENCE ctgov.calculated_values_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -824,7 +934,6 @@ CREATE TABLE ctgov.central_contacts (
 --
 
 CREATE SEQUENCE ctgov.central_contacts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -856,7 +965,6 @@ CREATE TABLE ctgov.conditions (
 --
 
 CREATE SEQUENCE ctgov.conditions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -876,7 +984,6 @@ ALTER SEQUENCE ctgov.conditions_id_seq OWNED BY ctgov.conditions.id;
 --
 
 CREATE SEQUENCE ctgov.countries_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -889,42 +996,6 @@ CREATE SEQUENCE ctgov.countries_id_seq
 --
 
 ALTER SEQUENCE ctgov.countries_id_seq OWNED BY ctgov.countries.id;
-
-
---
--- Name: criteria; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.criteria (
-    id integer NOT NULL,
-    nct_id character varying,
-    parent_id integer,
-    level integer,
-    order_number integer,
-    criterium_type character varying,
-    name character varying,
-    downcase_name character varying
-);
-
-
---
--- Name: criteria_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
---
-
-CREATE SEQUENCE ctgov.criteria_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: ctgov; Owner: -
---
-
-ALTER SEQUENCE ctgov.criteria_id_seq OWNED BY ctgov.criteria.id;
 
 
 --
@@ -944,7 +1015,6 @@ CREATE TABLE ctgov.design_group_interventions (
 --
 
 CREATE SEQUENCE ctgov.design_group_interventions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -964,7 +1034,6 @@ ALTER SEQUENCE ctgov.design_group_interventions_id_seq OWNED BY ctgov.design_gro
 --
 
 CREATE SEQUENCE ctgov.design_groups_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -984,7 +1053,6 @@ ALTER SEQUENCE ctgov.design_groups_id_seq OWNED BY ctgov.design_groups.id;
 --
 
 CREATE SEQUENCE ctgov.design_outcomes_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1026,7 +1094,6 @@ CREATE TABLE ctgov.designs (
 --
 
 CREATE SEQUENCE ctgov.designs_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1057,7 +1124,6 @@ CREATE TABLE ctgov.detailed_descriptions (
 --
 
 CREATE SEQUENCE ctgov.detailed_descriptions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1091,7 +1157,6 @@ CREATE TABLE ctgov.documents (
 --
 
 CREATE SEQUENCE ctgov.documents_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1126,7 +1191,6 @@ CREATE TABLE ctgov.drop_withdrawals (
 --
 
 CREATE SEQUENCE ctgov.drop_withdrawals_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1165,7 +1229,6 @@ CREATE TABLE ctgov.eligibilities (
 --
 
 CREATE SEQUENCE ctgov.eligibilities_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1185,7 +1248,6 @@ ALTER SEQUENCE ctgov.eligibilities_id_seq OWNED BY ctgov.eligibilities.id;
 --
 
 CREATE SEQUENCE ctgov.facilities_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1220,7 +1282,6 @@ CREATE TABLE ctgov.facility_contacts (
 --
 
 CREATE SEQUENCE ctgov.facility_contacts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1253,7 +1314,6 @@ CREATE TABLE ctgov.facility_investigators (
 --
 
 CREATE SEQUENCE ctgov.facility_investigators_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1273,7 +1333,6 @@ ALTER SEQUENCE ctgov.facility_investigators_id_seq OWNED BY ctgov.facility_inves
 --
 
 CREATE SEQUENCE ctgov.id_information_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1305,7 +1364,6 @@ CREATE TABLE ctgov.intervention_other_names (
 --
 
 CREATE SEQUENCE ctgov.intervention_other_names_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1325,7 +1383,6 @@ ALTER SEQUENCE ctgov.intervention_other_names_id_seq OWNED BY ctgov.intervention
 --
 
 CREATE SEQUENCE ctgov.interventions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1356,7 +1413,6 @@ CREATE TABLE ctgov.ipd_information_types (
 --
 
 CREATE SEQUENCE ctgov.ipd_information_types_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1376,7 +1432,6 @@ ALTER SEQUENCE ctgov.ipd_information_types_id_seq OWNED BY ctgov.ipd_information
 --
 
 CREATE SEQUENCE ctgov.keywords_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1408,7 +1463,6 @@ CREATE TABLE ctgov.links (
 --
 
 CREATE SEQUENCE ctgov.links_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1440,7 +1494,6 @@ CREATE TABLE ctgov.mesh_headings (
 --
 
 CREATE SEQUENCE ctgov.mesh_headings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1474,7 +1527,6 @@ CREATE TABLE ctgov.mesh_terms (
 --
 
 CREATE SEQUENCE ctgov.mesh_terms_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1510,7 +1562,6 @@ CREATE TABLE ctgov.milestones (
 --
 
 CREATE SEQUENCE ctgov.milestones_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1560,7 +1611,6 @@ CREATE TABLE ctgov.outcome_analyses (
 --
 
 CREATE SEQUENCE ctgov.outcome_analyses_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1593,7 +1643,6 @@ CREATE TABLE ctgov.outcome_analysis_groups (
 --
 
 CREATE SEQUENCE ctgov.outcome_analysis_groups_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1629,7 +1678,6 @@ CREATE TABLE ctgov.outcome_counts (
 --
 
 CREATE SEQUENCE ctgov.outcome_counts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1676,7 +1724,6 @@ CREATE TABLE ctgov.outcome_measurements (
 --
 
 CREATE SEQUENCE ctgov.outcome_measurements_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1717,7 +1764,6 @@ CREATE TABLE ctgov.outcomes (
 --
 
 CREATE SEQUENCE ctgov.outcomes_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1750,7 +1796,6 @@ CREATE TABLE ctgov.overall_officials (
 --
 
 CREATE SEQUENCE ctgov.overall_officials_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1782,7 +1827,6 @@ CREATE TABLE ctgov.participant_flows (
 --
 
 CREATE SEQUENCE ctgov.participant_flows_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1815,7 +1859,6 @@ CREATE TABLE ctgov.pending_results (
 --
 
 CREATE SEQUENCE ctgov.pending_results_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1851,7 +1894,6 @@ CREATE TABLE ctgov.provided_documents (
 --
 
 CREATE SEQUENCE ctgov.provided_documents_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1896,7 +1938,6 @@ CREATE TABLE ctgov.reported_events (
 --
 
 CREATE SEQUENCE ctgov.reported_events_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1931,7 +1972,6 @@ CREATE TABLE ctgov.responsible_parties (
 --
 
 CREATE SEQUENCE ctgov.responsible_parties_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1963,7 +2003,6 @@ CREATE TABLE ctgov.result_agreements (
 --
 
 CREATE SEQUENCE ctgov.result_agreements_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1997,7 +2036,6 @@ CREATE TABLE ctgov.result_contacts (
 --
 
 CREATE SEQUENCE ctgov.result_contacts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2031,7 +2069,6 @@ CREATE TABLE ctgov.result_groups (
 --
 
 CREATE SEQUENCE ctgov.result_groups_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2051,7 +2088,6 @@ ALTER SEQUENCE ctgov.result_groups_id_seq OWNED BY ctgov.result_groups.id;
 --
 
 CREATE SEQUENCE ctgov.sponsors_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2156,7 +2192,6 @@ CREATE TABLE ctgov.study_references (
 --
 
 CREATE SEQUENCE ctgov.study_references_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2316,6 +2351,76 @@ CREATE SEQUENCE lookup.interventions_id_seq
 --
 
 ALTER SEQUENCE lookup.interventions_id_seq OWNED BY lookup.interventions.id;
+
+
+--
+-- Name: journal; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journal (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: journal_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.journal_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: journal_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.journal_id_seq OWNED BY lookup.journal.id;
+
+
+--
+-- Name: journals; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journals (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: journals_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.journals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: journals_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.journals_id_seq OWNED BY lookup.journals.id;
 
 
 --
@@ -3160,7 +3265,8 @@ CREATE TABLE pubmed.publications (
     language character varying,
     medline_ta character varying,
     nlm_unique_id character varying,
-    issn_linking character varying
+    issn_linking character varying,
+    name character varying
 );
 
 
@@ -3286,13 +3392,6 @@ ALTER TABLE ONLY ctgov.conditions ALTER COLUMN id SET DEFAULT nextval('ctgov.con
 --
 
 ALTER TABLE ONLY ctgov.countries ALTER COLUMN id SET DEFAULT nextval('ctgov.countries_id_seq'::regclass);
-
-
---
--- Name: criteria id; Type: DEFAULT; Schema: ctgov; Owner: -
---
-
-ALTER TABLE ONLY ctgov.criteria ALTER COLUMN id SET DEFAULT nextval('ctgov.criteria_id_seq'::regclass);
 
 
 --
@@ -3576,6 +3675,20 @@ ALTER TABLE ONLY lookup.interventions ALTER COLUMN id SET DEFAULT nextval('looku
 
 
 --
+-- Name: journal id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journal ALTER COLUMN id SET DEFAULT nextval('lookup.journal_id_seq'::regclass);
+
+
+--
+-- Name: journals id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journals ALTER COLUMN id SET DEFAULT nextval('lookup.journals_id_seq'::regclass);
+
+
+--
 -- Name: keywords id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -3820,14 +3933,6 @@ ALTER TABLE ONLY ctgov.conditions
 
 ALTER TABLE ONLY ctgov.countries
     ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
-
-
---
--- Name: criteria criteria_pkey; Type: CONSTRAINT; Schema: ctgov; Owner: -
---
-
-ALTER TABLE ONLY ctgov.criteria
-    ADD CONSTRAINT criteria_pkey PRIMARY KEY (id);
 
 
 --
@@ -4148,6 +4253,22 @@ ALTER TABLE ONLY lookup.countries
 
 ALTER TABLE ONLY lookup.interventions
     ADD CONSTRAINT interventions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: journal journal_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journal
+    ADD CONSTRAINT journal_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: journals journals_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journals
+    ADD CONSTRAINT journals_pkey PRIMARY KEY (id);
 
 
 --
@@ -4509,13 +4630,6 @@ CREATE INDEX index_conditions_on_nct_id ON ctgov.conditions USING btree (nct_id)
 --
 
 CREATE INDEX index_countries_on_nct_id ON ctgov.countries USING btree (nct_id);
-
-
---
--- Name: index_criteria_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
---
-
-CREATE INDEX index_criteria_on_nct_id ON ctgov.criteria USING btree (nct_id);
 
 
 --
@@ -5384,14 +5498,6 @@ ALTER TABLE ONLY ctgov.countries
 
 
 --
--- Name: criteria criteria_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
---
-
-ALTER TABLE ONLY ctgov.criteria
-    ADD CONSTRAINT criteria_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
-
-
---
 -- Name: design_group_interventions design_group_interventions_design_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
 --
 
@@ -5800,4 +5906,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 INSERT INTO schema_migrations (version) VALUES ('20190516000142');
 
 INSERT INTO schema_migrations (version) VALUES ('20190526000642');
+
+INSERT INTO schema_migrations (version) VALUES ('20190527000442');
+
+INSERT INTO schema_migrations (version) VALUES ('20190527800143');
 

@@ -31,7 +31,7 @@ module Lookup
 
     def self.unregistered_names(model_type=self.source_data)
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
-      (model_type.uniq.pluck(self.label).map{|n|n.downcase}) - already_loaded
+      (model_type.uniq.pluck(self.label).compact.map{|n|n.downcase}) - already_loaded
     end
 
     def self.existing_rows
@@ -137,7 +137,6 @@ module Lookup
        'insurgent group',
        'internist',
        'item2',
-       'journal',
        'jurist',
        'lake in',
        'local computer bus',
