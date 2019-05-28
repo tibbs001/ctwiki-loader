@@ -40,6 +40,7 @@ module Lookup
        'hospitals',
        'internet bank',
        'interpro family',
+       'journal',
        'light table is a viewing device',
        'literature review',
        'mountain in',

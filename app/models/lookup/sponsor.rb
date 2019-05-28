@@ -15,6 +15,7 @@ module Lookup
         'scientific article',
         'athlete',
         'family name',
+        'journal',
         'river in sweden',
         'tribe of plants',
         'television series',

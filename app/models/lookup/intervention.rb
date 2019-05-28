@@ -43,6 +43,7 @@ module Lookup
        'hospitals',
        'internet bank',
        'interpro family',
+       'journal',
        'light table is a viewing device',
        'literature review',
        'loss of one or more sounds from the beginning of a word',
