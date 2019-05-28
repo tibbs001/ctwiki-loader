@@ -13,18 +13,21 @@ module Lookup
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
       self.populate_predefined_qcode
       self.unregistered_names(model_type).each { |label|
-        if !already_loaded.include?(label.downcase)
-          result = mgr.find_qcode(label, possible_descriptions, impossible_descriptions)
-        end
-        if result
-          obj = self.create_entry_for(result)
-          obj.populate_other_attribs
-          obj.types = mgr.types_for_qcode(obj.qcode)
-          obj.save!
-          already_loaded << result[:downcase_name]
-        else
-          self.create_non_qcode_entry_for(label)
-          could_not_resolve << label
+        existing = where("name = ?",label)
+        if existing.size == 0
+          if !already_loaded.include?(label.downcase)
+            result = mgr.find_qcode(label, possible_descriptions, impossible_descriptions)
+          end
+          if result
+            obj = self.create_entry_for(result)
+            obj.populate_other_attribs
+            obj.types = mgr.types_for_qcode(obj.qcode)
+            obj.save!
+            already_loaded << result[:downcase_name]
+          else
+            self.create_non_qcode_entry_for(label)
+            could_not_resolve << label
+          end
         end
       }
     end
