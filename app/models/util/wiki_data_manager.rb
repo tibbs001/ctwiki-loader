@@ -26,7 +26,7 @@ module Util
     end
 
     def delimiters
-      [',','-','(','µg','and', ' in ', '+']
+      [' : ', ',','-', '(' ,'µg' ,'and', ' in ', '+']
     end
 
     def initialize_search_string(str, should_remove_numbers)
@@ -56,6 +56,9 @@ module Util
         start_string = initialize_search_string(str, should_remove_numbers)
         search_string = start_string.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
         raw_results = wiki_api_call(search_string, search_strings_tried)
+        puts "====== raw results ======================================="
+        puts raw_results
+        puts "====== raw results ======================================="
         if raw_results.empty?
 
           c = []
@@ -63,12 +66,15 @@ module Util
             puts "  nothing found yet.  Gonna try breaking on #{delimiter}"
             search_string = start_string.split(delimiter).first.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
             result = wiki_api_call(search_string, search_strings_tried, delimiter)
+            puts "====== result ======================================="
+            puts result
+            puts "====== result ======================================="
             if result.blank?
               search_string = start_string.split(delimiter).last.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
               result = wiki_api_call(search_string, search_strings_tried, delimiter)
+            else
+              c << result
             end
-            raw_results = result if result.blank?
-            c << raw_results
           }
 
           raw_results = c.flatten.compact
