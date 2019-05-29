@@ -1,0 +1,142 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+        <PMID Version="1">69288</PMID>
+        <DateCompleted>
+            <Year>1977</Year>
+            <Month>09</Month>
+            <Day>02</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2004</Year>
+            <Month>11</Month>
+            <Day>17</Day>
+        </DateRevised>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">0304-3959</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>3</Volume>
+                    <Issue>1</Issue>
+                    <PubDate>
+                        <Year>1977</Year>
+                        <Month>Feb</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Pain</Title>
+                <ISOAbbreviation>Pain</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Trigger points and acupuncture points for pain: correlations and implications.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>3-23</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>Trigger points associated with myofascial and visceral pains often lie within the areas of referred pain but many are located at a distance from them. Furthermore, brief, intense stimulation of trigger points frequently produces prolonged relief of pain. These properties of trigger points--their widespread distribution and the pain relief produced by stimulating them--resemble those of acupuncture points for the relief of pain. The purpose of this study was to determine the correlation between trigger points and acupuncture points for pain on the basis of two criteria: spatial distribution and the associated pain pattern. A remarkably high degree (71%) of correspondence was found. This close correlation suggests that trigger points and acupuncture points for pain, though discovered independently and labeled differently, represent the same phenomenon and can be explained in terms of the same underlying neural mechanisms. The mechanisms that play a role in the genesis of trigger points and possible underlying neural processes are discussed.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Melzack</LastName>
+                    <ForeName>R</ForeName>
+                    <Initials>R</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Stillwell</LastName>
+                    <ForeName>D M</ForeName>
+                    <Initials>DM</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Fox</LastName>
+                    <ForeName>E J</ForeName>
+                    <Initials>EJ</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+                <PublicationType UI="D016454">Review</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Pain</MedlineTA>
+            <NlmUniqueID>7508686</NlmUniqueID>
+            <ISSNLinking>0304-3959</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName UI="D015670" MajorTopicYN="Y">Acupuncture Therapy</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D001415" MajorTopicYN="N">Back</DescriptorName>
+                <QualifierName UI="Q000294" MajorTopicYN="N">innervation</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005121" MajorTopicYN="N">Extremities</DescriptorName>
+                <QualifierName UI="Q000294" MajorTopicYN="N">innervation</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005260" MajorTopicYN="N">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006257" MajorTopicYN="N">Head</DescriptorName>
+                <QualifierName UI="Q000294" MajorTopicYN="N">innervation</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006801" MajorTopicYN="N">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008297" MajorTopicYN="N">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D009333" MajorTopicYN="N">Neck</DescriptorName>
+                <QualifierName UI="Q000294" MajorTopicYN="N">innervation</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D009434" MajorTopicYN="N">Neural Pathways</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D010146" MajorTopicYN="Y">Pain</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D010166" MajorTopicYN="N">Palliative Care</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D013909" MajorTopicYN="N">Thorax</DescriptorName>
+                <QualifierName UI="Q000294" MajorTopicYN="N">innervation</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+        <NumberOfReferences>36</NumberOfReferences>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>1977</Year>
+                <Month>2</Month>
+                <Day>1</Day>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>1977</Year>
+                <Month>2</Month>
+                <Day>1</Day>
+                <Hour>0</Hour>
+                <Minute>1</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>1977</Year>
+                <Month>2</Month>
+                <Day>1</Day>
+                <Hour>0</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">69288</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>
