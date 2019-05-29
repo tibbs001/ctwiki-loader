@@ -13,6 +13,14 @@ module Pubmed
     has_many :other_ids,  :foreign_key => 'pmid', :dependent => :delete_all
     has_many :types,      :foreign_key => 'pmid', :dependent => :delete_all
 
+    def self.initialize(hash={})
+      puts "in pubmed::publication.initializer"
+      super
+      @xml = Nokogiri::XML(hash[:xml]).css("PubmedArticle").to_xml
+      @lookup_mgr = hash[:lookup_mgr]
+      self.pmid = hash[:pmid]
+    end
+
     def self.all_ids
       # These are all the IDs to be loaded into wikidata
       all.pluck(:pmid)
@@ -22,13 +30,6 @@ module Pubmed
       where('pmid=?', id).first.set_delimiters
     end
 
-    def self.initialize(hash={})
-      puts "in pubmed::publication.initializer"
-      super
-      @xml = Nokogiri::XML(hash[:xml]).css("PubmedArticle").to_xml
-      @lookup_mgr = hash[:lookup_mgr]
-      self.pmid = hash[:pmid]
-    end
 
     def prop_codes
       [
@@ -124,7 +125,7 @@ module Pubmed
       existing=Pubmed::Publication.where('pmid=?',self.pmid).first
       existing.try(:destroy)
       update(attribs)
-      args={:pmid => pmid, :xml => xml}
+      args={:pmid => pmid, :xml => xml, :lookup_mgr => lookup_mgr}
       self.authors    = Pubmed::Author.create_all_from(args)
       self.chemicals  = Pubmed::Chemical.create_all_from(args)
       self.grants     = Pubmed::Grant.create_all_from(args)

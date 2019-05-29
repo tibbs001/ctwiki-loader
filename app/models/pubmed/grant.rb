@@ -15,5 +15,15 @@ module Pubmed
       return entities
     end
 
+    def get_country_info
+      info={}
+      name = get('Country')
+      if !name.blank?
+        info[:name]  = name
+        info[:qcode] = @lookup_mgr.countries[name]
+      end
+      return info
+    end
+
   end
 end
