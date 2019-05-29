@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Pubmed::Grant do
 
-  it "creates authors from the xml" do
+  xit "creates authors from the xml" do
     pmid='16002928'
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
     lm = Util::LookupManager.new

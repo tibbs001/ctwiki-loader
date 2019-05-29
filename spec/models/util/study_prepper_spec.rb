@@ -38,10 +38,16 @@ describe Util::StudyPrepper do
            }).
          to_return(status: 200, body: [], headers: {})
 
-    Lookup::Sponsor.destroy_all
+    Ctgov::Study.destroy_all
+    pmid='7906420'
+    xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
+    pub=Ctgov::Study.new({xml: xml, pmid: pmid, lookup_mgr: lm}).create
+
+
     Lookup::Country.destroy_all
     Lookup::Intervention.destroy_all
     Lookup::Keyword.destroy_all
+    Lookup::Sponsor.destroy_all
     Lookup::Sponsor.new({:qcode=>'Q3519875',
                          :name=>'National Institute of Allergy and Infectious Diseases (NIAID)',
                          :downcase_name=>'national institute of allergy and infectious diseases (niaid)'}).save!
@@ -73,8 +79,8 @@ describe Util::StudyPrepper do
     content = (File.readlines quickstatement_file_name).first
     expect(content).to include("CREATE||LAST|Len|\"Cholinergic Modulation of Condition and Emotion in Mood Disorders: Functional Neuroimaging Studies")
     expect(content).to include("NCT00001899")
-    expect(content).to include("NCT00055575")
     expect(content).to include("NCT00011414")
+    expect(content).to include("NCT00055575")
     expect(content.scan(/(?=CREATE)/).count).to eq(3)
     #expect(content).to include('Q3519875')
   end
