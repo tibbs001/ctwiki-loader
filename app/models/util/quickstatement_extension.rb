@@ -58,15 +58,5 @@ module Util
       end
     end
 
-    def country_quickstatements
-      return_str = ''
-      assigned_qcodes=[]
-      active_countries.each{ |country|
-        qcode = Lookup::Country.qcode_for(country.name)
-        assigned_qcodes << qcode
-      }
-      return return_str
-    end
-
   end
 end
