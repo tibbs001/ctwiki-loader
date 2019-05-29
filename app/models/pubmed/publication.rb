@@ -45,10 +45,10 @@ module Pubmed
       'P407',   # language
       'P1476',  # title
       'P1055',  # nlm unique id  Q57589544
+      'P304',   # pagination
       #'P17',    # country
       #'',  # completion date
       #'',  # revision date
-      #'',  # pagination
       #'',  # abstract
       #'',  # country_qcode
       #'',  # issn linking
@@ -76,6 +76,8 @@ module Pubmed
           return "#{reg_prefix}\"#{pmid}\""
         when 'P236'   # issn
           return "#{reg_prefix}\"#{issn}\"" if issn
+        when 'P304'   # issn
+          return "#{reg_prefix}\"#{pagination}\"" if pagination
         when 'P478'   # volume
           return "#{reg_prefix}\"#{volume}\"" if volume
         when 'P433'   # issue
