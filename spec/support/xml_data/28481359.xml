@@ -1,0 +1,1413 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+        <PMID Version="1">28481359</PMID>
+        <DateCompleted>
+            <Year>2017</Year>
+            <Month>08</Month>
+            <Day>29</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2019</Year>
+            <Month>01</Month>
+            <Day>12</Day>
+        </DateRevised>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1546-170X</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>23</Volume>
+                    <Issue>6</Issue>
+                    <PubDate>
+                        <Year>2017</Year>
+                        <Month>Jun</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Nature medicine</Title>
+                <ISOAbbreviation>Nat. Med.</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Mutational landscape of metastatic cancer revealed from prospective clinical sequencing of 10,000 patients.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>703-713</MedlinePgn>
+            </Pagination>
+            <ELocationID EIdType="doi" ValidYN="Y">10.1038/nm.4333</ELocationID>
+            <Abstract>
+                <AbstractText>Tumor molecular profiling is a fundamental component of precision oncology, enabling the identification of genomic alterations in genes and pathways that can be targeted therapeutically. The existence of recurrent targetable alterations across distinct histologically defined tumor types, coupled with an expanding portfolio of molecularly targeted therapies, demands flexible and comprehensive approaches to profile clinically relevant genes across the full spectrum of cancers. We established a large-scale, prospective clinical sequencing initiative using a comprehensive assay, MSK-IMPACT, through which we have compiled tumor and matched normal sequence data from a unique cohort of more than 10,000 patients with advanced cancer and available pathological and clinical annotations. Using these data, we identified clinically relevant somatic mutations, novel noncoding alterations, and mutational signatures that were shared by common and rare tumor types. Patients were enrolled on genomically matched clinical trials at a rate of 11%. To enable discovery of novel biomarkers and deeper investigation into rare alterations and tumor types, all results are publicly accessible.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Zehir</LastName>
+                    <ForeName>Ahmet</ForeName>
+                    <Initials>A</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0001-5406-4104</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Benayed</LastName>
+                    <ForeName>Ryma</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Shah</LastName>
+                    <ForeName>Ronak H</ForeName>
+                    <Initials>RH</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Syed</LastName>
+                    <ForeName>Aijazuddin</ForeName>
+                    <Initials>A</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Middha</LastName>
+                    <ForeName>Sumit</ForeName>
+                    <Initials>S</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0003-4135-6268</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Kim</LastName>
+                    <ForeName>Hyunjae R</ForeName>
+                    <Initials>HR</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0002-1869-0412</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Srinivasan</LastName>
+                    <ForeName>Preethi</ForeName>
+                    <Initials>P</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Gao</LastName>
+                    <ForeName>Jianjiong</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chakravarty</LastName>
+                    <ForeName>Debyani</ForeName>
+                    <Initials>D</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Devlin</LastName>
+                    <ForeName>Sean M</ForeName>
+                    <Initials>SM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Hellmann</LastName>
+                    <ForeName>Matthew D</ForeName>
+                    <Initials>MD</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Barron</LastName>
+                    <ForeName>David A</ForeName>
+                    <Initials>DA</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Radiation Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Schram</LastName>
+                    <ForeName>Alison M</ForeName>
+                    <Initials>AM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Hameed</LastName>
+                    <ForeName>Meera</ForeName>
+                    <Initials>M</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Dogan</LastName>
+                    <ForeName>Snjezana</ForeName>
+                    <Initials>S</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ross</LastName>
+                    <ForeName>Dara S</ForeName>
+                    <Initials>DS</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Hechtman</LastName>
+                    <ForeName>Jaclyn F</ForeName>
+                    <Initials>JF</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>DeLair</LastName>
+                    <ForeName>Deborah F</ForeName>
+                    <Initials>DF</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Yao</LastName>
+                    <ForeName>JinJuan</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Mandelker</LastName>
+                    <ForeName>Diana L</ForeName>
+                    <Initials>DL</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Cheng</LastName>
+                    <ForeName>Donavan T</ForeName>
+                    <Initials>DT</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chandramohan</LastName>
+                    <ForeName>Raghu</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Mohanty</LastName>
+                    <ForeName>Abhinita S</ForeName>
+                    <Initials>AS</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ptashkin</LastName>
+                    <ForeName>Ryan N</ForeName>
+                    <Initials>RN</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Jayakumaran</LastName>
+                    <ForeName>Gowtham</ForeName>
+                    <Initials>G</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Prasad</LastName>
+                    <ForeName>Meera</ForeName>
+                    <Initials>M</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Syed</LastName>
+                    <ForeName>Mustafa H</ForeName>
+                    <Initials>MH</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Rema</LastName>
+                    <ForeName>Anoop Balakrishnan</ForeName>
+                    <Initials>AB</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0001-6104-5665</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Liu</LastName>
+                    <ForeName>Zhen Y</ForeName>
+                    <Initials>ZY</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Nafa</LastName>
+                    <ForeName>Khedoudja</ForeName>
+                    <Initials>K</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Borsu</LastName>
+                    <ForeName>Laetitia</ForeName>
+                    <Initials>L</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Sadowska</LastName>
+                    <ForeName>Justyna</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Casanova</LastName>
+                    <ForeName>Jacklyn</ForeName>
+                    <Initials>J</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0002-3586-7048</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Bacares</LastName>
+                    <ForeName>Ruben</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Kiecka</LastName>
+                    <ForeName>Iwona J</ForeName>
+                    <Initials>IJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Razumova</LastName>
+                    <ForeName>Anna</ForeName>
+                    <Initials>A</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Son</LastName>
+                    <ForeName>Julie B</ForeName>
+                    <Initials>JB</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Stewart</LastName>
+                    <ForeName>Lisa</ForeName>
+                    <Initials>L</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Baldi</LastName>
+                    <ForeName>Tessara</ForeName>
+                    <Initials>T</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Mullaney</LastName>
+                    <ForeName>Kerry A</ForeName>
+                    <Initials>KA</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Al-Ahmadie</LastName>
+                    <ForeName>Hikmat</ForeName>
+                    <Initials>H</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Vakiani</LastName>
+                    <ForeName>Efsevia</ForeName>
+                    <Initials>E</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Abeshouse</LastName>
+                    <ForeName>Adam A</ForeName>
+                    <Initials>AA</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Penson</LastName>
+                    <ForeName>Alexander V</ForeName>
+                    <Initials>AV</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Jonsson</LastName>
+                    <ForeName>Philip</ForeName>
+                    <Initials>P</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Camacho</LastName>
+                    <ForeName>Niedzica</ForeName>
+                    <Initials>N</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chang</LastName>
+                    <ForeName>Matthew T</ForeName>
+                    <Initials>MT</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Won</LastName>
+                    <ForeName>Helen H</ForeName>
+                    <Initials>HH</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Gross</LastName>
+                    <ForeName>Benjamin E</ForeName>
+                    <Initials>BE</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Kundra</LastName>
+                    <ForeName>Ritika</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Heins</LastName>
+                    <ForeName>Zachary J</ForeName>
+                    <Initials>ZJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chen</LastName>
+                    <ForeName>Hsiao-Wei</ForeName>
+                    <Initials>HW</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Phillips</LastName>
+                    <ForeName>Sarah</ForeName>
+                    <Initials>S</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Zhang</LastName>
+                    <ForeName>Hongxin</ForeName>
+                    <Initials>H</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wang</LastName>
+                    <ForeName>Jiaojiao</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ochoa</LastName>
+                    <ForeName>Angelica</ForeName>
+                    <Initials>A</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wills</LastName>
+                    <ForeName>Jonathan</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Information Systems, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Eubank</LastName>
+                    <ForeName>Michael</ForeName>
+                    <Initials>M</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Information Systems, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Thomas</LastName>
+                    <ForeName>Stacy B</ForeName>
+                    <Initials>SB</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0003-3306-5655</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Information Systems, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Gardos</LastName>
+                    <ForeName>Stuart M</ForeName>
+                    <Initials>SM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Information Systems, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Reales</LastName>
+                    <ForeName>Dalicia N</ForeName>
+                    <Initials>DN</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Galle</LastName>
+                    <ForeName>Jesse</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Durany</LastName>
+                    <ForeName>Robert</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Cambria</LastName>
+                    <ForeName>Roy</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Abida</LastName>
+                    <ForeName>Wassim</ForeName>
+                    <Initials>W</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Cercek</LastName>
+                    <ForeName>Andrea</ForeName>
+                    <Initials>A</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Feldman</LastName>
+                    <ForeName>Darren R</ForeName>
+                    <Initials>DR</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Gounder</LastName>
+                    <ForeName>Mrinal M</ForeName>
+                    <Initials>MM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Hakimi</LastName>
+                    <ForeName>A Ari</ForeName>
+                    <Initials>AA</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Surgery, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Harding</LastName>
+                    <ForeName>James J</ForeName>
+                    <Initials>JJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Iyer</LastName>
+                    <ForeName>Gopa</ForeName>
+                    <Initials>G</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0002-5093-6099</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Janjigian</LastName>
+                    <ForeName>Yelena Y</ForeName>
+                    <Initials>YY</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Jordan</LastName>
+                    <ForeName>Emmet J</ForeName>
+                    <Initials>EJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Kelly</LastName>
+                    <ForeName>Ciara M</ForeName>
+                    <Initials>CM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Lowery</LastName>
+                    <ForeName>Maeve A</ForeName>
+                    <Initials>MA</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Morris</LastName>
+                    <ForeName>Luc G T</ForeName>
+                    <Initials>LGT</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Surgery, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Omuro</LastName>
+                    <ForeName>Antonio M</ForeName>
+                    <Initials>AM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Neurology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Raj</LastName>
+                    <ForeName>Nitya</ForeName>
+                    <Initials>N</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Razavi</LastName>
+                    <ForeName>Pedram</ForeName>
+                    <Initials>P</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Shoushtari</LastName>
+                    <ForeName>Alexander N</ForeName>
+                    <Initials>AN</Initials>
+                    <Identifier Source="ORCID">http://orcid.org/0000-0002-8065-4412</Identifier>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Shukla</LastName>
+                    <ForeName>Neerav</ForeName>
+                    <Initials>N</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pediatrics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Soumerai</LastName>
+                    <ForeName>Tara E</ForeName>
+                    <Initials>TE</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Varghese</LastName>
+                    <ForeName>Anna M</ForeName>
+                    <Initials>AM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Yaeger</LastName>
+                    <ForeName>Rona</ForeName>
+                    <Initials>R</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Coleman</LastName>
+                    <ForeName>Jonathan</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Bochner</LastName>
+                    <ForeName>Bernard</ForeName>
+                    <Initials>B</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Clinical Research Administration, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Riely</LastName>
+                    <ForeName>Gregory J</ForeName>
+                    <Initials>GJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Saltz</LastName>
+                    <ForeName>Leonard B</ForeName>
+                    <Initials>LB</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Scher</LastName>
+                    <ForeName>Howard I</ForeName>
+                    <Initials>HI</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Sabbatini</LastName>
+                    <ForeName>Paul J</ForeName>
+                    <Initials>PJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Robson</LastName>
+                    <ForeName>Mark E</ForeName>
+                    <Initials>ME</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Klimstra</LastName>
+                    <ForeName>David S</ForeName>
+                    <Initials>DS</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Taylor</LastName>
+                    <ForeName>Barry S</ForeName>
+                    <Initials>BS</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Baselga</LastName>
+                    <ForeName>Jose</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Schultz</LastName>
+                    <ForeName>Nikolaus</ForeName>
+                    <Initials>N</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Hyman</LastName>
+                    <ForeName>David M</ForeName>
+                    <Initials>DM</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Arcila</LastName>
+                    <ForeName>Maria E</ForeName>
+                    <Initials>ME</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Solit</LastName>
+                    <ForeName>David B</ForeName>
+                    <Initials>DB</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ladanyi</LastName>
+                    <ForeName>Marc</ForeName>
+                    <Initials>M</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Berger</LastName>
+                    <ForeName>Michael F</ForeName>
+                    <Initials>MF</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Pathology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Marie-Josée and Henry R. Kravis Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                    <AffiliationInfo>
+                        <Affiliation>Human Oncology and Pathogenesis Program, Memorial Sloan Kettering Cancer Center, New York, New York, USA.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <GrantList CompleteYN="Y">
+                <Grant>
+                    <GrantID>K08 DE024774</GrantID>
+                    <Acronym>DE</Acronym>
+                    <Agency>NIDCR NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+                <Grant>
+                    <GrantID>P50 CA092629</GrantID>
+                    <Acronym>CA</Acronym>
+                    <Agency>NCI NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+                <Grant>
+                    <GrantID>P30 CA008748</GrantID>
+                    <Acronym>CA</Acronym>
+                    <Agency>NCI NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+                <Grant>
+                    <GrantID>R01 CA182587</GrantID>
+                    <Acronym>CA</Acronym>
+                    <Agency>NCI NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+                <Grant>
+                    <GrantID>R01 CA204749</GrantID>
+                    <Acronym>CA</Acronym>
+                    <Agency>NCI NIH HHS</Agency>
+                    <Country>United States</Country>
+                </Grant>
+            </GrantList>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2017</Year>
+                <Month>05</Month>
+                <Day>08</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Nat Med</MedlineTA>
+            <NlmUniqueID>9502015</NlmUniqueID>
+            <ISSNLinking>1078-8956</ISSNLinking>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D014408">Biomarkers, Tumor</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D004273">DNA, Neoplasm</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <CommentsCorrectionsList>
+            <CommentsCorrections RefType="ErratumIn">
+                <RefSource>Nat Med. 2017 Aug 4;23 (8):1004</RefSource>
+                <PMID Version="1">28777785</PMID>
+            </CommentsCorrections>
+        </CommentsCorrectionsList>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName UI="D014408" MajorTopicYN="N">Biomarkers, Tumor</DescriptorName>
+                <QualifierName UI="Q000235" MajorTopicYN="Y">genetics</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D015331" MajorTopicYN="N">Cohort Studies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D004273" MajorTopicYN="N">DNA, Neoplasm</DescriptorName>
+                <QualifierName UI="Q000235" MajorTopicYN="Y">genetics</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D057225" MajorTopicYN="N">Data Mining</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005240" MajorTopicYN="N">Feasibility Studies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005260" MajorTopicYN="N">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D023281" MajorTopicYN="N">Genomics</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D059014" MajorTopicYN="N">High-Throughput Nucleotide Sequencing</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006801" MajorTopicYN="N">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008297" MajorTopicYN="N">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D009154" MajorTopicYN="N">Mutation</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D009362" MajorTopicYN="N">Neoplasm Metastasis</DescriptorName>
+                <QualifierName UI="Q000235" MajorTopicYN="Y">genetics</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D009369" MajorTopicYN="N">Neoplasms</DescriptorName>
+                <QualifierName UI="Q000235" MajorTopicYN="Y">genetics</QualifierName>
+                <QualifierName UI="Q000473" MajorTopicYN="N">pathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D011446" MajorTopicYN="N">Prospective Studies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D017422" MajorTopicYN="N">Sequence Analysis, DNA</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="received">
+                <Year>2016</Year>
+                <Month>12</Month>
+                <Day>22</Day>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="accepted">
+                <Year>2017</Year>
+                <Month>04</Month>
+                <Day>04</Day>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2017</Year>
+                <Month>5</Month>
+                <Day>10</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2017</Year>
+                <Month>8</Month>
+                <Day>30</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2017</Year>
+                <Month>5</Month>
+                <Day>9</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">28481359</ArticleId>
+            <ArticleId IdType="pii">nm.4333</ArticleId>
+            <ArticleId IdType="doi">10.1038/nm.4333</ArticleId>
+            <ArticleId IdType="pmc">PMC5461196</ArticleId>
+            <ArticleId IdType="mid">NIHMS865784</ArticleId>
+        </ArticleIdList>
+        <ReferenceList>
+            <Reference>
+                <Citation>Cancer Cell. 2014 Sep 8;26(3):319-30</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25155756</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Int J Cancer. 2016 Feb 15;138(4):881-90</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26314551</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nature. 2011 Nov 23;480(7377):387-90</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22113612</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Pigment Cell Melanoma Res. 2015 Sep;28(5):607-10</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26072686</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cell. 2014 Oct 23;159(3):676-90</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25417114</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Bioinformatics. 2014 Apr 1;30(7):1015-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24371154</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>JAMA Oncol. 2016 Jan;2(1):104-11</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26556299</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Genet. 2013 Dec;45(12):1439-45</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24185512</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Science. 2002 Dec 6;298(5600):1912-34</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">12471243</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Oncogene. 2015 Sep 10;34(37):4845-54</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25500544</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Arch Pathol Lab Med. 2015 Apr;139(4):508-17</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25356985</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Biotechnol. 2016 Feb;34(2):155-63</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26619011</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Sci Transl Med. 2015 Apr 15;7(283):283ra53</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25877891</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Mol Cancer Ther. 2015 Jun;14(6):1488-94</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25852059</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>JAMA Oncol. 2015 Apr;1(1):40-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26182302</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Genome Res. 2010 Sep;20(9):1297-303</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">20644199</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Brief Bioinform. 2013 Mar;14(2):178-92</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22517427</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nature. 2016 Jun 30;534(7609):647-51</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27338794</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nucleic Acids Res. 2017 Jan 4;45(D1):D777-D783</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27899578</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Bioinformatics. 2012 Sep 15;28(18):i333-i339</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22962449</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Mol Diagn. 2015 May;17(3):251-64</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25801821</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>JAMA Oncol. 2015 Jul;1(4):466-74</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26181256</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Clin Oncol. 2013 May 20;31(15):1806-14</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23589557</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nature. 2014 Sep 11;513(7517):202-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25079317</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Clin Endocrinol Metab. 2014 May;99(5):E754-65</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24476079</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Mol Diagn. 2013 Jul;15(4):415-53</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23562183</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cancer Discov. 2014 Apr;4(4):405-14</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24658082</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>JCI Insight. 2016 Nov 17;1(19):e87062</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27882345</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Am Med Inform Assoc. 2016 Jul;23(4):777-81</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27016727</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Pathol. 2016 Mar;238(4):508-18</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26832993</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Clin Oncol. 2015 Sep 1;33(25):2753-62</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26014291</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Genome Biol. 2014 Aug 07;15(8):427</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25198155</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Engl J Med. 2011 Jun 30;364(26):2507-16</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">21639808</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Bioinformatics. 2009 Nov 1;25(21):2865-71</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">19561018</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Oncotarget. 2016 Feb 23;7(8):8712-25</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26556853</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Biotechnol. 2013 Nov;31(11):1023-31</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24142049</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Genome Med. 2016 Jul 26;8(1):79</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27460824</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Proc Natl Acad Sci U S A. 2013 Apr 9;110(15):6021-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23530248</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Science. 2013 Feb 22;339(6122):959-61</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23348503</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nucleic Acids Res. 2004 Jan 1;32(Database issue):D493-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">14681465</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nature. 2013 Aug 22;500(7463):415-21</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23945592</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cancer Cell. 2015 Sep 14;28(3):370-83</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26343582</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Commun. 2014 Sep 10;5:4846</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25204415</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Mol Diagn. 2013 Sep;15(5):607-22</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23810757</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Science. 2013 Feb 22;339(6122):957-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23348506</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Rev Cancer. 2015 Dec;15(12):701-11</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26563462</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nature. 2013 Oct 17;502(7471):333-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24132290</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cancer Discov. 2012 May;2(5):401-4</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22588877</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Engl J Med. 2015 Aug 20;373(8):726-36</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26287849</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cell. 2013 Apr 25;153(3):666-77</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23622249</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Med. 2014 Dec;20(12):1479-84</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">25384085</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Sci Transl Med. 2011 Nov 30;3(111):111ra121</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22133722</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cancer Discov. 2014 Apr;4(4):452-65</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24444711</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Genet. 2013 Dec;45(12):1446-51</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24185510</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Bioinformatics. 2009 Jul 15;25(14):1754-60</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">19451168</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Genome Med. 2016 Oct 25;8(1):109</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">27782854</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Bioinformatics. 2014 Oct;30(19):2813-5</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24907369</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Genet. 2013 Oct;45(10):1127-33</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">24071851</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Engl J Med. 2015 Jun 25;372(26):2509-20</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">26028255</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Nat Biotechnol. 2013 Mar;31(3):213-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">23396013</ArticleId>
+                </ArticleIdList>
+            </Reference>
+        </ReferenceList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>
