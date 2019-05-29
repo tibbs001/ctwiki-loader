@@ -34,15 +34,6 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'id_value'
     end
 
-    create_table 'pubmed.authors' do |t|
-      t.string  'pmid'
-      t.string  'last_name'
-      t.string  'first_name'
-      t.string  'initials'
-      t.string  'name'
-      t.string  'affiliation'
-    end
-
     create_table 'pubmed.chemicals' do |t|
       t.string  'pmid'
       t.string  'registry_number'

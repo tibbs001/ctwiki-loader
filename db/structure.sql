@@ -2404,6 +2404,21 @@ CREATE TABLE lookup.journals (
 
 
 --
+-- Name: journals_backup; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journals_backup (
+    id integer,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
 -- Name: journals_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
 --
 
@@ -3034,17 +3049,57 @@ ALTER SEQUENCE proj_tag_study_characteristics.tagged_terms_id_seq OWNED BY proj_
 
 
 --
+-- Name: author_affiliations; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.author_affiliations (
+    id integer NOT NULL,
+    "pubmed.author_id" integer,
+    pmid character varying,
+    qcode character varying,
+    isni character varying,
+    grid character varying,
+    name character varying,
+    downcase_name character varying
+);
+
+
+--
+-- Name: author_affiliations_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.author_affiliations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: author_affiliations_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.author_affiliations_id_seq OWNED BY pubmed.author_affiliations.id;
+
+
+--
 -- Name: authors; Type: TABLE; Schema: pubmed; Owner: -
 --
 
 CREATE TABLE pubmed.authors (
     id integer NOT NULL,
+    "pubmed.publication_id" integer,
     pmid character varying,
+    qcode character varying,
+    orcid character varying,
+    validated boolean,
     last_name character varying,
     first_name character varying,
     initials character varying,
     name character varying,
-    affiliation character varying
+    downcase_name character varying
 );
 
 
@@ -3809,6 +3864,13 @@ ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms ALTER COLUMN id SET
 
 
 --
+-- Name: author_affiliations id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.author_affiliations ALTER COLUMN id SET DEFAULT nextval('pubmed.author_affiliations_id_seq'::regclass);
+
+
+--
 -- Name: authors id; Type: DEFAULT; Schema: pubmed; Owner: -
 --
 
@@ -4406,6 +4468,14 @@ ALTER TABLE ONLY proj_tag_study_characteristics.oncology_studies
 
 ALTER TABLE ONLY proj_tag_study_characteristics.tagged_terms
     ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: author_affiliations author_affiliations_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.author_affiliations
+    ADD CONSTRAINT author_affiliations_pkey PRIMARY KEY (id);
 
 
 --
@@ -5404,6 +5474,20 @@ CREATE INDEX "index_mesh_archive.y2018_mesh_terms_on_qualifier" ON mesh_archive.
 
 
 --
+-- Name: index_pubmed.author_affiliations_on_pubmed.author_id; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX "index_pubmed.author_affiliations_on_pubmed.author_id" ON pubmed.author_affiliations USING btree ("pubmed.author_id");
+
+
+--
+-- Name: index_pubmed.authors_on_pubmed.publication_id; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX "index_pubmed.authors_on_pubmed.publication_id" ON pubmed.authors USING btree ("pubmed.publication_id");
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: pubmed; Owner: -
 --
 
@@ -5913,4 +5997,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190527000442');
 INSERT INTO schema_migrations (version) VALUES ('20190527800143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190528800143');
+
+INSERT INTO schema_migrations (version) VALUES ('20190529800143');
 
