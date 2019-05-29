@@ -2354,61 +2354,11 @@ ALTER SEQUENCE lookup.interventions_id_seq OWNED BY lookup.interventions.id;
 
 
 --
--- Name: journal; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.journal (
-    id integer NOT NULL,
-    qcode character varying,
-    types character varying,
-    name character varying,
-    downcase_name character varying,
-    wiki_description character varying,
-    looks_suspicious character varying
-);
-
-
---
--- Name: journal_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
---
-
-CREATE SEQUENCE lookup.journal_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: journal_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
---
-
-ALTER SEQUENCE lookup.journal_id_seq OWNED BY lookup.journal.id;
-
-
---
 -- Name: journals; Type: TABLE; Schema: lookup; Owner: -
 --
 
 CREATE TABLE lookup.journals (
     id integer NOT NULL,
-    qcode character varying,
-    types character varying,
-    name character varying,
-    downcase_name character varying,
-    wiki_description character varying,
-    looks_suspicious character varying
-);
-
-
---
--- Name: journals_backup; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.journals_backup (
-    id integer,
     qcode character varying,
     types character varying,
     name character varying,
@@ -3260,40 +3210,6 @@ ALTER SEQUENCE pubmed.other_ids_id_seq OWNED BY pubmed.other_ids.id;
 
 
 --
--- Name: pub_xml_records; Type: TABLE; Schema: pubmed; Owner: -
---
-
-CREATE TABLE pubmed.pub_xml_records (
-    id integer NOT NULL,
-    pmid character varying,
-    content xml,
-    created_pub_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
---
-
-CREATE SEQUENCE pubmed.pub_xml_records_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
---
-
-ALTER SEQUENCE pubmed.pub_xml_records_id_seq OWNED BY pubmed.pub_xml_records.id;
-
-
---
 -- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
 --
 
@@ -3321,8 +3237,8 @@ CREATE TABLE pubmed.publications (
     medline_ta character varying,
     nlm_unique_id character varying,
     issn_linking character varying,
-    name character varying,
-    journal_qcode character varying
+    journal_qcode character varying,
+    name character varying
 );
 
 
@@ -3731,13 +3647,6 @@ ALTER TABLE ONLY lookup.interventions ALTER COLUMN id SET DEFAULT nextval('looku
 
 
 --
--- Name: journal id; Type: DEFAULT; Schema: lookup; Owner: -
---
-
-ALTER TABLE ONLY lookup.journal ALTER COLUMN id SET DEFAULT nextval('lookup.journal_id_seq'::regclass);
-
-
---
 -- Name: journals id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -3903,13 +3812,6 @@ ALTER TABLE ONLY pubmed.mesh_terms ALTER COLUMN id SET DEFAULT nextval('pubmed.m
 --
 
 ALTER TABLE ONLY pubmed.other_ids ALTER COLUMN id SET DEFAULT nextval('pubmed.other_ids_id_seq'::regclass);
-
-
---
--- Name: pub_xml_records id; Type: DEFAULT; Schema: pubmed; Owner: -
---
-
-ALTER TABLE ONLY pubmed.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('pubmed.pub_xml_records_id_seq'::regclass);
 
 
 --
@@ -4319,14 +4221,6 @@ ALTER TABLE ONLY lookup.interventions
 
 
 --
--- Name: journal journal_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
---
-
-ALTER TABLE ONLY lookup.journal
-    ADD CONSTRAINT journal_pkey PRIMARY KEY (id);
-
-
---
 -- Name: journals journals_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
@@ -4516,14 +4410,6 @@ ALTER TABLE ONLY pubmed.mesh_terms
 
 ALTER TABLE ONLY pubmed.other_ids
     ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
-
-
---
--- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
---
-
-ALTER TABLE ONLY pubmed.pub_xml_records
-    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -5989,8 +5875,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181230000144');
 INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 
 INSERT INTO schema_migrations (version) VALUES ('20190516000142');
-
-INSERT INTO schema_migrations (version) VALUES ('20190526000642');
 
 INSERT INTO schema_migrations (version) VALUES ('20190527000442');
 
