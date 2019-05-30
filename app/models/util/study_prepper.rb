@@ -25,6 +25,7 @@ module Util
     end
 
     def assign_existing_studies_missing_prop(code)
+      # method to create a file of single snaks for just one property
       File.open("public/assign_#{code}.txt", "w+") do |f|
         mgr.ids_for_studies_without_prop(code).each {|hash|
           study = source_model_name.get_for(hash.keys.first)

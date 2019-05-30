@@ -33,10 +33,12 @@ module Util
       return "#{new_line}#{subject}#{tab}"
     end
 
-    def create_all_quickstatements(f)
-      f << 'CREATE'
-      prop_codes.each{ |prop_code| f << quickstatement_for(prop_code) }
-      f << " #{new_line}#{new_line}"
+    def create_all_quickstatements(file)
+      file << 'CREATE'
+      prop_codes.each{ |prop_code|
+        file << quickstatement_for(prop_code)
+      }
+      file << " #{new_line}#{new_line}"
     end
 
     def set_delimiters(args={})
