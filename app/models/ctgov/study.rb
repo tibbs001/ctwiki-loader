@@ -133,6 +133,7 @@ module Ctgov
       active_countries.each{ |country|
         qcode = Lookup::Country.qcode_for(country.name)
         assigned_qcodes << qcode
+        return_str << "#{new_line}#{subject}#{tab}P17#{tab}#{qcode}" if !qcode.blank?
       }
       return return_str
     end
