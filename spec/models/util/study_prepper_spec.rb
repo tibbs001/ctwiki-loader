@@ -24,7 +24,6 @@ describe Util::StudyPrepper do
   end
 
   it "should retrieve source data from the correct tables" do
-    populate_studies_db
     stub_request(:post, "https://query.wikidata.org/sparql").
          with(
            body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
@@ -38,11 +37,11 @@ describe Util::StudyPrepper do
            }).
          to_return(status: 200, body: [], headers: {})
 
-    Ctgov::Study.destroy_all
+    populate_studies_db
+    lm = Util::LookupManager.new
     pmid='7906420'
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
-    pub=Ctgov::Study.new({xml: xml, pmid: pmid, lookup_mgr: lm}).create
-
+    pub=Pubmed::Publication.new({xml: xml, pmid: pmid, lookup_mgr: lm}).create
 
     Lookup::Country.destroy_all
     Lookup::Intervention.destroy_all
@@ -73,8 +72,9 @@ describe Util::StudyPrepper do
     #Lookup::Organization.populate_predefined_qcode
 
     # data source method should return a Study-type that answers to nct_id.  Would raise an error if no nct_id
+
     Util::StudyPrepper.run
-    quickstatement_file_name=Rails.root.join("public/0_quickstatements.txt")
+    quickstatement_file_name="public/0_study_quickstatements.txt"
     expect(File.exists? quickstatement_file_name).to eq(true)
     content = (File.readlines quickstatement_file_name).first
     expect(content).to include("CREATE||LAST|Len|\"Cholinergic Modulation of Condition and Emotion in Mood Disorders: Functional Neuroimaging Studies")
