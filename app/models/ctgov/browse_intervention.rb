@@ -1,5 +1,5 @@
 module Ctgov
-  class BrowseIntervention < StudyRelationship
+  class BrowseIntervention < Ctgov::StudyRelationship
     self.table_name = 'ctgov.browse_interventions'
 
     def name

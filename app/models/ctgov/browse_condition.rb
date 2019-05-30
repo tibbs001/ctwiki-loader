@@ -1,5 +1,5 @@
 module Ctgov
-  class BrowseCondition < StudyRelationship
+  class BrowseCondition < Ctgov::StudyRelationship
     self.table_name = 'ctgov.browse_conditions'
 
     def name

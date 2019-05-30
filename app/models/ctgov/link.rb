@@ -1,17 +1,19 @@
-class Link < StudyRelationship
+  module Ctgov
+  class Link < Ctgov::StudyRelationship
 
-  def self.top_level_label
-    '//link'
+    def self.top_level_label
+      '//link'
+    end
+
+    def self.create_all_from(opts)
+      objects = super
+      import(objects)
+    end
+
+    def attribs
+      {:url=>get('url'),
+       :description => get('description')}
+    end
+
   end
-
-  def self.create_all_from(opts)
-    objects = super
-    import(objects)
-  end
-
-  def attribs
-    {:url=>get('url'),
-     :description => get('description')}
-  end
-
 end

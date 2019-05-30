@@ -1,5 +1,5 @@
 module Ctgov
-  class Country < StudyRelationship
+  class Country < Ctgov::StudyRelationship
     self.table_name = 'ctgov.countries'
   end
 end

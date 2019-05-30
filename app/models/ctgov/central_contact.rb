@@ -1,3 +1,4 @@
-class CentralContact < StudyRelationship
-
+module Ctgov
+  class CentralContact < Ctgov::StudyRelationship
+  end
 end

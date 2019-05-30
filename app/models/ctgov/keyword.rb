@@ -1,5 +1,5 @@
 module Ctgov
-  class Keyword < StudyRelationship
+  class Keyword < Ctgov::StudyRelationship
     self.table_name = 'ctgov.keywords'
 
     def self.top_level_label
