@@ -13,7 +13,6 @@ module Ctgov
 
     has_one  :brief_summary,         :foreign_key => 'nct_id', :dependent => :delete
     has_one  :design,                :foreign_key => 'nct_id', :dependent => :delete
-    has_one  :detailed_description,  :foreign_key => 'nct_id', :dependent => :delete
     has_one  :eligibility,           :foreign_key => 'nct_id', :dependent => :delete
     has_one  :participant_flow,      :foreign_key => 'nct_id', :dependent => :delete
     has_one  :calculated_value,      :foreign_key => 'nct_id', :dependent => :delete
@@ -25,11 +24,6 @@ module Ctgov
     has_many :central_contacts,      :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :conditions,            :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :countries,             :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :design_outcomes,       :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :design_groups,         :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :design_group_interventions, :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :documents,             :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :drop_withdrawals,      :foreign_key => 'nct_id', :dependent => :delete_all
 
     has_many :facilities,            :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :facility_contacts,     :foreign_key => 'nct_id', :dependent => :delete_all
@@ -50,9 +44,7 @@ module Ctgov
     has_many :references,            :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :reported_events,       :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :responsible_parties,   :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :result_agreements,     :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :result_contacts,       :foreign_key => 'nct_id', :dependent => :delete_all
-    has_many :result_groups,         :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :sponsors,              :foreign_key => 'nct_id', :dependent => :delete_all
 
     def self.all_ids
@@ -62,7 +54,6 @@ module Ctgov
     def self.get_for(id)
       where('nct_id=?', id).first.set_delimiters
     end
-
 
     def prop_codes
       ['Len',    # label

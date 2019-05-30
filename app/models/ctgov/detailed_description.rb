@@ -1,3 +1,0 @@
-class DetailedDescription < StudyRelationship
-
-end
