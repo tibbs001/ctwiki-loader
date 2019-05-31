@@ -1,10 +1,11 @@
 module Util
   class LookupManager
 
-    attr_accessor :countries, :orgs, :pubs_not_in_wikidata
+    attr_accessor :countries, :orgs, :studies, :pubs_not_in_wikidata
 
     def initialize
       load_countries
+      load_studies
 #      load_orgs
     end
 
@@ -27,6 +28,10 @@ module Util
       Lookup::Publication.where('qcode is null').pluck(:downcase_name, :qcode).each {|c|
         @orgs[c.first] = c.last
       }
+    end
+
+    def load_studies
+      @studies = Util::WikiDataManager.new.get_study_id_maps
     end
 
   end
