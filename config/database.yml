@@ -12,7 +12,7 @@ development:
 
 test:
   <<: *default
-  database: aact_back_test
+  url:  "postgres://wiki@localhost:5432/aact_back_test"
 
 production:
   <<: *default
