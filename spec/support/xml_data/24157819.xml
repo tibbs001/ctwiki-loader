@@ -1,0 +1,336 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Status="PubMed-not-MEDLINE" Owner="NLM">
+        <PMID Version="1">24157819</PMID>
+        <DateCompleted>
+            <Year>2013</Year>
+            <Month>10</Month>
+            <Day>25</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2018</Year>
+            <Month>11</Month>
+            <Day>13</Day>
+        </DateRevised>
+        <Article PubModel="Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">2044-6055</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>3</Volume>
+                    <Issue>10</Issue>
+                    <PubDate>
+                        <Year>2013</Year>
+                        <Month>Oct</Month>
+                        <Day>23</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>BMJ open</Title>
+                <ISOAbbreviation>BMJ Open</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Randomised controlled trial of vitamin D supplementation in sarcoidosis.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>e003562</MedlinePgn>
+            </Pagination>
+            <ELocationID EIdType="doi" ValidYN="Y">10.1136/bmjopen-2013-003562</ELocationID>
+            <Abstract>
+                <AbstractText Label="OBJECTIVES" NlmCategory="OBJECTIVE">The role vitamin D intake/production plays in sarcoidosis-associated hypercalcaemia is uncertain. However, authoritative reviews have recommended avoiding sunlight exposure and vitamin D supplements, which might lead to adverse skeletal outcomes from vitamin D insufficiency. We investigated the effects of vitamin D supplementation on surrogate measures of skeletal health in patients with sarcoidosis and vitamin D insufficiency.</AbstractText>
+                <AbstractText Label="DESIGN" NlmCategory="METHODS">Randomised, placebo-controlled trial.</AbstractText>
+                <AbstractText Label="SETTING" NlmCategory="METHODS">Clinical research centre.</AbstractText>
+                <AbstractText Label="PARTICIPANTS" NlmCategory="METHODS">27 normocalcaemic patients with sarcoidosis and 25-hydroxyvitamin D (25OHD) &lt;50 nmol/L.</AbstractText>
+                <AbstractText Label="INTERVENTION" NlmCategory="METHODS">50 000 IU weekly cholecalciferol for 4 weeks, then 50 000 IU monthly for 11 months or placebo.</AbstractText>
+                <AbstractText Label="PRIMARY AND SECONDARY OUTCOME MEASURES" NlmCategory="METHODS">The primary endpoint was the change in serum calcium over 12 months, and secondary endpoints included measurements of calcitropic hormones, bone turnover markers and bone mineral density (BMD).</AbstractText>
+                <AbstractText Label="RESULTS" NlmCategory="RESULTS">The mean age of participants was 57 years and 70% were women. The mean (SD) screening 25OHD was 35 (12) and 38 (9) nmol/L in the treatment and control groups, respectively. Vitamin D supplementation increased 25OHD to 94 nmol/L after 4 weeks, 84 nmol/L at 6 months and 78 nmol/L at 12 months, while levels remained stable in the control group. 1,25-Dihydroxy vitamin D levels were significantly different between the groups at 4 weeks, but not at 6 or 12 months. There were no between-groups differences in albumin-adjusted serum calcium, 24 h urine calcium, markers of bone turnover, parathyroid hormone or BMD over the trial. One participant developed significant hypercalcaemia after 6 weeks (total cholecalciferol dose 250 000 IU).</AbstractText>
+                <AbstractText Label="CONCLUSIONS" NlmCategory="CONCLUSIONS">In patients with sarcoidosis and 25OHD &lt;50 nmol/L, vitamin D supplements did not alter average serum calcium or urine calcium, but had no benefit on surrogate markers of skeletal health and caused one case of significant hypercalcaemia.</AbstractText>
+                <AbstractText Label="TRIAL REGISTRATION" NlmCategory="BACKGROUND">This trial is registered at the Australian New Zealand Clinical Trials Registry (http://www.anzctr.org.au). The registration number is ACTRN12607000364471, date of registration 5/7/2007.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Bolland</LastName>
+                    <ForeName>Mark J</ForeName>
+                    <Initials>MJ</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Department of Medicine, University of Auckland, Auckland, New Zealand.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wilsher</LastName>
+                    <ForeName>Margaret L</ForeName>
+                    <Initials>ML</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Grey</LastName>
+                    <ForeName>Andrew</ForeName>
+                    <Initials>A</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Horne</LastName>
+                    <ForeName>Anne M</ForeName>
+                    <Initials>AM</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Fenwick</LastName>
+                    <ForeName>Sheryl</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Gamble</LastName>
+                    <ForeName>Greg D</ForeName>
+                    <Initials>GD</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Reid</LastName>
+                    <ForeName>Ian R</ForeName>
+                    <Initials>IR</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2013</Year>
+                <Month>10</Month>
+                <Day>23</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>England</Country>
+            <MedlineTA>BMJ Open</MedlineTA>
+            <NlmUniqueID>101552874</NlmUniqueID>
+            <ISSNLinking>2044-6055</ISSNLinking>
+        </MedlineJournalInfo>
+        <KeywordList Owner="NOTNLM">
+            <Keyword MajorTopicYN="N">THORACIC MEDICINE</Keyword>
+        </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2013</Year>
+                <Month>10</Month>
+                <Day>26</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2013</Year>
+                <Month>10</Month>
+                <Day>26</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2013</Year>
+                <Month>10</Month>
+                <Day>26</Day>
+                <Hour>6</Hour>
+                <Minute>1</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>epublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">24157819</ArticleId>
+            <ArticleId IdType="pii">bmjopen-2013-003562</ArticleId>
+            <ArticleId IdType="doi">10.1136/bmjopen-2013-003562</ArticleId>
+            <ArticleId IdType="pmc">PMC3808783</ArticleId>
+        </ArticleIdList>
+        <ReferenceList>
+            <Reference>
+                <Citation>Semin Respir Crit Care Med. 2010 Aug;31(4):474-84</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">20665397</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Engl J Med. 2007 Jul 19;357(3):266-81</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">17634462</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Endocr Rev. 2001 Aug;22(4):477-501</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">11493580</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Eur J Respir Dis. 1986 Mar;68(3):186-94</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">3699120</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Engl J Med. 1986 Sep 18;315(12):755-7</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">3748084</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Am J Med. 1964 Apr;36:500-13</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">14142404</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Curr Opin Pulm Med. 2010 Sep;16(5):487-8</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">20671517</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Q J Med. 1984 Spring;53(210):165-80</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">6087399</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Thorax. 1998 May;53(5):425-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">9708239</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Am J Med Sci. 2003 Jan;325(1):1-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">12544077</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Acta Med Scand. 1952 Jul 8;143(4):281-87</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">12976018</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Sarcoidosis Vasc Diffuse Lung Dis. 1999 Sep;16(2):219-23</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">10560127</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Am Acad Dermatol. 2011 Apr;64(4):795-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">21414506</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Lancet. 2012 Jan 14;379(9811):95-6</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22243814</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Am J Respir Crit Care Med. 2001 Nov 15;164(10 Pt 1):1885-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">11734441</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Rheumatology (Oxford). 2000 Jul;39(7):707-13</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">10908687</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Clin Chem. 2009 Jul;55(7):1300-2</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">19423731</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Ann Intern Med. 2011 Dec 20;155(12):827-38</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22184690</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Clin Endocrinol Metab. 2011 Jul;96(7):1931-42</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">21677037</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Bone Miner Metab. 2004;22(1):48-52</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">14691687</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>BMJ. 2010 Jan 11;340:b5664</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">20064851</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Sarcoidosis. 1991 Mar;8(1):29-34</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">1669936</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Intern Med. 1996 May;239(5):393-8</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">8642231</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Curr Rheumatol Rep. 2011 Jun;13(3):265-72</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">21327743</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Chest. 1996 Feb;109(2):535-9</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">8620732</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Cochrane Database Syst Rev. 2009 Apr 15;(2):CD000227</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">19370554</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>N Z Med J. 2012 Feb 10;125(1349):83-91</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">22327161</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Am J Med. 1963 Feb;34:221-7</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">13980365</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Clin Endocrinol Metab. 2011 Oct;96(10):2997-3006</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">21795448</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Sarcoidosis. 1993 Sep;10(2):161-2</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">8140316</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>J Am Diet Assoc. 1989 Feb;89(2):209-14</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">2915093</ArticleId>
+                </ArticleIdList>
+            </Reference>
+            <Reference>
+                <Citation>Ann N Y Acad Sci. 1976;278:321-34</Citation>
+                <ArticleIdList>
+                    <ArticleId IdType="pubmed">1067017</ArticleId>
+                </ArticleIdList>
+            </Reference>
+        </ReferenceList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>

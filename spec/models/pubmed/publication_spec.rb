@@ -2,7 +2,71 @@ require 'rails_helper'
 
 describe Pubmed::Publication do
 
+  it "creates a publication with correct pub date when only day & month" do
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [], headers: {})
+
+    pmid='21522216'
+    lm = Util::LookupManager.new
+    xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
+    pub=Pubmed::Publication.new({xml: xml, pmid: pmid, lookup_mgr: lm}).create
+    expect(pub.pmid).to eq(pmid)
+    expect(pub.publication_date_str).to eq('2006 May')
+    expect(pub.publication_year).to eq(2006)
+    # because only publication year and month provided, the quickstatement should code the date with a /10 suffix.
+    expect(pub.pub_date_quickstatement("")).to eq("+2006-05-01T00:00:00Z/10")
+  end
+
+  it "creates a publication with correct attribute values" do
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [], headers: {})
+
+    pmid='24157819'
+    lm = Util::LookupManager.new
+    xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
+    pub=Pubmed::Publication.new({xml: xml, pmid: pmid, lookup_mgr: lm}).create
+    expect(pub.pmid).to eq('24157819')
+    expect(pub.publication_year).to eq(2013)
+    expect(pub.issue).to eq('10')
+    # because pubdate has a 'day', the quickstatement should have /11 suffix
+    expect(pub.pub_date_quickstatement("")).to eq("+2013-10-23T00:00:00Z/11")
+    expect(pub.name).to eq("BMJ open")
+  end
+
   it "saves a pub xml to the pub_xml_record" do
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [], headers: {})
+
     pmid='7906420'
     lm = Util::LookupManager.new
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
@@ -22,6 +86,19 @@ describe Pubmed::Publication do
   end
 
   it "saves a 2nd pub xml to the pub_xml_record" do
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'Ruby'
+           }).
+         to_return(status: 200, body: [], headers: {})
+
     pmid='16002928'
     lm = Util::LookupManager.new
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
@@ -34,7 +111,7 @@ describe Pubmed::Publication do
     expect(pub.title).to eq('Impaired respiratory and skeletal muscle strength in patients prior to hematopoietic stem-cell transplantation.')
     expect(pub.publication_year).to eq(2005)
     expect(pub.publication_month).to eq(7)
-    expect(pub.publication_date).to eq(nil)
+    expect(pub.publication_date).to eq(Date.parse('01-07-2005')) # use first of month if no day provided
     expect(pub.publication_date_str).to eq('2005 Jul')
     expect(pub.pagination).to eq('145-52')
     expect(pub.nlm_unique_id).to eq('0231335')

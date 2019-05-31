@@ -3,7 +3,6 @@ require 'rails_helper'
 describe Util::StudyPrepper do
 
   it "should retrieve source data from the correct tables" do
-    populate_studies_db
     stub_request(:post, "https://query.wikidata.org/sparql").
          with(
            body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
@@ -18,12 +17,13 @@ describe Util::StudyPrepper do
          to_return(status: 200, body: [], headers: {})
 
     # the test AACT db should have the 3 expected sample studies
+    # if not, check method in database_cleaner.rb
     expect(Ctgov::Study.count).to eq(3)
-    # data source method should return a Study-type that answers to nct_id.  Would raise an error if no nct_id
     expect(Util::StudyPrepper.source_model_name.new({}).nct_id).to be(nil)
   end
 
   it "should retrieve source data from the correct tables" do
+    expect(Ctgov::Study.count).to eq(3)
     stub_request(:post, "https://query.wikidata.org/sparql").
          with(
            body: {"query"=>"SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"},
@@ -37,7 +37,6 @@ describe Util::StudyPrepper do
            }).
          to_return(status: 200, body: [], headers: {})
 
-    populate_studies_db
     lm = Util::LookupManager.new
     pmid='7906420'
     xml=Nokogiri::XML(File.read("spec/support/xml_data/#{pmid}.xml"))
@@ -76,28 +75,20 @@ describe Util::StudyPrepper do
     Util::StudyPrepper.run
     quickstatement_file_name="public/0_study_quickstatements.txt"
     expect(File.exists? quickstatement_file_name).to eq(true)
-    content = (File.readlines quickstatement_file_name).first
-    expect(content).to include("CREATE||LAST|Len|\"Cholinergic Modulation of Condition and Emotion in Mood Disorders: Functional Neuroimaging Studies")
+    content = ''
+    f = File.open(quickstatement_file_name, "r")
+    f.each_line do |line|
+      content += line
+    end
+    # to do: account for different delimiters - the content could be a single long line if delimiters are bars (|)
+    # or content could be series of quickstatement command separated by new lines.  Should test both ways
+    # For now, just verify the file bascially contains expected content - no matter which delimiter is being used
+
     expect(content).to include("NCT00001899")
     expect(content).to include("NCT00011414")
     expect(content).to include("NCT00055575")
+    expect(content).to include("en:\"Immunologic and Virologic Characterization of HIV-Infected Patients After Cessation of Highly Active Antiretroviral Therapy (HAART)\"")
     expect(content.scan(/(?=CREATE)/).count).to eq(3)
-    #expect(content).to include('Q3519875')
-  end
-
-  def populate_studies_db
-    dump_file=Rails.root.join("spec/support/postgres_data.dmp")
-    cmd="pg_restore -c -j 5 -v -h localhost -p 5432 -U #{ENV['AACT_DB_SUPER_USERNAME']} -d aact_back_test #{dump_file}"
-    require 'open3'
-    stdout, stderr, status = Open3.capture3(cmd)
-    if status.exitstatus != 0
-      # Errors that report a db object doesn't already exist aren't real errors. Ignore those.  Look for real errors.
-      real_errors = []
-      stderr_array = stderr.split('pg_restore:')
-      puts "ERROR:  ======================================================================="
-      stderr_array.each {|line| puts line }
-      puts "ERROR:  ======================================================================="
-    end
   end
 
 end
