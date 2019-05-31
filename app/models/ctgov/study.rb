@@ -10,6 +10,7 @@ module Ctgov
     self.table_name = 'ctgov.studies'
     self.primary_key = 'nct_id'
     include Util::QuickstatementExtension
+    attr_accessor :lookup_mgr
 
     has_one  :brief_summary,         :foreign_key => 'nct_id', :dependent => :delete
     has_one  :design,                :foreign_key => 'nct_id', :dependent => :delete
@@ -51,8 +52,11 @@ module Ctgov
       all.pluck(:nct_id)
     end
 
-    def self.get_for(id)
-      where('nct_id=?', id).first.set_delimiters
+    def self.get_for(id, lookup_mgr)
+      obj = where('nct_id=?', id).first
+      obj.set_delimiters
+      obj.lookup_mgr=lookup_mgr
+      return obj
     end
 
     def prop_codes

@@ -33,15 +33,7 @@ module Util
     end
 
     def get_id_maps
-      # because there are millions of scholarly articles in wikidata, we will only get the ones specifically referenced by
-      # studies in ClinicalTrials.gov.  Lookup::Publication has iterated over all pmids specified in StudyReference
-      # and defined the qcodes for those that are already in wikidata. Rows in Lookup::Publication without a qcode
-      # represent publications that are referenced in ct.gov but aren't yet in wikidata
-      results = []
-      Lookup::Publication.where('qcode is not null').pluck(:pmid, :qcode).each {|a|
-        results << {a.first => a.last}
-      }
-      return results.flatten.uniq
+      mgr.get_pub_id_maps
     end
 
   end

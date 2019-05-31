@@ -3,7 +3,35 @@ require 'sparql/client'
 
 module Util
   class WikiDataManager
-    attr_accessor :property_mgr
+
+    def get_study_id_maps
+      results=[]
+      cmd="SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
+      query_results = run_sparql(cmd)
+      if query_results.class == Array
+        query_results.each {|i|
+          label = val = ''
+          i.each_binding { |name, item|
+            label = item.value if name == :nct_id
+            val   = item.value.chomp.split('/').last if name == :item
+          }
+          results << {label.to_s => val }
+        }
+      end
+      return results.flatten.uniq
+    end
+
+    def get_pub_id_maps
+      # because there are millions of scholarly articles in wikidata, we will only get the ones specifically referenced by
+      # studies in ClinicalTrials.gov.  Lookup::Publication has iterated over all pmids specified in StudyReference
+      # and defined the qcodes for those that are already in wikidata. Rows in Lookup::Publication without a qcode
+      # represent publications that are referenced in ct.gov but aren't yet in wikidata
+      results = []
+      Lookup::Publication.where('qcode is not null').pluck(:pmid, :qcode).each {|a|
+        results << {a.first => a.last}
+      }
+      return results.flatten.uniq
+    end
 
     def wiki_api_call(search_string, search_strings_tried, delimiter=nil)
       if !search_strings_tried.include?(search_string)
@@ -15,10 +43,7 @@ module Util
         end
         url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=#{search_string}&language=en&format=json"
 #               https://www.wikidata.org/w/api.php?action=wbsearchentities&search=23153596&language=en&format=json
-#               GET https://www.wikidata.org/w/api.php?action=wbsearchentities&search=23153596&language=en
 #               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q18002781
-#               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&languages=en&ids=P698
-#               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&props=labels&ids=Q191067
         puts "#{url}"
         download = RestClient::Request.execute({ url: url, method: :get, content_type: :json})
         eval(download)[:search]
@@ -56,9 +81,6 @@ module Util
         start_string = initialize_search_string(str, should_remove_numbers)
         search_string = start_string.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
         raw_results = wiki_api_call(search_string, search_strings_tried)
-        puts "====== raw results ======================================="
-        puts raw_results
-        puts "====== raw results ======================================="
         if raw_results.empty?
 
           c = []
@@ -66,9 +88,6 @@ module Util
             puts "  nothing found yet.  Gonna try breaking on #{delimiter}"
             search_string = start_string.split(delimiter).first.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
             result = wiki_api_call(search_string, search_strings_tried, delimiter)
-            puts "====== result ======================================="
-            puts result
-            puts "====== result ======================================="
             if result.blank?
               search_string = start_string.split(delimiter).last.strip.gsub(' ','+').gsub('++','+').encode(Encoding.find('ASCII'), encoding_options)
               result = wiki_api_call(search_string, search_strings_tried, delimiter)

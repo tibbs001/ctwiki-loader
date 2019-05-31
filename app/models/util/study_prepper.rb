@@ -10,20 +10,6 @@ module Util
       Ctgov::Study
     end
 
-    def get_id_maps
-      results=[]
-      cmd="SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
-      mgr.run_sparql(cmd).each {|i|
-        label = val = ''
-        i.each_binding { |name, item|
-          label = item.value if name == :nct_id
-          val   = item.value.chomp.split('/').last if name == :item
-        }
-        results << {label.to_s => val }
-      }
-      return results.flatten.uniq
-    end
-
     def assign_existing_studies_missing_prop(code)
       # method to create a file of single snaks for just one property
       File.open("public/assign_#{code}.txt", "w+") do |f|
@@ -35,5 +21,8 @@ module Util
       end
     end
 
+    def get_id_maps
+      mgr.get_study_id_maps
+    end
   end
 end

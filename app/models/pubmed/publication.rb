@@ -26,10 +26,14 @@ module Pubmed
       all.pluck(:pmid)
     end
 
-    def self.get_for(id)
-      where('pmid=?', id).first.set_delimiters
+    def self.get_for(id, lookup_mgr)
+      obj=where('pmid=?', id).first
+      obj.set_delimiters
+      obj.lookup_mgr=lookup_mgr
+      return obj
     end
 
+#  Communication Medium Q340169 <JournalIssue CitedMedium="Print or Internet">
 
     def prop_codes
       [
@@ -38,16 +42,17 @@ module Pubmed
       'P31',    # instance of a scholarly article
       'P698',   # pmid
       'P236',   # issn
+      'P1433',  # published in
       'P478',   # volume
       'P433',   # issue
-      'P1433',  # published in
       'P1160',  # iso abbreviation
       'P577',   # publication date
       'P407',   # language
       'P1476',  # title
       'P1055',  # nlm unique id  Q57589544
       'P304',   # pagination
-      #'P17',    # country
+      'P921',   # study
+      #'P17',   # country
       #'',  # completion date
       #'',  # revision date
       #'',  # abstract
@@ -88,20 +93,43 @@ module Pubmed
         when 'P1476'  # title
           return "#{reg_prefix}en:\"#{title}\"" if title
         when 'P577'   # publication date
-          return "#{reg_prefix}+#{quickstatement_date(publication_date, publication_year.to_s)}" if publication_date
+          return pub_date_quickstatement(reg_prefix)
+        when 'P921'  # link to related study
+          return study_quickstatement
         when 'P407'  # language
           return "#{reg_prefix}Q1860" if language == 'eng'
         when 'P486'  # MeSH Codes
           return mesh_code_quickstatements
         when 'OtherIds'  # Other IDs
           return other_id_quickstatements
-        #when 'P1433'   # published in
-        #  return published_in_quickstatements
+        when 'P1433'   # published in
+          return published_in_quickstatement
         #when 'P17'    # country
         #  return country_quickstatements if countries.size > 0
      else
         puts "unknown property:  #{prop_code}"
       end
+    end
+
+    def pub_date_quickstatement(reg_prefix)
+      str=''
+      str << publication_year.to_s if publication_year
+      str << " #{publication_month.to_s.rjust(2, "0")}" if publication_month
+      str << " #{publication_day.to_s.rjust(2, "0")}" if publication_day
+      return "#{reg_prefix}+#{quickstatement_date(publication_date, str)}" if !str.blank?
+    end
+
+    def study_quickstatement
+      references=Ctgov::Reference.where('pmid=?',pmid)
+      return if references.size != 1
+      nct_id = references.first.nct_id
+      study_qcode=lookup_mgr.studies[nct_id]
+      "#{new_line}#{subject}#{tab}P921#{tab}#{study_qcode}" if !study_qcode.blank?
+    end
+
+    def published_in_quickstatement
+      qcode = Lookup::Journal.qcode_for(published_in.downcase) if !published_in.blank?
+      "#{new_line}#{subject}#{tab}P1433#{tab}#{qcode}" if !qcode.blank?
     end
 
     def mesh_code_quickstatements
@@ -141,7 +169,7 @@ module Pubmed
       {
         :issn                  => get('ISSN'),
         :volume                => get('Volume'),
-        :issue                 => get('completion_date'),
+        :issue                 => get('Issue'),
         :nlm_unique_id         => get('NlmUniqueID'),
         :published_in          => get('Title'),
         :name                  => get('Title'),
@@ -180,6 +208,11 @@ module Pubmed
       end
       if !month_string.blank? and !info[:day].blank?
         info[:full_date]  = DateTime.parse("#{info[:year]}-#{month_string}-#{info[:day]}").to_date
+      else
+        # Use first of month of day not provided.
+        # When creating quickstatements, it will check for presence of 'publication_day' &
+        # will create the pub data accordingly
+        info[:full_date]  = DateTime.parse("#{info[:year]}-#{month_string}-01").to_date
       end
 
       info[:date_str] = ''
@@ -198,24 +231,6 @@ module Pubmed
         value = (xml.xpath('//PubmedArticle').xpath("//#{label}").text).strip
       end
       value=='' ? nil : value
-    end
-
-    def self.sample_pmids
-       ['20025029',
-       '19648180',
-       '17923590',
-       '30325889',
-       '16188811',
-       '26473001',
-       '26874298',
-       '16989935',
-       '18492509',
-       '11900034',
-       '30538976',
-       '29895572',
-       '15036740',
-       '20483522',
-       '30262463']
     end
 
   end
