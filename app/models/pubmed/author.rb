@@ -28,6 +28,7 @@ module Pubmed
         if id_type == "ORCID"
           val=other_id.text
           val.slice! 'http://orcid.org/'
+          val.slice! 'https://orcid.org/'
           return val
         end
       end
