@@ -48,9 +48,11 @@ describe Pubmed::Publication do
     expect(pub.pmid).to eq('24157819')
     expect(pub.publication_year).to eq(2013)
     expect(pub.issue).to eq('10')
+    expect(pub.doi).to eq('10.1136/bmjopen-2013-003562')
     # because pubdate has a 'day', the quickstatement should have /11 suffix
     expect(pub.pub_date_quickstatement("")).to eq("+2013-10-23T00:00:00Z/11")
     expect(pub.name).to eq("BMJ open")
+    expect(pub.authors.size).to eq(7)
   end
 
   it "saves a pub xml to the pub_xml_record" do

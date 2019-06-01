@@ -41,6 +41,7 @@ module Pubmed
       'Den',    # Description
       'P31',    # instance of a scholarly article
       'P698',   # pmid
+      'P356',   # doi
       'P236',   # issn
       'P1433',  # published in
       'P478',   # volume
@@ -52,6 +53,7 @@ module Pubmed
       'P1055',  # nlm unique id  Q57589544
       'P304',   # pagination
       'P921',   # study
+      'P2093',  # author names
       #'P17',   # country
       #'',  # completion date
       #'',  # revision date
@@ -80,6 +82,8 @@ module Pubmed
           return "#{reg_prefix}Q13442814"  # or Q191067?  # instance of a scholarly article
         when 'P698'   # pmid
           return "#{reg_prefix}\"#{pmid}\""
+        when 'P356' # DOI
+          return "#{reg_prefix}\"#{doi}\"" if doi
         when 'P236'   # issn
           return "#{reg_prefix}\"#{issn}\"" if issn
         when 'P304'   # issn
@@ -104,6 +108,8 @@ module Pubmed
           return other_id_quickstatements
         when 'P1433'   # published in
           return published_in_quickstatement
+        when 'P2093'   # author names
+          return author_name_quickstatements
         #when 'P17'    # country
         #  return country_quickstatements if countries.size > 0
      else
@@ -130,6 +136,14 @@ module Pubmed
     def published_in_quickstatement
       qcode = Lookup::Journal.qcode_for(published_in.downcase) if !published_in.blank?
       "#{new_line}#{subject}#{tab}P1433#{tab}#{qcode}" if !qcode.blank?
+    end
+
+    def author_name_quickstatements
+      return_str = ''
+      authors.each{ |author|
+        return_str << "#{new_line}#{subject}#{tab}P2093#{tab}#{author.name}" if !author.name.blank?
+      }
+      return return_str
     end
 
     def mesh_code_quickstatements
@@ -231,6 +245,10 @@ module Pubmed
         value = (xml.xpath('//PubmedArticle').xpath("//#{label}").text).strip
       end
       value=='' ? nil : value
+    end
+
+    def doi
+      other_ids.select{|i| i.id_type=='doi'}.first.try(:id_value)
     end
 
   end
