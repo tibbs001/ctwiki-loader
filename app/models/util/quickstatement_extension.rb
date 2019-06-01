@@ -43,9 +43,9 @@ module Util
 
     def set_delimiters(args={})
       @delimiters = args[:delimiters]
-      @delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if @delimiters.blank?
-      #@delimiters = {:new_line=>'
-  #', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if @delimiters.blank?
+      #@delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if @delimiters.blank?
+      @delimiters = {:new_line=>'
+', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if @delimiters.blank?
       return self
     end
 
