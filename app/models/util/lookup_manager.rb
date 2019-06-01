@@ -1,13 +1,22 @@
 module Util
   class LookupManager
 
-    attr_accessor :countries, :orgs, :studies, :publications, :pubs_not_in_wikidata
+    attr_accessor :authors, :countries, :orgs, :studies, :publications, :pubs_not_in_wikidata
 
     def initialize
+      load_authors
       load_countries
       load_publications
       load_studies
 #      load_orgs
+    end
+
+    def load_authors
+      @authors={}
+      Lookup::Author.all.pluck(:downcase_name, :qcode).each {|c|
+        @authors[c.first] = c.last
+      }
+      @authors.compact!
     end
 
     def load_countries

@@ -3,6 +3,8 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+#GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA lookup TO wiki;
+#GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pubmed TO wiki;
 Rails.application.load_tasks
 task(:default).clear
 task default: [:spec]

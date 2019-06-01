@@ -2244,6 +2244,41 @@ ALTER SEQUENCE lookup.ages_id_seq OWNED BY lookup.ages.id;
 
 
 --
+-- Name: authors; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.authors (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: authors_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.authors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: authors_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.authors_id_seq OWNED BY lookup.authors.id;
+
+
+--
 -- Name: conditions; Type: TABLE; Schema: lookup; Owner: -
 --
 
@@ -2354,11 +2389,61 @@ ALTER SEQUENCE lookup.interventions_id_seq OWNED BY lookup.interventions.id;
 
 
 --
+-- Name: journal; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journal (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: journal_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.journal_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: journal_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.journal_id_seq OWNED BY lookup.journal.id;
+
+
+--
 -- Name: journals; Type: TABLE; Schema: lookup; Owner: -
 --
 
 CREATE TABLE lookup.journals (
     id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: journals_backup; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journals_backup (
+    id integer,
     qcode character varying,
     types character varying,
     name character varying,
@@ -3210,6 +3295,40 @@ ALTER SEQUENCE pubmed.other_ids_id_seq OWNED BY pubmed.other_ids.id;
 
 
 --
+-- Name: pub_xml_records; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.pub_xml_records (
+    id integer NOT NULL,
+    pmid character varying,
+    content xml,
+    created_pub_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.pub_xml_records_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.pub_xml_records_id_seq OWNED BY pubmed.pub_xml_records.id;
+
+
+--
 -- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
 --
 
@@ -3237,8 +3356,8 @@ CREATE TABLE pubmed.publications (
     medline_ta character varying,
     nlm_unique_id character varying,
     issn_linking character varying,
-    journal_qcode character varying,
-    name character varying
+    name character varying,
+    journal_qcode character varying
 );
 
 
@@ -3626,6 +3745,13 @@ ALTER TABLE ONLY lookup.ages ALTER COLUMN id SET DEFAULT nextval('lookup.ages_id
 
 
 --
+-- Name: authors id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.authors ALTER COLUMN id SET DEFAULT nextval('lookup.authors_id_seq'::regclass);
+
+
+--
 -- Name: conditions id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -3644,6 +3770,13 @@ ALTER TABLE ONLY lookup.countries ALTER COLUMN id SET DEFAULT nextval('lookup.co
 --
 
 ALTER TABLE ONLY lookup.interventions ALTER COLUMN id SET DEFAULT nextval('lookup.interventions_id_seq'::regclass);
+
+
+--
+-- Name: journal id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journal ALTER COLUMN id SET DEFAULT nextval('lookup.journal_id_seq'::regclass);
 
 
 --
@@ -3812,6 +3945,13 @@ ALTER TABLE ONLY pubmed.mesh_terms ALTER COLUMN id SET DEFAULT nextval('pubmed.m
 --
 
 ALTER TABLE ONLY pubmed.other_ids ALTER COLUMN id SET DEFAULT nextval('pubmed.other_ids_id_seq'::regclass);
+
+
+--
+-- Name: pub_xml_records id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('pubmed.pub_xml_records_id_seq'::regclass);
 
 
 --
@@ -4197,6 +4337,14 @@ ALTER TABLE ONLY lookup.ages
 
 
 --
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: conditions conditions_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
@@ -4218,6 +4366,14 @@ ALTER TABLE ONLY lookup.countries
 
 ALTER TABLE ONLY lookup.interventions
     ADD CONSTRAINT interventions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: journal journal_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.journal
+    ADD CONSTRAINT journal_pkey PRIMARY KEY (id);
 
 
 --
@@ -4410,6 +4566,14 @@ ALTER TABLE ONLY pubmed.mesh_terms
 
 ALTER TABLE ONLY pubmed.other_ids
     ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.pub_xml_records
+    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -5269,6 +5433,27 @@ CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references 
 
 
 --
+-- Name: index_lookup.authors_on_downcase_name; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_downcase_name" ON lookup.authors USING btree (downcase_name);
+
+
+--
+-- Name: index_lookup.authors_on_name; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_name" ON lookup.authors USING btree (name);
+
+
+--
+-- Name: index_lookup.authors_on_qcode; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_qcode" ON lookup.authors USING btree (qcode);
+
+
+--
 -- Name: index_mesh_archive.y2010_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
 --
 
@@ -5864,7 +6049,7 @@ ALTER TABLE ONLY ctgov.study_references
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;
+SET search_path TO ctgov, support, pubmed, lookup, wiki;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
@@ -5876,6 +6061,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 
 INSERT INTO schema_migrations (version) VALUES ('20190516000142');
 
+INSERT INTO schema_migrations (version) VALUES ('20190526000642');
+
 INSERT INTO schema_migrations (version) VALUES ('20190527000442');
 
 INSERT INTO schema_migrations (version) VALUES ('20190527800143');
@@ -5883,4 +6070,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190527800143');
 INSERT INTO schema_migrations (version) VALUES ('20190528800143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190529800143');
+
+INSERT INTO schema_migrations (version) VALUES ('20190601000144');
 

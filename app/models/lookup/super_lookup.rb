@@ -12,11 +12,11 @@ module Lookup
       mgr = Util::WikiDataManager.new
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
       self.populate_predefined_qcode
-      self.unregistered_names(model_type).each { |label|
-        existing = where("name = ?",label)
+      self.unregistered_names(model_type).each { |term|
+        existing = where("name = ?", term)
         if existing.size == 0
-          if !already_loaded.include?(label.downcase)
-            result = mgr.find_qcode(label, possible_descriptions, impossible_descriptions)
+          if !already_loaded.include?(term.downcase)
+            result = search_for_qcode(term)
           end
           if result
             obj = self.create_entry_for(result)
@@ -25,16 +25,24 @@ module Lookup
             obj.save!
             already_loaded << result[:downcase_name]
           else
-            self.create_non_qcode_entry_for(label)
-            could_not_resolve << label
+            self.create_non_qcode_entry_for(term)
+            could_not_resolve << term
           end
         end
       }
     end
 
+    def self.search_for_qcode(term)
+      Util::WikiDataManager.new.find_qcode(term, possible_descriptions, impossible_descriptions)
+    end
+
+    def self.all_labels
+      (model_type.uniq.pluck(self.label).compact.map{|n|n.downcase})
+    end
+
     def self.unregistered_names(model_type=self.source_data)
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
-      (model_type.uniq.pluck(self.label).compact.map{|n|n.downcase}) - already_loaded
+      self.all_labels - already_loaded
     end
 
     def self.existing_rows

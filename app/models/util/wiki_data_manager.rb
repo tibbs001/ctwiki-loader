@@ -64,6 +64,10 @@ module Util
       end
     end
 
+    def get_qcode_from_query(query)
+      wiki_api_call(search_string, search_strings_tried, delimiter)
+    end
+
     def find_qcode(str, possible_descriptions, impossible_descriptions, should_remove_numbers = true)
       encoding_options = {
         :invalid           => :replace,  # Replace invalid byte sequences
@@ -169,6 +173,16 @@ module Util
 
     def study_already_loaded?(nct_id)
       !qcodes_for_nct_id(nct_id).empty?
+    end
+
+    def get_qcode_for_orcid(orcid)
+      #cmd = "SELECT DISTINCT  ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q191067 . ?item wdt:P698 '#{pmid}'. }"
+      cmd = "SELECT DISTINCT  ?item where { ?item wdt:P496 '#{orcid}' }"
+      results = run_sparql(cmd)
+      return nil if results.empty?
+      the_code=nil
+      results.first.each_binding {|item| the_code = item.last.value.chomp.split('/').last }
+      return the_code
     end
 
     def get_qcode_for_pmid(pmid)
