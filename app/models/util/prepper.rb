@@ -1,15 +1,16 @@
 module Util
   class Prepper
 
-    attr_accessor :f, :mgr, :lookup_mgr, :start_num, :end_num, :batch_of_ids, :batch_size, :wikidata_ids, :loaded_ids
+    attr_accessor :f, :mgr, :lookup_mgr, :start_num, :end_num, :batch_of_ids, :batch_size, :id_qcode_maps, :loaded_ids
 
     def initialize(args={})
-      #  Util::StudyPrepper.new({:start_num=>'78000'}).run
+      #  Example launch:  Util::StudyPrepper.new({:start_num=>'78000'}).run
+      #  Example launch:  Util::PubPrepper.new({:start_num=>'8000'}).run
       @batch_size = args[:batch_size] || 1000
       @start_num = args[:start_num].to_i || 1
       @mgr = Util::WikiDataManager.new
       @lookup_mgr = Util::LookupManager.new
-      @wikidata_ids=get_id_maps
+      @id_qcode_maps=get_id_maps
     end
 
     def self.run(args={})
@@ -27,7 +28,7 @@ module Util
       # Iterate over a collection of objects of a certain type & create a file containing quickstatements
       # that can be loaded into wikidata via the url: https://tools.wmflabs.org/quickstatements/#/batch
 
-      @loaded_ids = mgr.non_qcode_ids_in(wikidata_ids)  # IDs of the objects currently  in wikidata - no need to load these
+      @loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
       @lookup_mgr = Util::LookupManager.new
       # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
       @end_num = @start_num + @batch_size  # the website can only handle batches of quickstatements of about 1,000 objects

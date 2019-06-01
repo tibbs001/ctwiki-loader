@@ -22,7 +22,7 @@ module Util
     end
 
     def get_id_maps
-      mgr.get_study_id_maps
+      lookup_mgr.studies
     end
   end
 end
