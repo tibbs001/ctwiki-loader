@@ -30,9 +30,10 @@ module Util
 
       @loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
       @lookup_mgr = Util::LookupManager.new
+      @batch_of_ids = args[:batch_of_ids]
       # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
       @end_num = @start_num + @batch_size  # the website can only handle batches of quickstatements of about 1,000 objects
-      @batch_of_ids = (source_model_name.all_ids - loaded_ids)[start_num..end_num]
+      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[start_num..end_num]
       @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       batch_of_ids.each do |id|
