@@ -13,6 +13,10 @@ module Pubmed
     has_many :other_ids,  :foreign_key => 'pmid', :dependent => :delete_all
     has_many :types,      :foreign_key => 'pmid', :dependent => :delete_all
 
+    def authors_with_orcid
+      authors.where('orcid is not null')
+    end
+
     def self.initialize(hash={})
       puts "in pubmed::publication.initializer"
       super
@@ -54,6 +58,9 @@ module Pubmed
       'P304',   # pagination
       'P921',   # study
       'P2093',  # author names
+      'P50',    # authors
+
+      #'P2860',  # other publications cited
       #'P17',   # country
       #'',  # completion date
       #'',  # revision date
@@ -110,6 +117,8 @@ module Pubmed
           return published_in_quickstatement
         when 'P2093'   # author names
           return author_name_quickstatements
+        when 'P50'   # author links
+          return author_quickstatements
         #when 'P17'    # country
         #  return country_quickstatements if countries.size > 0
      else
@@ -138,10 +147,20 @@ module Pubmed
       "#{new_line}#{subject}#{tab}P1433#{tab}#{qcode}" if !qcode.blank?
     end
 
+    def author_quickstatements
+      return_str = ''
+      authors_with_orcid.each{ |author|
+        author_qcode=lookup_mgr.authors[author.orcid]
+        return_str << "#{new_line}#{subject}#{tab}P50#{tab}#{author_qcode}" if !author_qcode.blank?
+      }
+      return return_str
+    end
+
     def author_name_quickstatements
       return_str = ''
       authors.each{ |author|
-        return_str << "#{new_line}#{subject}#{tab}P2093#{tab}#{author.name}" if !author.name.blank?
+        puts author.name
+        return_str << "#{new_line}#{subject}#{tab}P2093#{tab}\"#{author.name}\"" if author.name.size > 1
       }
       return return_str
     end
