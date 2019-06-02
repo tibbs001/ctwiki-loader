@@ -19,8 +19,9 @@ RSpec.configure do |config|
     #unit_test = ![:feature, :request].include?(example.metadata[:type])
     #strategy = unit_test ? :transaction
     #strategy = unit_test ? :transaction : :truncation
-    allow_any_instance_of(Util::StudyPrepper).to receive(:wikidata_ids).and_return([])
-    allow_any_instance_of(Util::PubPrepper).to receive(:wikidata_ids).and_return([])
+    allow_any_instance_of(Util::StudyPrepper).to receive(:id_qcode_maps).and_return({})
+    allow_any_instance_of(Util::PubPrepper).to receive(:id_qcode_maps).and_return({})
+    allow_any_instance_of(Util::LookupManager).to receive(:load_studies).and_return([])
     allow(Util::Prepper).to receive(:sleep).and_return(nil)
 
     #DatabaseCleaner.strategy = strategy
