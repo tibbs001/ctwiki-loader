@@ -276,8 +276,10 @@ module Util
     end
 
     def run_sparql(cmd)
-      client = SPARQL::Client.new("https://query.wikidata.org/sparql")
-      return client.query(cmd)
+      headers={}
+      headers['User-Agent'] = 'ctwiki-loader (https://github.com/tibbs001/ctwiki-loader) sheri.tibbs@duke.edu'
+      client = SPARQL::Client.new("https://query.wikidata.org/sparql",headers)
+      return client.query(cmd, headers)
     end
 
   end
