@@ -110,8 +110,8 @@ module Pubmed
           return "#{reg_prefix}en:\"#{title}\"" if title
         when 'P577'   # publication date
           return pub_date_quickstatement(reg_prefix)
-        when 'P921'  # link to related study
-          return study_quickstatement
+        when 'P921'  # link to main topic (the study)
+          return study_as_main_topic_quickstatement
         when 'P407'  # language
           return "#{reg_prefix}Q1860" if language == 'eng'
         when 'P486'  # MeSH Codes
@@ -139,8 +139,9 @@ module Pubmed
       return "#{reg_prefix}+#{quickstatement_date(publication_date, str)}" if !str.blank?
     end
 
-    def study_quickstatement
-      references=Ctgov::Reference.where('pmid=?',pmid)
+    def study_as_main_topic_quickstatement
+      # only create this snak if the pub is the result of the study (type='results_reference')
+      references=Ctgov::Reference.where('pmid=? and reference_type=?',pmid, 'results_reference')
       return if references.size != 1
       nct_id = references.first.nct_id
       study_qcode=lookup_mgr.studies[nct_id]
