@@ -37,6 +37,11 @@ module Pubmed
       return obj
     end
 
+    def should_be_loaded?
+      #  hook method
+      true
+    end
+
 #  Communication Medium Q340169 <JournalIssue CitedMedium="Print or Internet">
 
     def prop_codes

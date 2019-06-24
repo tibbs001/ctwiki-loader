@@ -41,7 +41,7 @@ module Util
         #begin
           if !loaded_ids.include? id
             obj=source_model_name.get_for(id, @lookup_mgr)
-            obj.create_all_quickstatements(f) if obj
+            obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
             loaded_ids << id
           end
         #rescue => e
