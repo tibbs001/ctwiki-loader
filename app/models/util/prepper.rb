@@ -32,8 +32,11 @@ module Util
       @lookup_mgr = Util::LookupManager.new
       @batch_of_ids = args[:batch_of_ids]
       # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
-      @end_num = @start_num + @batch_size  # the website can only handle batches of quickstatements of about 1,000 objects
-      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[0..@batch_size]
+      @end_num = ((@start_num + @batch_size) - 1)  # the website can only handle batches of quickstatements of about 1,000 objects
+      puts "======================================================"
+      puts " Getting studies #{@start_num} - #{@end_num}"
+      puts "======================================================"
+      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[@start_num..@end_num]
       @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       batch_of_ids.each do |id|
