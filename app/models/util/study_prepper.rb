@@ -14,9 +14,10 @@ module Util
       # method to create a file of single snaks for just one property
       File.open("public/assign_#{code}.txt", "w+") do |f|
         mgr.ids_for_studies_without_prop(code).each {|hash|
-          study = source_model_name.get_for(hash.keys.first)
+          puts ">>>>>>>>>>> getting study #{hash.keys.first}"
+          study = source_model_name.get_for(hash.keys.first, lookup_mgr)
           @subject = hash.values.first
-          f << study.lines_for(code) if study
+          f << study.quickstatement_for(code) if study
         }
       end
     end
