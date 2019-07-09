@@ -54,6 +54,7 @@ module Ctgov
 
     def self.get_for(id, lookup_mgr)
       obj = where('nct_id=?', id).first
+      return nil if !obj
       obj.set_delimiters
       obj.lookup_mgr=lookup_mgr
       return obj
@@ -93,7 +94,8 @@ module Ctgov
         when 'P31'    # instance of
           return "#{reg_prefix}Q30612"   # instance of a clinical trial
         when 'P248'   # publications
-          return pubmed_quickstatements
+          # until we determine the property we should use for this, comment it out.
+          #return pubmed_quickstatements
         when 'P580'   # start date
           return "#{reg_prefix}+#{quickstatement_date(start_date, start_month_year)}" if start_date
         when 'P582'   # primary completion date
@@ -104,6 +106,8 @@ module Ctgov
           return sponsor_quickstatements
         when 'P921'   # keywords
           return keyword_quickstatements
+        when 'P1343'
+          return pubmed_quickstatements
         when 'P1050'   # conditions
           return condition_quickstatements
         when 'P1132'  # number of participants
@@ -214,9 +218,9 @@ module Ctgov
       result_references.each {|ref|
         pub_qcode = Lookup::Publication.qcode_for(ref.pmid)
         # Link study to pub
-        return_str << "#{prefix}P248#{tab}#{pub_qcode}"
+        return_str << "#{prefix}P1343#{tab}#{pub_qcode}"
         # provide reference to NCBI URL
-        return_str << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
+        #return_str << "#{new_line}#{subject}#{tab}P854#{tab}\"https://www.ncbi.nlm.nih.gov/pubmed/?term=#{ref.pmid}\"" if !ref.pmid.blank?
       }
       return return_str
     end
