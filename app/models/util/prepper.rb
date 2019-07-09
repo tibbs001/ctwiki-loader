@@ -33,22 +33,24 @@ module Util
       @batch_of_ids = args[:batch_of_ids]
       # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
       @end_num = @start_num + @batch_size  # the website can only handle batches of quickstatements of about 1,000 objects
-      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[start_num..end_num]
+      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[0..@batch_size]
       @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       batch_of_ids.each do |id|
         cntr = cntr + 1
-        #begin
+        begin
           if !loaded_ids.include? id
             obj=source_model_name.get_for(id, @lookup_mgr)
             obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
             loaded_ids << id
           end
-        #rescue => e
-        #    loaded_ids << id
-        #  puts e
-        #  f.close
-        #end
+        rescue => e
+          loaded_ids << id
+          puts "===== error   ==============="
+          puts e
+          puts "============================="
+          f.close
+        end
       end
       f.close
     end
