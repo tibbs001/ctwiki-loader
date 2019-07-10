@@ -65,6 +65,9 @@ module Pubmed
       'P2093',  # author names
       'P50',    # authors
 
+
+      'P6153',  # research site
+
       #'P2860',  # other publications cited
       #'P17',   # country
       #'',  # completion date
