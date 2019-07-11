@@ -16,6 +16,7 @@ module Nci
     has_many :keywords,           :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :other_ids,          :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :outcome_measures,   :foreign_key => 'nct_id', :dependent => :delete_all
+    has_many :sites,              :foreign_key => 'nct_id', :dependent => :delete_all
 
     accepts_nested_attributes_for :anatomic_sites, :associated_studies, :other_ids, :outcome_measures
 
@@ -45,6 +46,20 @@ module Nci
       params["other_ids"]          = params["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if params['other_ids']
       puts "=======>>> outcome_mea"
       params["outcome_measures"]   = params["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if params['outcome_measures']
+      puts "=======>>> sites"
+      if params['sites']
+        params['sites'] = params["sites"].map {|s|
+          if s['org_coordinates']
+            lat=s['org_coordinates']['lat']
+            lon=s['org_coordinates']['lon']
+            clean_s=s.reject! { |k| k == 'org_coordinates' }
+          else
+            lat=lon=nil
+            clean_s=s
+          end
+          Nci::Site.new(clean_s.merge({'nct_id'=>nct_id,'lat'=>lat,'lon'=>lon}))
+        }
+      end
       super(params)
     end
 
@@ -217,7 +232,54 @@ module Nci
     "central_contact"=>{"central_contact_email"=>nil, "central_contact_name"=>nil, "central_contact_phone"=>nil, "central_contact_type"=>nil},
     "lead_org"=>"ECOG-ACRIN Cancer Research Group",
     "collaborators"=>[{"name"=>"National Cancer Institute", "functional_role"=>"FUNDING_SOURCE"}],
-   }
+    "sites"=>
+      [{"contact_email"=>nil,
+        "contact_name"=>"Site Public Contact",
+        "contact_phone"=>"610-250-4000",
+        "recruitment_status"=>"ACTIVE",
+        "recruitment_status_date"=>"2019-02-27",
+        "local_site_identifier"=>"",
+        "org_address_line_1"=>"250 South 21st Street",
+        "org_address_line_2"=>nil,
+        "org_city"=>"Easton",
+        "org_country"=>"United States",
+        "org_email"=>nil,
+        "org_family"=>nil,
+        "org_fax"=>nil,
+        "org_name"=>"Easton Hospital",
+        "org_to_family_relationship"=>nil,
+        "org_phone"=>"610-250-4000",
+        "org_postal_code"=>"18042",
+        "org_state_or_province"=>"PA",
+        "org_status"=>"ACTIVE",
+        "org_status_date"=>"2015-07-28",
+        "org_tty"=>nil,
+        "org_va"=>false,
+        "org_coordinates"=>{"lat"=>40.6369, "lon"=>-75.2272}},
+       {"contact_email"=>nil,
+        "contact_name"=>"Site Public Contact",
+        "contact_phone"=>"610-431-5297",
+        "recruitment_status"=>"ACTIVE",
+        "recruitment_status_date"=>"2019-04-09",
+        "local_site_identifier"=>"",
+        "org_address_line_1"=>"701 East Marshall Street",
+        "org_address_line_2"=>nil,
+        "org_city"=>"West Chester",
+        "org_country"=>"United States",
+        "org_email"=>nil,
+        "org_family"=>nil,
+        "org_fax"=>nil,
+        "org_name"=>"Chester County Hospital",
+        "org_to_family_relationship"=>nil,
+        "org_phone"=>"610-431-5297",
+        "org_postal_code"=>"19380",
+        "org_state_or_province"=>"PA",
+        "org_status"=>"ACTIVE",
+        "org_status_date"=>"2008-12-31",
+        "org_tty"=>nil,
+        "org_va"=>false,
+        "org_coordinates"=>{"lat"=>39.9842, "lon"=>-75.6084}},
+      ]}
     end
 
     def self.json2

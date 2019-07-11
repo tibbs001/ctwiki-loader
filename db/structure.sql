@@ -3263,7 +3263,9 @@ CREATE TABLE nci.sites (
     org_status character varying,
     org_status_date date,
     org_tty character varying,
-    org_va character varying
+    org_va character varying,
+    lat double precision,
+    lon double precision
 );
 
 

@@ -155,6 +155,8 @@ class CreateNciTables < ActiveRecord::Migration
       t.date    'org_status_date'
       t.string  'org_tty'
       t.string  'org_va'
+      t.float   'lat',  :precision => 8, :scale => 6
+      t.float   'lon',  :precision => 8, :scale => 6
     end
 
     #add_index 'nci.studies', :nci_id
