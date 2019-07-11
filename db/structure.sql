@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 11.2
--- Dumped by pg_dump version 11.2
+-- Dumped by pg_dump version 11.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,6 +12,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -34,6 +35,13 @@ CREATE SCHEMA lookup;
 --
 
 CREATE SCHEMA mesh_archive;
+
+
+--
+-- Name: nci; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA nci;
 
 
 --
@@ -436,6 +444,52 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: browse_conditions; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.browse_conditions (
+    id integer NOT NULL,
+    nct_id character varying,
+    mesh_term character varying,
+    downcase_mesh_term character varying
+);
+
+
+--
+-- Name: all_browse_conditions; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_browse_conditions AS
+ SELECT browse_conditions.nct_id,
+    array_to_string(array_agg(DISTINCT browse_conditions.mesh_term), '|'::text) AS names
+   FROM ctgov.browse_conditions
+  GROUP BY browse_conditions.nct_id;
+
+
+--
+-- Name: browse_interventions; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.browse_interventions (
+    id integer NOT NULL,
+    nct_id character varying,
+    mesh_term character varying,
+    downcase_mesh_term character varying
+);
+
+
+--
+-- Name: all_browse_interventions; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_browse_interventions AS
+ SELECT browse_interventions.nct_id,
+    array_to_string(array_agg(browse_interventions.mesh_term), '|'::text) AS names
+   FROM ctgov.browse_interventions
+  GROUP BY browse_interventions.nct_id;
+
+
+--
 -- Name: facilities; Type: TABLE; Schema: ctgov; Owner: -
 --
 
@@ -460,18 +514,6 @@ CREATE VIEW ctgov.all_cities AS
     array_to_string(array_agg(DISTINCT facilities.city), '|'::text) AS names
    FROM ctgov.facilities
   GROUP BY facilities.nct_id;
-
-
---
--- Name: browse_conditions; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.browse_conditions (
-    id integer NOT NULL,
-    nct_id character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
-);
 
 
 --
@@ -618,18 +660,6 @@ CREATE VIEW ctgov.all_intervention_types AS
 
 
 --
--- Name: browse_interventions; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.browse_interventions (
-    id integer NOT NULL,
-    nct_id character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
-);
-
-
---
 -- Name: all_interventions; Type: VIEW; Schema: ctgov; Owner: -
 --
 
@@ -661,6 +691,41 @@ CREATE VIEW ctgov.all_keywords AS
     array_to_string(array_agg(DISTINCT keywords.name), '|'::text) AS names
    FROM ctgov.keywords
   GROUP BY keywords.nct_id;
+
+
+--
+-- Name: overall_officials; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.overall_officials (
+    id integer NOT NULL,
+    nct_id character varying,
+    role character varying,
+    name character varying,
+    affiliation character varying
+);
+
+
+--
+-- Name: all_overall_official_affiliations; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_overall_official_affiliations AS
+ SELECT overall_officials.nct_id,
+    array_to_string(array_agg(overall_officials.affiliation), '|'::text) AS names
+   FROM ctgov.overall_officials
+  GROUP BY overall_officials.nct_id;
+
+
+--
+-- Name: all_overall_officials; Type: VIEW; Schema: ctgov; Owner: -
+--
+
+CREATE VIEW ctgov.all_overall_officials AS
+ SELECT overall_officials.nct_id,
+    array_to_string(array_agg(overall_officials.name), '|'::text) AS names
+   FROM ctgov.overall_officials
+  GROUP BY overall_officials.nct_id;
 
 
 --
@@ -996,6 +1061,42 @@ CREATE SEQUENCE ctgov.countries_id_seq
 --
 
 ALTER SEQUENCE ctgov.countries_id_seq OWNED BY ctgov.countries.id;
+
+
+--
+-- Name: criteria; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.criteria (
+    id integer NOT NULL,
+    nct_id character varying,
+    parent_id integer,
+    level integer,
+    order_number integer,
+    criterium_type character varying,
+    name character varying,
+    downcase_name character varying
+);
+
+
+--
+-- Name: criteria_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
+--
+
+CREATE SEQUENCE ctgov.criteria_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: ctgov; Owner: -
+--
+
+ALTER SEQUENCE ctgov.criteria_id_seq OWNED BY ctgov.criteria.id;
 
 
 --
@@ -1776,19 +1877,6 @@ CREATE SEQUENCE ctgov.outcomes_id_seq
 --
 
 ALTER SEQUENCE ctgov.outcomes_id_seq OWNED BY ctgov.outcomes.id;
-
-
---
--- Name: overall_officials; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.overall_officials (
-    id integer NOT NULL,
-    nct_id character varying,
-    role character varying,
-    name character varying,
-    affiliation character varying
-);
 
 
 --
@@ -2756,6 +2844,461 @@ ALTER SEQUENCE mesh_archive.y2018_mesh_terms_id_seq OWNED BY mesh_archive.y2018_
 
 
 --
+-- Name: anatomic_sites; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.anatomic_sites (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    name character varying
+);
+
+
+--
+-- Name: anatomic_sites_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.anatomic_sites_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: anatomic_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.anatomic_sites_id_seq OWNED BY nci.anatomic_sites.id;
+
+
+--
+-- Name: associated_studies; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.associated_studies (
+    id integer NOT NULL,
+    study_id character varying,
+    nct_id character varying,
+    study_id_type character varying
+);
+
+
+--
+-- Name: associated_studies_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.associated_studies_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: associated_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.associated_studies_id_seq OWNED BY nci.associated_studies.id;
+
+
+--
+-- Name: biomarkers; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.biomarkers (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    assay_purpose character varying,
+    long_name character varying,
+    name character varying,
+    hugo_biomarker_code character varying,
+    nci_thesaurus_concept_id character varying,
+    eligibility_criterion character varying
+);
+
+
+--
+-- Name: biomarkers_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.biomarkers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: biomarkers_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.biomarkers_id_seq OWNED BY nci.biomarkers.id;
+
+
+--
+-- Name: central_contacts; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.central_contacts (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    contact_type character varying,
+    email character varying,
+    name character varying,
+    phone character varying
+);
+
+
+--
+-- Name: central_contacts_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.central_contacts_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: central_contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.central_contacts_id_seq OWNED BY nci.central_contacts.id;
+
+
+--
+-- Name: collaborators; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.collaborators (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    name character varying,
+    functional_role character varying
+);
+
+
+--
+-- Name: collaborators_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.collaborators_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: collaborators_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.collaborators_id_seq OWNED BY nci.collaborators.id;
+
+
+--
+-- Name: diseases; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.diseases (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    disease_code character varying,
+    inclusion_indicator character varying,
+    lead_disease_indicator character varying,
+    nci_thesaurus_concept_id character varying,
+    preferred_name character varying
+);
+
+
+--
+-- Name: diseases_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.diseases_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: diseases_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.diseases_id_seq OWNED BY nci.diseases.id;
+
+
+--
+-- Name: maskings; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.maskings (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    allocation_code character varying,
+    role_investigator character varying,
+    role_outcome_assessor character varying,
+    role_subject character varying,
+    role_caregiver character varying
+);
+
+
+--
+-- Name: maskings_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.maskings_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: maskings_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.maskings_id_seq OWNED BY nci.maskings.id;
+
+
+--
+-- Name: other_ids; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.other_ids (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    name character varying,
+    value character varying
+);
+
+
+--
+-- Name: other_ids_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.other_ids_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: other_ids_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.other_ids_id_seq OWNED BY nci.other_ids.id;
+
+
+--
+-- Name: outcome_measures; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.outcome_measures (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    name character varying,
+    description character varying,
+    timeframe character varying,
+    type_code character varying
+);
+
+
+--
+-- Name: outcome_measures_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.outcome_measures_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: outcome_measures_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.outcome_measures_id_seq OWNED BY nci.outcome_measures.id;
+
+
+--
+-- Name: phases; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.phases (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    name character varying,
+    other_text character varying,
+    additional_qualifier character varying
+);
+
+
+--
+-- Name: phases_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.phases_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: phases_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.phases_id_seq OWNED BY nci.phases.id;
+
+
+--
+-- Name: sites; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.sites (
+    id integer NOT NULL,
+    study_id integer,
+    nct_id character varying,
+    contact_email character varying,
+    contact_name character varying,
+    contact_phone character varying,
+    recruitment_status character varying,
+    recruitment_status_date date,
+    local_site_identifier character varying,
+    org_address_line_1 character varying,
+    org_address_line_2 character varying,
+    org_city character varying,
+    org_country character varying,
+    org_email character varying,
+    org_family character varying,
+    org_fax character varying,
+    org_name character varying,
+    org_to_family_relationship character varying,
+    org_phone character varying,
+    org_postal_code character varying,
+    org_state_or_province character varying,
+    org_status character varying,
+    org_status_date date,
+    org_tty character varying,
+    org_va character varying
+);
+
+
+--
+-- Name: sites_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.sites_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sites_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.sites_id_seq OWNED BY nci.sites.id;
+
+
+--
+-- Name: studies; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.studies (
+    id integer NOT NULL,
+    nci_id character varying,
+    nct_id character varying,
+    protocol_id character varying,
+    ccr_id character varying,
+    ctep_id character varying,
+    dcp_id character varying,
+    current_trial_status character varying,
+    current_trial_status_date date,
+    start_date date,
+    start_date_type_code character varying,
+    completion_date date,
+    completion_date_type_code character varying,
+    amendment_date date,
+    record_verification_date date,
+    brief_title character varying,
+    official_title character varying,
+    acronym character varying,
+    classification_code character varying,
+    interventional_model character varying,
+    accepts_helth_volunteers_indicator character varying,
+    study_protocol_type character varying,
+    study_subtype_code character varying,
+    study_population_description character varying,
+    study_model_code character varying,
+    study_model_other_text character varying,
+    sampling_method_code character varying,
+    principal_investigator character varying,
+    lead_org character varying,
+    minimum_target_accural_number integer,
+    number_of_arms integer
+);
+
+
+--
+-- Name: studies_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.studies_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: studies_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.studies_id_seq OWNED BY nci.studies.id;
+
+
+--
 -- Name: cdek_organizations; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
 --
 
@@ -3486,6 +4029,13 @@ ALTER TABLE ONLY ctgov.countries ALTER COLUMN id SET DEFAULT nextval('ctgov.coun
 
 
 --
+-- Name: criteria id; Type: DEFAULT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.criteria ALTER COLUMN id SET DEFAULT nextval('ctgov.criteria_id_seq'::regclass);
+
+
+--
 -- Name: design_group_interventions id; Type: DEFAULT; Schema: ctgov; Owner: -
 --
 
@@ -3843,6 +4393,90 @@ ALTER TABLE ONLY mesh_archive.y2018_mesh_terms ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: anatomic_sites id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.anatomic_sites ALTER COLUMN id SET DEFAULT nextval('nci.anatomic_sites_id_seq'::regclass);
+
+
+--
+-- Name: associated_studies id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.associated_studies ALTER COLUMN id SET DEFAULT nextval('nci.associated_studies_id_seq'::regclass);
+
+
+--
+-- Name: biomarkers id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.biomarkers ALTER COLUMN id SET DEFAULT nextval('nci.biomarkers_id_seq'::regclass);
+
+
+--
+-- Name: central_contacts id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.central_contacts ALTER COLUMN id SET DEFAULT nextval('nci.central_contacts_id_seq'::regclass);
+
+
+--
+-- Name: collaborators id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.collaborators ALTER COLUMN id SET DEFAULT nextval('nci.collaborators_id_seq'::regclass);
+
+
+--
+-- Name: diseases id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.diseases ALTER COLUMN id SET DEFAULT nextval('nci.diseases_id_seq'::regclass);
+
+
+--
+-- Name: maskings id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.maskings ALTER COLUMN id SET DEFAULT nextval('nci.maskings_id_seq'::regclass);
+
+
+--
+-- Name: other_ids id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.other_ids ALTER COLUMN id SET DEFAULT nextval('nci.other_ids_id_seq'::regclass);
+
+
+--
+-- Name: outcome_measures id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.outcome_measures ALTER COLUMN id SET DEFAULT nextval('nci.outcome_measures_id_seq'::regclass);
+
+
+--
+-- Name: phases id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.phases ALTER COLUMN id SET DEFAULT nextval('nci.phases_id_seq'::regclass);
+
+
+--
+-- Name: sites id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.sites ALTER COLUMN id SET DEFAULT nextval('nci.sites_id_seq'::regclass);
+
+
+--
+-- Name: studies id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.studies ALTER COLUMN id SET DEFAULT nextval('nci.studies_id_seq'::regclass);
+
+
+--
 -- Name: cdek_organizations id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
 --
 
@@ -4038,6 +4672,14 @@ ALTER TABLE ONLY ctgov.conditions
 
 ALTER TABLE ONLY ctgov.countries
     ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: criteria criteria_pkey; Type: CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.criteria
+    ADD CONSTRAINT criteria_pkey PRIMARY KEY (id);
 
 
 --
@@ -4449,6 +5091,102 @@ ALTER TABLE ONLY mesh_archive.y2018_mesh_terms
 
 
 --
+-- Name: anatomic_sites anatomic_sites_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.anatomic_sites
+    ADD CONSTRAINT anatomic_sites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: associated_studies associated_studies_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.associated_studies
+    ADD CONSTRAINT associated_studies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: biomarkers biomarkers_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.biomarkers
+    ADD CONSTRAINT biomarkers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: central_contacts central_contacts_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.central_contacts
+    ADD CONSTRAINT central_contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collaborators collaborators_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.collaborators
+    ADD CONSTRAINT collaborators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diseases diseases_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.diseases
+    ADD CONSTRAINT diseases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: maskings maskings_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.maskings
+    ADD CONSTRAINT maskings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: other_ids other_ids_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.other_ids
+    ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: outcome_measures outcome_measures_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.outcome_measures
+    ADD CONSTRAINT outcome_measures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: phases phases_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.phases
+    ADD CONSTRAINT phases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sites sites_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.sites
+    ADD CONSTRAINT sites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: studies studies_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.studies
+    ADD CONSTRAINT studies_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: cdek_organizations cdek_organizations_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
 --
 
@@ -4751,6 +5489,13 @@ CREATE INDEX index_conditions_on_nct_id ON ctgov.conditions USING btree (nct_id)
 --
 
 CREATE INDEX index_countries_on_nct_id ON ctgov.countries USING btree (nct_id);
+
+
+--
+-- Name: index_criteria_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_criteria_on_nct_id ON ctgov.criteria USING btree (nct_id);
 
 
 --
@@ -5545,6 +6290,97 @@ CREATE INDEX "index_mesh_archive.y2018_mesh_terms_on_qualifier" ON mesh_archive.
 
 
 --
+-- Name: index_nci.anatomic_sites_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.anatomic_sites_on_study_id" ON nci.anatomic_sites USING btree (study_id);
+
+
+--
+-- Name: index_nci.associated_studies_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.associated_studies_on_study_id" ON nci.associated_studies USING btree (study_id);
+
+
+--
+-- Name: index_nci.biomarkers_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.biomarkers_on_study_id" ON nci.biomarkers USING btree (study_id);
+
+
+--
+-- Name: index_nci.central_contacts_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.central_contacts_on_study_id" ON nci.central_contacts USING btree (study_id);
+
+
+--
+-- Name: index_nci.collaborators_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.collaborators_on_study_id" ON nci.collaborators USING btree (study_id);
+
+
+--
+-- Name: index_nci.diseases_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.diseases_on_study_id" ON nci.diseases USING btree (study_id);
+
+
+--
+-- Name: index_nci.maskings_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.maskings_on_study_id" ON nci.maskings USING btree (study_id);
+
+
+--
+-- Name: index_nci.other_ids_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.other_ids_on_study_id" ON nci.other_ids USING btree (study_id);
+
+
+--
+-- Name: index_nci.outcome_measures_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.outcome_measures_on_study_id" ON nci.outcome_measures USING btree (study_id);
+
+
+--
+-- Name: index_nci.phases_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.phases_on_study_id" ON nci.phases USING btree (study_id);
+
+
+--
+-- Name: index_nci.sites_on_study_id; Type: INDEX; Schema: nci; Owner: -
+--
+
+CREATE INDEX "index_nci.sites_on_study_id" ON nci.sites USING btree (study_id);
+
+
+--
+-- Name: authors_name; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX authors_name ON pubmed.authors USING btree (name);
+
+
+--
+-- Name: authors_orcid; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX authors_orcid ON pubmed.authors USING btree (orcid);
+
+
+--
 -- Name: index_pubmed.author_affiliations_on_pubmed.author_id; Type: INDEX; Schema: pubmed; Owner: -
 --
 
@@ -5651,6 +6487,14 @@ ALTER TABLE ONLY ctgov.conditions
 
 ALTER TABLE ONLY ctgov.countries
     ADD CONSTRAINT countries_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: criteria criteria_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.criteria
+    ADD CONSTRAINT criteria_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
 
 
 --
@@ -6049,7 +6893,7 @@ ALTER TABLE ONLY ctgov.study_references
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO ctgov, support, pubmed, lookup, wiki;
+SET search_path TO pubmed, lookup, ctgov, nci, proj_cdek_standard_orgs, proj_tag_nephrology;
 
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
@@ -6072,4 +6916,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190528800143');
 INSERT INTO schema_migrations (version) VALUES ('20190529800143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190601000144');
+
+INSERT INTO schema_migrations (version) VALUES ('20190710000144');
 
