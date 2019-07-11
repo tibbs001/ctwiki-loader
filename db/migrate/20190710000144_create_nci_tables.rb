@@ -21,7 +21,7 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'acronym'
       t.string  'classification_code'
       t.string  'interventional_model'
-      t.string  'accepts_helth_volunteers_indicator'
+      t.string  'accepts_healthy_volunteers_indicator'
       t.string  'study_protocol_type'
       t.string  'study_subtype_code'
       t.string  'study_population_description'
@@ -32,40 +32,22 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'lead_org'
       t.integer 'minimum_target_accural_number'
       t.integer 'number_of_arms'
+      t.text    'brief_summary'
+      t.text    'detail_description'
     end
 
-    create_table 'nci.other_ids' do |t|
-      t.belongs_to :study, index: true
+    create_table 'nci.anatomic_sites' do |t|
       t.string  'nct_id'
       t.string  'name'
-      t.string  'value'
     end
 
     create_table 'nci.associated_studies' do |t|
-      t.belongs_to :study, index: true
       t.string  'nct_id'
       t.string  'study_id'
       t.string  'study_id_type'
     end
 
-    create_table 'nci.anatomic_sites' do |t|
-      t.belongs_to :study, index: true
-      t.string  'nct_id'
-      t.string  'name'
-    end
-
-    create_table 'nci.diseases' do |t|
-      t.belongs_to :study, index: true
-      t.string  'nct_id'
-      t.string  'disease_code'
-      t.string  'inclusion_indicator'
-      t.string  'lead_disease_indicator'
-      t.string  'nci_thesaurus_concept_id'
-      t.string  'preferred_name'
-    end
-
     create_table 'nci.biomarkers' do |t|
-      t.belongs_to :study, index: true
       t.string  'nct_id'
       t.string  'assay_purpose'
       t.string  'long_name'
@@ -75,8 +57,43 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'eligibility_criterion'
     end
 
+    create_table 'nci.bio_specimens' do |t|
+      t.string  'nct_id'
+      t.string  'f1'
+      t.string  'f2'
+      t.string  'f3'
+      t.string  'f4'
+    end
+
+    create_table 'nci.central_contacts' do |t|
+      t.string  'nct_id'
+      t.string  'central_contact_email'
+      t.string  'central_contact_name'
+      t.string  'central_contact_phone'
+      t.string  'central_contact_type'
+    end
+
+    create_table 'nci.collaborators' do |t|
+      t.string  'nct_id'
+      t.string  'name'
+      t.string  'functional_role'
+    end
+
+    create_table 'nci.diseases' do |t|
+      t.string  'nct_id'
+      t.string  'disease_code'
+      t.string  'inclusion_indicator'
+      t.string  'lead_disease_indicator'
+      t.string  'nci_thesaurus_concept_id'
+      t.string  'preferred_name'
+    end
+
+    create_table 'nci.keywords' do |t|
+      t.string  'nct_id'
+      t.string  'name'
+    end
+
     create_table 'nci.maskings' do |t|
-      t.belongs_to :study, index: true
       t.string  'nct_id'
       t.string  'allocation_code'
       t.string  'role_investigator'
@@ -85,24 +102,35 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'role_caregiver'
     end
 
-    create_table 'nci.central_contacts' do |t|
-      t.belongs_to :study, index: true
+    create_table 'nci.other_ids' do |t|
       t.string  'nct_id'
-      t.string  'contact_type'
-      t.string  'email'
       t.string  'name'
-      t.string  'phone'
+      t.string  'value'
     end
 
-    create_table 'nci.collaborators' do |t|
-      t.belongs_to :study, index: true
+    create_table 'nci.outcome_measures' do |t|
       t.string  'nct_id'
       t.string  'name'
-      t.string  'functional_role'
+      t.string  'description'
+      t.string  'timeframe'
+      t.string  'type_code'
+    end
+
+    create_table 'nci.phases' do |t|
+      t.string  'nct_id'
+      t.string  'phase'
+      t.string  'phase_other_text'
+      t.string  'phase_additional_qualifier'
+    end
+
+    create_table 'nci.primary_purposes' do |t|
+      t.string  'nct_id'
+      t.string  'primary_purpose_code'
+      t.string  'primary_purpose_other_text'
+      t.string  'primary_purpose_additional_qualifier'
     end
 
     create_table 'nci.sites' do |t|
-      t.belongs_to :study, index: true
       t.string  'nct_id'
       t.string  'contact_email'
       t.string  'contact_name'
@@ -126,23 +154,6 @@ class CreateNciTables < ActiveRecord::Migration
       t.date    'org_status_date'
       t.string  'org_tty'
       t.string  'org_va'
-    end
-
-    create_table 'nci.phases' do |t|
-      t.belongs_to :study, index: true
-      t.string  'nct_id'
-      t.string  'name'
-      t.string  'other_text'
-      t.string  'additional_qualifier'
-    end
-
-    create_table 'nci.outcome_measures' do |t|
-      t.belongs_to :study, index: true
-      t.string  'nct_id'
-      t.string  'name'
-      t.string  'description'
-      t.string  'timeframe'
-      t.string  'type_code'
     end
 
     #add_index 'nci.studies', :nci_id
