@@ -95,11 +95,12 @@ class CreateNciTables < ActiveRecord::Migration
 
     create_table 'nci.maskings' do |t|
       t.string  'nct_id'
-      t.string  'allocation_code'
-      t.string  'role_investigator'
-      t.string  'role_outcome_assessor'
-      t.string  'role_subject'
-      t.string  'role_caregiver'
+      t.string  'masking'
+      t.string  'masking_allocation_code'
+      t.string  'masking_role_investigator'
+      t.string  'masking_role_outcome_assessor'
+      t.string  'masking_role_subject'
+      t.string  'masking_role_caregiver'
     end
 
     create_table 'nci.other_ids' do |t|
@@ -120,14 +121,14 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'nct_id'
       t.string  'phase'
       t.string  'phase_other_text'
-      t.string  'phase_additional_qualifier'
+      t.string  'phase_additional_qualifier_code'
     end
 
     create_table 'nci.primary_purposes' do |t|
       t.string  'nct_id'
       t.string  'primary_purpose_code'
       t.string  'primary_purpose_other_text'
-      t.string  'primary_purpose_additional_qualifier'
+      t.string  'primary_purpose_additional_qualifier_code'
     end
 
     create_table 'nci.sites' do |t|

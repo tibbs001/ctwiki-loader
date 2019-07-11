@@ -2172,6 +2172,15 @@ ALTER SEQUENCE ctgov.result_groups_id_seq OWNED BY ctgov.result_groups.id;
 
 
 --
+-- Name: schema_migrations; Type: TABLE; Schema: ctgov; Owner: -
+--
+
+CREATE TABLE ctgov.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+--
 -- Name: sponsors_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
 --
 
@@ -2477,61 +2486,11 @@ ALTER SEQUENCE lookup.interventions_id_seq OWNED BY lookup.interventions.id;
 
 
 --
--- Name: journal; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.journal (
-    id integer NOT NULL,
-    qcode character varying,
-    types character varying,
-    name character varying,
-    downcase_name character varying,
-    wiki_description character varying,
-    looks_suspicious character varying
-);
-
-
---
--- Name: journal_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
---
-
-CREATE SEQUENCE lookup.journal_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: journal_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
---
-
-ALTER SEQUENCE lookup.journal_id_seq OWNED BY lookup.journal.id;
-
-
---
 -- Name: journals; Type: TABLE; Schema: lookup; Owner: -
 --
 
 CREATE TABLE lookup.journals (
     id integer NOT NULL,
-    qcode character varying,
-    types character varying,
-    name character varying,
-    downcase_name character varying,
-    wiki_description character varying,
-    looks_suspicious character varying
-);
-
-
---
--- Name: journals_backup; Type: TABLE; Schema: lookup; Owner: -
---
-
-CREATE TABLE lookup.journals_backup (
-    id integer,
     qcode character varying,
     types character varying,
     name character varying,
@@ -3115,11 +3074,12 @@ ALTER SEQUENCE nci.keywords_id_seq OWNED BY nci.keywords.id;
 CREATE TABLE nci.maskings (
     id integer NOT NULL,
     nct_id character varying,
-    allocation_code character varying,
-    role_investigator character varying,
-    role_outcome_assessor character varying,
-    role_subject character varying,
-    role_caregiver character varying
+    masking character varying,
+    masking_allocation_code character varying,
+    masking_role_investigator character varying,
+    masking_role_outcome_assessor character varying,
+    masking_role_subject character varying,
+    masking_role_caregiver character varying
 );
 
 
@@ -3218,7 +3178,7 @@ CREATE TABLE nci.phases (
     nct_id character varying,
     phase character varying,
     phase_other_text character varying,
-    phase_additional_qualifier character varying
+    phase_additional_qualifier_code character varying
 );
 
 
@@ -3251,7 +3211,7 @@ CREATE TABLE nci.primary_purposes (
     nct_id character varying,
     primary_purpose_code character varying,
     primary_purpose_other_text character varying,
-    primary_purpose_additional_qualifier character varying
+    primary_purpose_additional_qualifier_code character varying
 );
 
 
@@ -3928,40 +3888,6 @@ ALTER SEQUENCE pubmed.other_ids_id_seq OWNED BY pubmed.other_ids.id;
 
 
 --
--- Name: pub_xml_records; Type: TABLE; Schema: pubmed; Owner: -
---
-
-CREATE TABLE pubmed.pub_xml_records (
-    id integer NOT NULL,
-    pmid character varying,
-    content xml,
-    created_pub_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
---
-
-CREATE SEQUENCE pubmed.pub_xml_records_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pub_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
---
-
-ALTER SEQUENCE pubmed.pub_xml_records_id_seq OWNED BY pubmed.pub_xml_records.id;
-
-
---
 -- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
 --
 
@@ -3989,8 +3915,8 @@ CREATE TABLE pubmed.publications (
     medline_ta character varying,
     nlm_unique_id character varying,
     issn_linking character varying,
-    name character varying,
-    journal_qcode character varying
+    journal_qcode character varying,
+    name character varying
 );
 
 
@@ -4012,15 +3938,6 @@ CREATE SEQUENCE pubmed.publications_id_seq
 --
 
 ALTER SEQUENCE pubmed.publications_id_seq OWNED BY pubmed.publications.id;
-
-
---
--- Name: schema_migrations; Type: TABLE; Schema: pubmed; Owner: -
---
-
-CREATE TABLE pubmed.schema_migrations (
-    version character varying NOT NULL
-);
 
 
 --
@@ -4413,13 +4330,6 @@ ALTER TABLE ONLY lookup.interventions ALTER COLUMN id SET DEFAULT nextval('looku
 
 
 --
--- Name: journal id; Type: DEFAULT; Schema: lookup; Owner: -
---
-
-ALTER TABLE ONLY lookup.journal ALTER COLUMN id SET DEFAULT nextval('lookup.journal_id_seq'::regclass);
-
-
---
 -- Name: journals id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -4690,13 +4600,6 @@ ALTER TABLE ONLY pubmed.mesh_terms ALTER COLUMN id SET DEFAULT nextval('pubmed.m
 --
 
 ALTER TABLE ONLY pubmed.other_ids ALTER COLUMN id SET DEFAULT nextval('pubmed.other_ids_id_seq'::regclass);
-
-
---
--- Name: pub_xml_records id; Type: DEFAULT; Schema: pubmed; Owner: -
---
-
-ALTER TABLE ONLY pubmed.pub_xml_records ALTER COLUMN id SET DEFAULT nextval('pubmed.pub_xml_records_id_seq'::regclass);
 
 
 --
@@ -5122,14 +5025,6 @@ ALTER TABLE ONLY lookup.interventions
 
 
 --
--- Name: journal journal_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
---
-
-ALTER TABLE ONLY lookup.journal
-    ADD CONSTRAINT journal_pkey PRIMARY KEY (id);
-
-
---
 -- Name: journals journals_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
@@ -5439,14 +5334,6 @@ ALTER TABLE ONLY pubmed.mesh_terms
 
 ALTER TABLE ONLY pubmed.other_ids
     ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
-
-
---
--- Name: pub_xml_records pub_xml_records_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
---
-
-ALTER TABLE ONLY pubmed.pub_xml_records
-    ADD CONSTRAINT pub_xml_records_pkey PRIMARY KEY (id);
 
 
 --
@@ -6313,6 +6200,13 @@ CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references 
 
 
 --
+-- Name: unique_schema_migrations; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON ctgov.schema_migrations USING btree (version);
+
+
+--
 -- Name: index_lookup.authors_on_downcase_name; Type: INDEX; Schema: lookup; Owner: -
 --
 
@@ -6425,20 +6319,6 @@ CREATE INDEX "index_mesh_archive.y2018_mesh_terms_on_qualifier" ON mesh_archive.
 
 
 --
--- Name: authors_name; Type: INDEX; Schema: pubmed; Owner: -
---
-
-CREATE INDEX authors_name ON pubmed.authors USING btree (name);
-
-
---
--- Name: authors_orcid; Type: INDEX; Schema: pubmed; Owner: -
---
-
-CREATE INDEX authors_orcid ON pubmed.authors USING btree (orcid);
-
-
---
 -- Name: index_pubmed.author_affiliations_on_pubmed.author_id; Type: INDEX; Schema: pubmed; Owner: -
 --
 
@@ -6450,13 +6330,6 @@ CREATE INDEX "index_pubmed.author_affiliations_on_pubmed.author_id" ON pubmed.au
 --
 
 CREATE INDEX "index_pubmed.authors_on_pubmed.publication_id" ON pubmed.authors USING btree ("pubmed.publication_id");
-
-
---
--- Name: unique_schema_migrations; Type: INDEX; Schema: pubmed; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON pubmed.schema_migrations USING btree (version);
 
 
 --
@@ -6962,8 +6835,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181230000144');
 INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 
 INSERT INTO schema_migrations (version) VALUES ('20190516000142');
-
-INSERT INTO schema_migrations (version) VALUES ('20190526000642');
 
 INSERT INTO schema_migrations (version) VALUES ('20190527000442');
 
