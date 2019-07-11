@@ -32,10 +32,9 @@ module Nci
       puts "=======>>> primary purpose"
       params["primary_purpose"]    = Nci::PrimaryPurpose.new(params['primary_purpose'].merge({'nct_id'=>nct_id}))  if params['primary_purpose']
 
-      puts "=======>>> anatomic sites "
-      params["anatomic_sites"]     = params["anatomic_sites"].map {|as| Nci::AnatomicSite.new(as)}  if params['anatomic_sites']
+      params["anatomic_sites"]     = params["anatomic_sites"].map {|as| Nci::AnatomicSite.new({:nct_id=>nct_id,:name=>as})} if params['anatomic_sites']
       puts "=======>>> associated_studies"
-      params["associated_studies"] = params["associated_studies"].map {|as| Nci::AssociatedStudy.new(as)}  if params['associated_studies']
+      params["associated_studies"] = params["associated_studies"].map {|as| Nci::AssociatedStudy.new(as.merge({'nct_id'=>nct_id}))}  if params['associated_studies']
       puts "=======>>> biomarker"
       params["biomarker"]          = params["biomarker"].map {|as| Nci::Biomarker.new(as.merge({'nct_id'=>nct_id}))}  if params['biomarkers']
       puts "=======>>> collaborators"
