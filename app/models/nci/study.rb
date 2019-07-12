@@ -96,12 +96,13 @@ module Nci
     end
 
     def self.populate
-      file_names=Dir.entries('/aact-files/json_downloads/archive') - ['.','..']
+      file_names=Dir.entries('/aact-files/json_downloads') - ['.','..']
       file_names.each { |file_name|
-        data = JSON.parse(File.read("/aact-files/json_downloads/archive/#{file_name}"))['trials']
+        data = JSON.parse(File.read("/aact-files/json_downloads/#{file_name}"))['trials']
+        #data = JSON.parse(File.read("/aact-files/json_downloads/20190712-15_nci_1000.json"))['trials']
         data.compact.each{ |study_data|
           begin
-            Nci::Study.create(study_data.except('arms')) if study_data
+            Nci::Study.create(study_data) if study_data
           rescue
             # If one fails, go on to the next.
           end
