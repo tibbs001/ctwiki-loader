@@ -70,23 +70,21 @@ module Nci
         }
       end
 
-      data["keywords"] = data["keywords"].map {|as| Nci::Keyword.new(as.merge({'nct_id'=>nct_id}))} if data['keywords']
-      data["other_ids"] = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
-      data["outcome_measures"] = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
-      if data['sites']
-        data['sites'] = data["sites"].map {|s|
-          if s['org_coordinates']
-            lat=s['org_coordinates']['lat']
-            lon=s['org_coordinates']['lon']
-            clean_s=s.reject! { |k| k == 'org_coordinates' }
-          else
-            lat=lon=nil
-            clean_s=s
-          end
-          Nci::Site.new(clean_s.merge({'nct_id'=>nct_id,'lat'=>lat,'lon'=>lon}))
-        }
-      end
       super(data)
+    end
+
+    def create_site_objects(nct_id, site_data)
+      site_data.map {|site|
+        if site['org_coordinates']
+          lat=site['org_coordinates']['lat']
+          lon=site['org_coordinates']['lon']
+          clean_s=site.reject! { |k| k == 'org_coordinates' }
+        else
+          lat=lon=nil
+          clean_s=site
+        end
+        Nci::Site.new(clean_s.merge({'nct_id'=>nct_id,'lat'=>lat,'lon'=>lon}))
+      }
     end
 
     def self.all_ids
@@ -95,10 +93,11 @@ module Nci
 
     def self.populate
       data = JSON.parse(File.read("public/nci-data.json"))['trials']
-      data.each{ |study_data|
+      data.compact.each{ |study_data|
         begin
-          Nci::Study.create(study_data) if study_data
+          Nci::Study.create(study_data.except('arms')) if study_data
         rescue
+          # If one fails, go on to the next.
         end
       }
     end
