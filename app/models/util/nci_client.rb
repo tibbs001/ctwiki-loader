@@ -9,10 +9,10 @@ module Util
 
     def download_files
       tries ||= 5
-      batch_counter=1000
+      batch_counter=1
       while batch_counter < 12000
         puts "Getting next 50 NCI studies starting at #{batch_counter}"
-        file_name="/aact-files/json_files/#{Time.zone.now.strftime("%Y%m%d-%H")}_nci_#{batch_counter}.json"
+        file_name="/aact-files/json_downloads/#{Time.zone.now.strftime("%Y%m%d-%H")}_nci_#{batch_counter}.json"
         file = File.new file_name, 'w'
         begin
           next_url="#{@url}from=#{batch_counter}"
@@ -32,19 +32,6 @@ module Util
         file.write(download)
         file.size
         batch_counter = batch_counter + 50
-      end
-    end
-
-    def save_file_contents(file)
-      Zip::File.open(file.path) do |zipfile|
-        cnt=zipfile.size
-        zipfile.each do |file|
-          xml = file.get_input_stream.read
-          nct_id = extract_nct_id_from_study(xml)
-          puts "add study_xml_record: #{cnt} #{nct_id}"
-          create_study_xml_record(nct_id,xml)
-          cnt=cnt-1
-        end
       end
     end
 
