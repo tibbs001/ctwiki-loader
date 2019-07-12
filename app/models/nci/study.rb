@@ -87,27 +87,30 @@ module Nci
       }
     end
 
-    def self.all_ids
-      all.pluck(:nct_id)
-    end
-
-    def self.populate
-      data = JSON.parse(File.read("public/nci-data.json"))['trials']
-      data.compact.each{ |study_data|
-        begin
-          Nci::Study.create(study_data.except('arms')) if study_data
-        rescue
-          # If one fails, go on to the next.
-        end
-      }
-    end
-
     def self.json(num=nil)
       if num.nil?
         JSON.parse(File.read("public/nci-data.json"))['trials']
       else
         JSON.parse(File.read("public/nci-data.json"))['trials'][num]
       end
+    end
+
+    def self.all_ids
+      all.pluck(:nct_id)
+    end
+
+    def self.populate
+      file_names=Dir.entries('/aact-files/xml_downloads/archive') - ['.','..']
+      file_names.each { |file_name|
+        data = JSON.parse(File.read("/aact-files/xml_downloads/archive/#{file_name}"))['trials']
+        data.compact.each{ |study_data|
+          begin
+            Nci::Study.create(study_data.except('arms')) if study_data
+          rescue
+            # If one fails, go on to the next.
+          end
+        }
+      }
     end
 
   end
