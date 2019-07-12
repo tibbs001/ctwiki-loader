@@ -52,11 +52,7 @@ module Nci
       data["other_ids"]          = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
       data["outcome_measures"]   = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
       data['sites']              = create_site_objects(nct_id, data['sites']) if data['sites']
-
-      data['diseases']           = data['diseases'].map {|d|
-        clean_d=d.except!('synonyms','paths','parents','type')
-        Nci::Disease.new(clean_d.merge({'nct_id'=>nct_id}))
-      } if data['diseases']
+      data['diseases']           = create_disease_objects(nct_id, data['diseases']) if data['diseases']
 
       if data['eligibility']['structured']
         data["eligibility"] = Nci::Eligibility.new(data['eligibility']['structured'].merge({'nct_id'=>nct_id}))
@@ -68,6 +64,17 @@ module Nci
         }
       end
       super(data)
+    end
+
+    def create_disease_objects(nct_id, disease_data)
+      disease_data.map {|disease|
+        d=disease.except!('paths','parents','type')
+        if d['synonyms']
+          code = d['disease_code']
+          d['synonyms'] = d['synonyms'].map {|ds| Nci::DiseaseSynonym.new({'nct_id'=>nct_id, 'disease_code'=>code, 'name'=>ds})}
+        end
+        Nci::Disease.new(d.merge({'nct_id'=>nct_id}))
+      }
     end
 
     def create_site_objects(nct_id, site_data)
