@@ -30,7 +30,7 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'sampling_method_code'
       t.string  'principal_investigator'
       t.string  'lead_org'
-      t.integer 'minimum_target_accural_number'
+      t.integer 'minimum_target_accrual_number'
       t.integer 'number_of_arms'
       t.text    'brief_summary'
       t.text    'detail_description'
@@ -86,6 +86,39 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'lead_disease_indicator'
       t.string  'nci_thesaurus_concept_id'
       t.string  'preferred_name'
+      t.string  'display_name'
+    end
+
+    create_table 'nci.disease_synonyms' do |t|
+      t.string  'nct_id'
+      t.string  'disease_code'
+      t.string  'name'
+    end
+
+    create_table 'nci.disease_parents' do |t|
+      t.string  'nct_id'
+      t.string  'disease_code'
+      t.string  'code'
+    end
+
+    create_table 'nci.eligibility_info' do |t|
+      t.string  'nct_id'
+      t.string  'gender'
+      t.string  'max_age'
+      t.integer 'max_age_number'
+      t.string  'max_age_unit'
+      t.string  'min_age'
+      t.integer 'min_age_number'
+      t.string  'min_age_unit'
+      t.integer 'max_age_in_years'
+      t.integer 'min_age_in_years'
+    end
+
+    create_table 'nci.eligibility_criteria' do |t|
+      t.string  'nct_id'
+      t.integer 'display_order'
+      t.boolean 'inclusion_indicator'
+      t.text    'description'
     end
 
     create_table 'nci.keywords' do |t|

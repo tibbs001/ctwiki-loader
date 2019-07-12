@@ -3002,6 +3002,70 @@ ALTER SEQUENCE nci.collaborators_id_seq OWNED BY nci.collaborators.id;
 
 
 --
+-- Name: disease_parents; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.disease_parents (
+    id integer NOT NULL,
+    nct_id character varying,
+    disease_code character varying,
+    code character varying
+);
+
+
+--
+-- Name: disease_parents_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.disease_parents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: disease_parents_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.disease_parents_id_seq OWNED BY nci.disease_parents.id;
+
+
+--
+-- Name: disease_synonyms; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.disease_synonyms (
+    id integer NOT NULL,
+    nct_id character varying,
+    disease_code character varying,
+    name character varying
+);
+
+
+--
+-- Name: disease_synonyms_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.disease_synonyms_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: disease_synonyms_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.disease_synonyms_id_seq OWNED BY nci.disease_synonyms.id;
+
+
+--
 -- Name: diseases; Type: TABLE; Schema: nci; Owner: -
 --
 
@@ -3012,7 +3076,8 @@ CREATE TABLE nci.diseases (
     inclusion_indicator character varying,
     lead_disease_indicator character varying,
     nci_thesaurus_concept_id character varying,
-    preferred_name character varying
+    preferred_name character varying,
+    display_name character varying
 );
 
 
@@ -3034,6 +3099,78 @@ CREATE SEQUENCE nci.diseases_id_seq
 --
 
 ALTER SEQUENCE nci.diseases_id_seq OWNED BY nci.diseases.id;
+
+
+--
+-- Name: eligibility_criteria; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.eligibility_criteria (
+    id integer NOT NULL,
+    nct_id character varying,
+    display_order integer,
+    inclusion_indicator boolean,
+    description text
+);
+
+
+--
+-- Name: eligibility_criteria_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.eligibility_criteria_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: eligibility_criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.eligibility_criteria_id_seq OWNED BY nci.eligibility_criteria.id;
+
+
+--
+-- Name: eligibility_info; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.eligibility_info (
+    id integer NOT NULL,
+    nct_id character varying,
+    gender character varying,
+    max_age character varying,
+    max_age_number integer,
+    max_age_unit character varying,
+    min_age character varying,
+    min_age_number integer,
+    min_age_unit character varying,
+    max_age_in_years integer,
+    min_age_in_years integer
+);
+
+
+--
+-- Name: eligibility_info_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.eligibility_info_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: eligibility_info_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.eligibility_info_id_seq OWNED BY nci.eligibility_info.id;
 
 
 --
@@ -3323,7 +3460,7 @@ CREATE TABLE nci.studies (
     sampling_method_code character varying,
     principal_investigator character varying,
     lead_org character varying,
-    minimum_target_accural_number integer,
+    minimum_target_accrual_number integer,
     number_of_arms integer,
     brief_summary text,
     detail_description text
@@ -4437,10 +4574,38 @@ ALTER TABLE ONLY nci.collaborators ALTER COLUMN id SET DEFAULT nextval('nci.coll
 
 
 --
+-- Name: disease_parents id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.disease_parents ALTER COLUMN id SET DEFAULT nextval('nci.disease_parents_id_seq'::regclass);
+
+
+--
+-- Name: disease_synonyms id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.disease_synonyms ALTER COLUMN id SET DEFAULT nextval('nci.disease_synonyms_id_seq'::regclass);
+
+
+--
 -- Name: diseases id; Type: DEFAULT; Schema: nci; Owner: -
 --
 
 ALTER TABLE ONLY nci.diseases ALTER COLUMN id SET DEFAULT nextval('nci.diseases_id_seq'::regclass);
+
+
+--
+-- Name: eligibility_criteria id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibility_criteria ALTER COLUMN id SET DEFAULT nextval('nci.eligibility_criteria_id_seq'::regclass);
+
+
+--
+-- Name: eligibility_info id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibility_info ALTER COLUMN id SET DEFAULT nextval('nci.eligibility_info_id_seq'::regclass);
 
 
 --
@@ -5147,11 +5312,43 @@ ALTER TABLE ONLY nci.collaborators
 
 
 --
+-- Name: disease_parents disease_parents_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.disease_parents
+    ADD CONSTRAINT disease_parents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: disease_synonyms disease_synonyms_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.disease_synonyms
+    ADD CONSTRAINT disease_synonyms_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: diseases diseases_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
 --
 
 ALTER TABLE ONLY nci.diseases
     ADD CONSTRAINT diseases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: eligibility_criteria eligibility_criteria_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibility_criteria
+    ADD CONSTRAINT eligibility_criteria_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: eligibility_info eligibility_info_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibility_info
+    ADD CONSTRAINT eligibility_info_pkey PRIMARY KEY (id);
 
 
 --
