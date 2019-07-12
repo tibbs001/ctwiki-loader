@@ -3102,6 +3102,45 @@ ALTER SEQUENCE nci.diseases_id_seq OWNED BY nci.diseases.id;
 
 
 --
+-- Name: eligibilities; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.eligibilities (
+    id integer NOT NULL,
+    nct_id character varying,
+    gender character varying,
+    max_age character varying,
+    max_age_number integer,
+    max_age_unit character varying,
+    min_age character varying,
+    min_age_number integer,
+    min_age_unit character varying,
+    max_age_in_years integer,
+    min_age_in_years integer
+);
+
+
+--
+-- Name: eligibilities_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.eligibilities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: eligibilities_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.eligibilities_id_seq OWNED BY nci.eligibilities.id;
+
+
+--
 -- Name: eligibility_criteria; Type: TABLE; Schema: nci; Owner: -
 --
 
@@ -3132,45 +3171,6 @@ CREATE SEQUENCE nci.eligibility_criteria_id_seq
 --
 
 ALTER SEQUENCE nci.eligibility_criteria_id_seq OWNED BY nci.eligibility_criteria.id;
-
-
---
--- Name: eligibility_info; Type: TABLE; Schema: nci; Owner: -
---
-
-CREATE TABLE nci.eligibility_info (
-    id integer NOT NULL,
-    nct_id character varying,
-    gender character varying,
-    max_age character varying,
-    max_age_number integer,
-    max_age_unit character varying,
-    min_age character varying,
-    min_age_number integer,
-    min_age_unit character varying,
-    max_age_in_years integer,
-    min_age_in_years integer
-);
-
-
---
--- Name: eligibility_info_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
---
-
-CREATE SEQUENCE nci.eligibility_info_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: eligibility_info_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
---
-
-ALTER SEQUENCE nci.eligibility_info_id_seq OWNED BY nci.eligibility_info.id;
 
 
 --
@@ -4595,17 +4595,17 @@ ALTER TABLE ONLY nci.diseases ALTER COLUMN id SET DEFAULT nextval('nci.diseases_
 
 
 --
+-- Name: eligibilities id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibilities ALTER COLUMN id SET DEFAULT nextval('nci.eligibilities_id_seq'::regclass);
+
+
+--
 -- Name: eligibility_criteria id; Type: DEFAULT; Schema: nci; Owner: -
 --
 
 ALTER TABLE ONLY nci.eligibility_criteria ALTER COLUMN id SET DEFAULT nextval('nci.eligibility_criteria_id_seq'::regclass);
-
-
---
--- Name: eligibility_info id; Type: DEFAULT; Schema: nci; Owner: -
---
-
-ALTER TABLE ONLY nci.eligibility_info ALTER COLUMN id SET DEFAULT nextval('nci.eligibility_info_id_seq'::regclass);
 
 
 --
@@ -5336,19 +5336,19 @@ ALTER TABLE ONLY nci.diseases
 
 
 --
+-- Name: eligibilities eligibilities_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.eligibilities
+    ADD CONSTRAINT eligibilities_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: eligibility_criteria eligibility_criteria_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
 --
 
 ALTER TABLE ONLY nci.eligibility_criteria
     ADD CONSTRAINT eligibility_criteria_pkey PRIMARY KEY (id);
-
-
---
--- Name: eligibility_info eligibility_info_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
---
-
-ALTER TABLE ONLY nci.eligibility_info
-    ADD CONSTRAINT eligibility_info_pkey PRIMARY KEY (id);
 
 
 --

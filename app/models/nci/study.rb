@@ -5,7 +5,7 @@ module Nci
 
     has_one  :bio_specimen,       :foreign_key => 'nct_id', :dependent => :destroy
     has_one  :central_contact,    :foreign_key => 'nct_id', :dependent => :destroy
-    #has_one  :eligibility_info,   :foreign_key => 'nct_id', :dependent => :destroy
+    has_one  :eligibility,        :foreign_key => 'nct_id', :dependent => :destroy
     has_one  :masking,            :foreign_key => 'nct_id', :dependent => :destroy
     has_one  :phase,              :foreign_key => 'nct_id', :dependent => :destroy
     has_one  :primary_purpose,    :foreign_key => 'nct_id', :dependent => :destroy
@@ -15,7 +15,7 @@ module Nci
     has_many :biomarkers,         :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :collaborators,      :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :diseases,           :foreign_key => 'nct_id', :dependent => :delete_all
-    #has_many :eligibility_criteria,  :foreign_key => 'nct_id', :dependent => :delete_all
+    has_many :eligibility_criteria, :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :keywords,           :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :other_ids,          :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :outcome_measures,   :foreign_key => 'nct_id', :dependent => :delete_all
@@ -24,7 +24,7 @@ module Nci
     accepts_nested_attributes_for :anatomic_sites, :associated_studies, :diseases, :outcome_measures
 
     def tags
-      ['associated_studies','anatomic_sites','biomarkers','collaborators','diseases','keywords','sites']
+      ['associated_studies','anatomic_sites','biomarkers','collaborators','diseases','eligibility','keywords','sites']
     end
 
     def initialize(params={})
@@ -49,20 +49,19 @@ module Nci
           Nci::Disease.new(clean_d.merge({'nct_id'=>nct_id}))
       } if data['diseases']
 
-#      if data['eligibility']
-#        if data['eligibility']['structured']
-#          data["eligibility"]['structured'] = Nci::EligibilityInfo.new(data['eligibility']['structured'].merge({'nct_id'=>nct_id}))
-#        end
-#
-#        if data['eligibility']['unstructured']
-#          data["eligibility"]['unstructured'] = data['eligibility']['unstructured'].map {|e|
-#            Nci::EligibilityCriterium.new(e.merge({'nct_id'=>nct_id}))
-#          }
-#        end
-#      end
+      if data['eligibility']['structured']
+        data["eligibility"] = Nci::Eligibility.new(data['eligibility']['structured'].merge({'nct_id'=>nct_id}))
+      end
+
+      if data['eligibility']['unstructured']
+        data['eligibility_criteria'] = data['eligibility']['unstructured'].map {|e|
+          Nci::EligibilityCriterium.new(e.merge({'nct_id'=>nct_id}))
+        }
+      end
+
       data["keywords"] = data["keywords"].map {|as| Nci::Keyword.new(as.merge({'nct_id'=>nct_id}))} if data['keywords']
-      data["other_ids"]          = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
-      data["outcome_measures"]   = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
+      data["other_ids"] = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
+      data["outcome_measures"] = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
       if data['sites']
         data['sites'] = data["sites"].map {|s|
           if s['org_coordinates']

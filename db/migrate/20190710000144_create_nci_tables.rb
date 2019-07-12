@@ -101,7 +101,7 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'code'
     end
 
-    create_table 'nci.eligibility_info' do |t|
+    create_table 'nci.eligibilities' do |t|
       t.string  'nct_id'
       t.string  'gender'
       t.string  'max_age'
