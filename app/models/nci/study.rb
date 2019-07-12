@@ -11,6 +11,7 @@ module Nci
     has_one  :primary_purpose,    :foreign_key => 'nct_id', :dependent => :destroy
 
     has_many :anatomic_sites,     :foreign_key => 'nct_id', :dependent => :delete_all
+    has_many :arms,               :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :associated_studies, :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :biomarkers,         :foreign_key => 'nct_id', :dependent => :delete_all
     has_many :collaborators,      :foreign_key => 'nct_id', :dependent => :delete_all
@@ -24,29 +25,39 @@ module Nci
     accepts_nested_attributes_for :anatomic_sites, :associated_studies, :diseases, :outcome_measures
 
     def tags
-      ['associated_studies','anatomic_sites','biomarkers','collaborators','diseases','eligibility','keywords','sites']
+      ['arms', 'associated_studies','anatomic_sites','biomarkers','collaborators','diseases','eligibility','keywords','other_ids', 'sites']
     end
 
     def initialize(params={})
       data = params
       # remove empty tags
       tags.each{ |tag| data.except!(tag) if params[tag].nil? }
-
       nct_id=data['nct_id']
+      puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+      puts nct_id
+      puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+
+      # create one-to-one related objects
       data["bio_specimen"]       = Nci::BioSpecimen.new(data['bio_specimen'].merge({'nct_id'=>nct_id}))  if data['bio_specimen']
       data["central_contact"]    = Nci::CentralContact.new(data['central_contact'].merge({'nct_id'=>nct_id})) if data['central_contact']
       data["masking"]            = Nci::Masking.new(data['masking'].merge({'nct_id'=>nct_id}))  if data['masking']
       data["phase"]              = Nci::Phase.new(data['phase'].merge({'nct_id'=>nct_id}))  if data['phase']
       data["primary_purpose"]    = Nci::PrimaryPurpose.new(data['primary_purpose'].merge({'nct_id'=>nct_id}))  if data['primary_purpose']
 
+      # create one-to-many related objects
+      data["arms"]               = data["arms"].map {|as| Nci::Arm.new(as.except('interventions').merge({'nct_id'=>nct_id}))}  if data['arms']
       data["anatomic_sites"]     = data["anatomic_sites"].map {|as| Nci::AnatomicSite.new({:nct_id=>nct_id,:name=>as})} if data['anatomic_sites']
       data["associated_studies"] = data["associated_studies"].map {|as| Nci::AssociatedStudy.new(as.merge({'nct_id'=>nct_id}))}  if data['associated_studies']
-      data['biomarkers'] = data['biomarkers'].map {|as| Nci::Biomarker.new(as.except!('synonyms').merge({'nct_id'=>nct_id})) } if data['biomarkers']
-      data['collaborators'] = data['collaborators'].map {|as| Nci::Collaborator.new(as.merge({'nct_id'=>nct_id}))}  if data['collaborators']
+      data['biomarkers']         = data['biomarkers'].map {|as| Nci::Biomarker.new(as.except!('synonyms').merge({'nct_id'=>nct_id})) } if data['biomarkers']
+      data['collaborators']      = data['collaborators'].map {|as| Nci::Collaborator.new(as.merge({'nct_id'=>nct_id}))}  if data['collaborators']
+      data["keywords"]           = data["keywords"].map {|keyword| Nci::Keyword.new({'nct_id'=>nct_id, 'name'=>keyword})} if data['keywords']
+      data["other_ids"]          = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
+      data["outcome_measures"]   = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
+      data['sites']              = create_site_objects(nct_id, data['sites']) if data['sites']
 
-      data['diseases'] = data['diseases'].map {|d|
-          clean_d=d.except!('synonyms','paths','parents','type')
-          Nci::Disease.new(clean_d.merge({'nct_id'=>nct_id}))
+      data['diseases']           = data['diseases'].map {|d|
+        clean_d=d.except!('synonyms','paths','parents','type')
+        Nci::Disease.new(clean_d.merge({'nct_id'=>nct_id}))
       } if data['diseases']
 
       if data['eligibility']['structured']

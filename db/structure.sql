@@ -2834,6 +2834,39 @@ ALTER SEQUENCE nci.anatomic_sites_id_seq OWNED BY nci.anatomic_sites.id;
 
 
 --
+-- Name: arms; Type: TABLE; Schema: nci; Owner: -
+--
+
+CREATE TABLE nci.arms (
+    id integer NOT NULL,
+    nct_id character varying,
+    arm_name character varying,
+    arm_type character varying,
+    arm_description character varying
+);
+
+
+--
+-- Name: arms_id_seq; Type: SEQUENCE; Schema: nci; Owner: -
+--
+
+CREATE SEQUENCE nci.arms_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: arms_id_seq; Type: SEQUENCE OWNED BY; Schema: nci; Owner: -
+--
+
+ALTER SEQUENCE nci.arms_id_seq OWNED BY nci.arms.id;
+
+
+--
 -- Name: associated_studies; Type: TABLE; Schema: nci; Owner: -
 --
 
@@ -4539,6 +4572,13 @@ ALTER TABLE ONLY nci.anatomic_sites ALTER COLUMN id SET DEFAULT nextval('nci.ana
 
 
 --
+-- Name: arms id; Type: DEFAULT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.arms ALTER COLUMN id SET DEFAULT nextval('nci.arms_id_seq'::regclass);
+
+
+--
 -- Name: associated_studies id; Type: DEFAULT; Schema: nci; Owner: -
 --
 
@@ -5269,6 +5309,14 @@ ALTER TABLE ONLY mesh_archive.y2018_mesh_terms
 
 ALTER TABLE ONLY nci.anatomic_sites
     ADD CONSTRAINT anatomic_sites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: arms arms_pkey; Type: CONSTRAINT; Schema: nci; Owner: -
+--
+
+ALTER TABLE ONLY nci.arms
+    ADD CONSTRAINT arms_pkey PRIMARY KEY (id);
 
 
 --

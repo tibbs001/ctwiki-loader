@@ -41,6 +41,13 @@ class CreateNciTables < ActiveRecord::Migration
       t.string  'name'
     end
 
+    create_table 'nci.arms' do |t|
+      t.string  'nct_id'
+      t.string  'arm_name'
+      t.string  'arm_type'
+      t.string  'arm_description'
+    end
+
     create_table 'nci.associated_studies' do |t|
       t.string  'nct_id'
       t.string  'study_id'
