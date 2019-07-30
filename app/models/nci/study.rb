@@ -68,10 +68,16 @@ module Nci
 
     def create_disease_objects(nct_id, disease_data)
       disease_data.map {|disease|
-        d=disease.except!('paths','parents','type')
+        d=disease.except!('paths','type')
+        disease_code = d['disease_code']
         if d['synonyms']
-          code = d['disease_code']
-          d['synonyms'] = d['synonyms'].map {|ds| Nci::DiseaseSynonym.new({'nct_id'=>nct_id, 'disease_code'=>code, 'name'=>ds})}
+          d['synonyms'] = d['synonyms'].uniq.map {|ds|
+            Nci::DiseaseSynonym.new({'nct_id'=>nct_id, 'disease_code'=>disease_code, 'name'=>ds})}
+        end
+        if d['parents']
+          d['parents'] = d['parents'].map {|code|
+            Nci::DiseaseParent.new({'nct_id'=>nct_id, 'disease_code'=>disease_code, 'code'=>code})
+          }
         end
         Nci::Disease.new(d.merge({'nct_id'=>nct_id}))
       }
