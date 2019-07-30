@@ -5,6 +5,7 @@ class CreatePubmedAuthorsTable < ActiveRecord::Migration
     create_table 'pubmed.authors' do |t|
       t.belongs_to 'pubmed.publication', index: true
       t.string   'pmid'
+      t.string   'nct_id'
       t.string   'qcode'
       t.string   'orcid'
       t.boolean  'validated'
@@ -18,6 +19,7 @@ class CreatePubmedAuthorsTable < ActiveRecord::Migration
     create_table 'pubmed.author_affiliations' do |t|
       t.belongs_to 'pubmed.author', index: true
       t.string   'pmid'
+      t.string   'nct_id'
       t.string   'qcode'
       t.string   'isni'
       t.string   'grid'

@@ -4,6 +4,7 @@ class CreatePublicationTable < ActiveRecord::Migration
 
     create_table 'pubmed.publications' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'issn'
       t.string  'volume'
       t.string  'issue'
@@ -30,12 +31,14 @@ class CreatePublicationTable < ActiveRecord::Migration
 
     create_table 'pubmed.other_ids' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'id_type'
       t.string  'id_value'
     end
 
     create_table 'pubmed.chemicals' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'registry_number'
       t.string  'ui'
       t.string  'name'
@@ -43,12 +46,14 @@ class CreatePublicationTable < ActiveRecord::Migration
 
     create_table 'pubmed.types' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'ui'
       t.string  'name'
     end
 
     create_table 'pubmed.grants' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'grant_id'
       t.string  'acronym'
       t.string  'agency'
@@ -58,6 +63,7 @@ class CreatePublicationTable < ActiveRecord::Migration
 
     create_table 'pubmed.mesh_terms' do |t|
       t.string  'pmid'
+      t.string  'nct_id'
       t.string  'ui'
       t.string  'name'
       t.boolean 'major_topic'
