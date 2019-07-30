@@ -18,9 +18,9 @@ module Pubmed
     end
 
     def self.initialize(hash={})
-      puts "in pubmed::publication.initializer"
       super
-      @xml = Nokogiri::XML(hash[:xml]).css("PubmedArticle").to_xml
+      #@xml = Nokogiri::XML(hash[:xml]).css("//PubmedArticle").to_xml
+      @xml = hash[:xml].xpath("//PubmedArticle").to_xml
       @lookup_mgr = hash[:lookup_mgr]
       self.pmid = hash[:pmid]
     end
@@ -168,7 +168,6 @@ module Pubmed
     def author_name_quickstatements
       return_str = ''
       authors.each{ |author|
-        puts author.name
         return_str << "#{new_line}#{subject}#{tab}P2093#{tab}\"#{author.name}\"" if author.name.size > 1
       }
       return return_str
@@ -191,10 +190,10 @@ module Pubmed
     end
 
     def create
+      return if xml.nil?
       ActiveRecord::Base.logger=nil
       existing=Pubmed::Publication.where('pmid=?',self.pmid).first
       existing.try(:destroy)
-      update(attribs)
       args={:pmid => pmid, :xml => xml, :lookup_mgr => lookup_mgr}
       self.authors    = Pubmed::Author.create_all_from(args)
       self.chemicals  = Pubmed::Chemical.create_all_from(args)
@@ -202,6 +201,7 @@ module Pubmed
       self.mesh_terms = Pubmed::MeshTerm.create_all_from(args)
       self.other_ids  = Pubmed::OtherId.create_all_from(args)
       self.types      = Pubmed::Type.create_all_from(args)
+      update(attribs)
       self
     end
 
