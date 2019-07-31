@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.2
+-- Dumped from database version 11.4
 -- Dumped by pg_dump version 11.4
 
 SET statement_timeout = 0;
@@ -2376,6 +2376,44 @@ ALTER SEQUENCE lookup.authors_id_seq OWNED BY lookup.authors.id;
 
 
 --
+-- Name: chemicals; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.chemicals (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    preferred_name character varying,
+    ui character varying,
+    name character varying,
+    downcase_name character varying,
+    lookup character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: chemicals_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.chemicals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: chemicals_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.chemicals_id_seq OWNED BY lookup.chemicals.id;
+
+
+--
 -- Name: conditions; Type: TABLE; Schema: lookup; Owner: -
 --
 
@@ -4481,6 +4519,13 @@ ALTER TABLE ONLY lookup.authors ALTER COLUMN id SET DEFAULT nextval('lookup.auth
 
 
 --
+-- Name: chemicals id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.chemicals ALTER COLUMN id SET DEFAULT nextval('lookup.chemicals_id_seq'::regclass);
+
+
+--
 -- Name: conditions id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
@@ -5205,6 +5250,14 @@ ALTER TABLE ONLY lookup.ages
 
 ALTER TABLE ONLY lookup.authors
     ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chemicals chemicals_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.chemicals
+    ADD CONSTRAINT chemicals_pkey PRIMARY KEY (id);
 
 
 --
@@ -7094,4 +7147,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190529800143');
 INSERT INTO schema_migrations (version) VALUES ('20190601000144');
 
 INSERT INTO schema_migrations (version) VALUES ('20190710000144');
+
+INSERT INTO schema_migrations (version) VALUES ('20190730000144');
 
