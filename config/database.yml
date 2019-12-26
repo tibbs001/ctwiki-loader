@@ -12,9 +12,9 @@ development:
 
 test:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact_back_test"
+  url:  "postgres://wiki@localhost:5432/aact_test"
 
 production:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact_back"
+  url:  "postgres://wiki@localhost:5432/aact"
 

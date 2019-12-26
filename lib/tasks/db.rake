@@ -13,7 +13,7 @@ namespace :db do
     con.execute("GRANT ALL ON ALL TABLES IN SCHEMA lookup TO wiki;")
     con.execute("GRANT ALL ON ALL TABLES IN SCHEMA pubmed TO wiki;")
     con.execute("alter role #{ENV['WIKI_DB_SUPER_USERNAME']} in database aact set search_path to pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;")
-    con.execute("alter role #{ENV['WIKI_DB_SUPER_USERNAME']} in database aact_back_test set search_path to pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;")
+    con.execute("alter role #{ENV['WIKI_DB_SUPER_USERNAME']} in database aact_test set search_path to pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;")
     con.reset!
   end
 

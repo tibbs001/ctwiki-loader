@@ -2,7 +2,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     #DatabaseCleaner.clean_with(:deletion)
     dump_file=Rails.root.join("spec/support/postgres.dmp")
-    cmd="pg_restore -c -j 5 -v -h localhost -p 5432 -U #{ENV['AACT_DB_SUPER_USERNAME']} -d aact_back_test #{dump_file}"
+    cmd="pg_restore -c -j 5 -v -h localhost -p 5432 -U #{ENV['AACT_DB_SUPER_USERNAME']} -d aact_test #{dump_file}"
     require 'open3'
     stdout, stderr, status = Open3.capture3(cmd)
 
@@ -10,9 +10,9 @@ RSpec.configure do |config|
     ActiveRecord::Base.establish_connection @dbconfig[:test]
     con=ActiveRecord::Base.establish_connection(
       adapter: 'postgresql',
-      database: 'aact_back_test',
+      database: 'aact_test',
       encoding: 'utf8',
-      username: 'ctti',
+      username: 'wiki',
     ).connection
     con.execute('grant usage on schema ctgov to wiki;')
     con.execute('grant usage on schema lookup to wiki;')

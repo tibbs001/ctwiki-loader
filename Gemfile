@@ -1,13 +1,16 @@
 source "https://rubygems.org"
 
-ruby "2.4.0"
+ruby "2.4.5"
 
 gem 'sparql-client'
-gem "rubyzip", ">= 1.2.2"
+
 gem "sprockets", ">= 3.7.2"
-gem 'nokogiri', '~> 1.8.1'
+gem "rubyzip", ">= 1.2.2"
+
+gem 'openssl', '~> 2.0.2'
+gem 'nokogiri'
 gem 'loofah', '~> 2.2.3'
-gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+gem 'rails'
 gem 'rails-html-sanitizer', '~> 1.0.4'
 gem "rack-timeout"
 gem "faraday"
@@ -50,7 +53,7 @@ group :development, :test do
   gem "awesome_print"
   gem "bullet"
   gem "bundler-audit", ">= 0.5.0", require: false
-  gem "factory_girl_rails"
+  #gem "factory_girl_rails"
   gem "pry-byebug"
   gem "pry-rails"
   gem 'rspec-rails'
