@@ -4,7 +4,7 @@ module Lookup
 
     def self.source_data
       # The model that will be used as the source of info
-      Pubmed::Publication
+      "Pubmed::Publication"
     end
 
     def self.predefined_qcode

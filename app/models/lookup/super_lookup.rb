@@ -4,7 +4,7 @@ module Lookup
     self.abstract_class = true;
 
     def self.populate
-      self.populate_for_model(self.source_data)
+      self.populate_for_model(self.source_data.constantize)
     end
 
     def self.populate_for_model(model_type)

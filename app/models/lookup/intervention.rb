@@ -4,7 +4,7 @@ module Lookup
 
     def self.source_data
       # The ctgov model that will be used as the source of info
-      BrowseIntervention
+      "Ctgov::BrowseIntervention"
     end
 
     def self.label
