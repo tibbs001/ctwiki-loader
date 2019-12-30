@@ -5,6 +5,11 @@ module Lookup
     # to keep hitting the database for this one bit of info.
     @@qcode_map = where('qcode is not null').pluck(:qcode,:downcase_name)
 
+    def self.source_data
+      # The model that will be used as the source of info
+      "Ctgov::Sponsor"
+    end
+
     def self.qcode_for(sponsor_name)
       code = @@qcode_map.select{|entry| entry if entry[1] == sponsor_name.downcase }
       code.first[0] if code.size > 0

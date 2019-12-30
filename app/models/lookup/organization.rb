@@ -2,6 +2,11 @@ module Lookup
   class Organization < SuperLookup
     self.table_name = 'lookup.organizations'
 
+    def self.source_data
+      # The model that will be used as the source of info
+      "Project::CdekOrganization"
+    end
+
     def self.qcode_for(search_name)
       return if search_name.nil?
       results = self.where('qcode is not null and downcase_name = ?',search_name.downcase)
@@ -16,7 +21,7 @@ module Lookup
     end
 
     def self.populate
-      self.populate_for_model(Project::CdekOrganization)
+      self.populate_for_model("Project::CdekOrganization")
     end
 
     def populate_other_attribs

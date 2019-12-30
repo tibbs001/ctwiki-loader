@@ -37,10 +37,10 @@ module Lookup
     end
 
     def self.all_labels
-      (self.source_data.uniq.pluck(self.label).compact.map{|n|n.downcase})
+      (self.source_data.constantize.uniq.pluck(self.label).compact.map{|n|n.downcase})
     end
 
-    def self.unregistered_names(model_type=self.source_data)
+    def self.unregistered_names(model_type=self.source_data.constantize)
       already_loaded = (self.existing_rows + self.names_to_ignore.map{|n|n.downcase})
       self.all_labels - already_loaded
     end

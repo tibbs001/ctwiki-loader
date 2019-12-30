@@ -3,6 +3,11 @@ module Lookup
     self.table_name = 'lookup.publications'
     @@qcode_map = where('qcode is not null').pluck(:qcode,:pmid)
 
+    def self.source_data
+      # The model that will be used as the source of info
+      "Pubmed::Publication"
+    end
+
     def self.qcode_for(pmid)
       code = @@qcode_map.select{|entry| entry if entry[1] == pmid }
       code.first[0] if code.size > 0

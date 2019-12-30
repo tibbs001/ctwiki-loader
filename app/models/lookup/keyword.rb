@@ -2,6 +2,11 @@ module Lookup
   class Keyword < SuperLookup
     self.table_name = 'lookup.keywords'
 
+    def self.source_data
+      # The model that will be used as the source of info
+      "Ctgov::Keyword"
+    end
+
     def self.names_to_ignore
       ['e-do', 'sade-free rate']
     end
