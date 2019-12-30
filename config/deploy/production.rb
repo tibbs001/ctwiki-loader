@@ -53,7 +53,7 @@
    roles: %w{web app},
    ssh_options: {
      user: "#{ENV['WIKI_SERVER_USERNAME']}",
-     keys: %w(/home/ctti-aact/.ssh/id_rsa),
+     keys: %w(/home/tibbs001/.ssh/id_rsa),
      forward_agent: false,
      auth_methods: %w(publickey)
    }

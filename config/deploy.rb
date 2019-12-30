@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock "3.8.2"
 
-set :application, "aact"
+set :application, "ctwiki-loader"
 
 # Default branch is :master
 ask :branch, 'development'
