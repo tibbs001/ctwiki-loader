@@ -11,6 +11,12 @@ TODO
 
 ## Guidelines
 
+Util::Updater.new.load_pubs
+Util::PubPrepper.new.run
+Lookup::Author.populate
+Lookup::Intervention.populate
+Lookup::Condition.populate
+
 Use the following guides for getting things done, programming well, and
 programming in style.
 
