@@ -8,13 +8,13 @@ default: &default
 
 development:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact"
+  url:  "postgres://wiki@localhost:5432/open_trials"
 
 test:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact_back_test"
+  url:  "postgres://wiki@localhost:5432/open_trials_test"
 
 production:
   <<: *default
-  url:  "postgres://wiki@localhost:5432/aact_back"
+  url:  "postgres://wiki@localhost:5432/open_trials"
 

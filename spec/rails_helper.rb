@@ -26,7 +26,7 @@ RSpec.configure do |config|
 
     #DatabaseCleaner.strategy = strategy
     begin
-      DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
+      #DatabaseCleaner[:active_record, { model: Pubmed::Publication }].clean_with(:truncation)
     rescue
       next
     end

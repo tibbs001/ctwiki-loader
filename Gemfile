@@ -1,13 +1,15 @@
 source "https://rubygems.org"
 
-ruby "2.4.0"
+ruby "2.4.5"
 
 gem 'sparql-client'
-gem "rubyzip", ">= 1.2.2"
+
 gem "sprockets", ">= 3.7.2"
 gem 'nokogiri', '~> 1.8.1'
 gem 'loofah', '~> 2.3.1'
-gem 'rails', github: 'rails/rails', branch: '4-2-stable'
+gem 'rails'
+gem "rubyzip", ">= 1.2.2"
+gem 'openssl', '~> 2.0.2'
 gem 'rails-html-sanitizer', '~> 1.0.4'
 gem "rack-timeout"
 gem "faraday"
