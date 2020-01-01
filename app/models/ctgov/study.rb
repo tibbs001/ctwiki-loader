@@ -79,6 +79,7 @@ module Ctgov
        'P3098',  # nct id
        'P4844',  # interventions
        'P6099',  # phase
+       'PXXXX',  # overall_status
       ]
     end
 
@@ -129,6 +130,40 @@ module Ctgov
           return_str << "#{reg_prefix}Q42824440" if phase.include? '2'
           return_str << "#{reg_prefix}Q42824827" if phase.include? '3'
           return_str << "#{reg_prefix}Q42825046" if phase.include? '4'
+          return return_str
+        when 'PXXXX'  # overall_status
+          return_str=''
+          return nil if overall_status.blank?
+          case overall_status
+          when 'Active, not recruiting1'
+            return_str << "#{reg_prefix}Q76649790"
+          when  'Suspended'
+            return_str << "#{reg_prefix}Q76649855"
+          when 'Recruiting'
+            return_str << "#{reg_prefix}Q76649708"
+          when  'Completed'
+            return_str << "#{reg_prefix}Q76651189"
+          when 'Withdraewn'
+            return_str << "#{reg_prefix}Q76650124"
+          when 'Terminated'
+            return_str << "#{reg_prefix}Q76649944"
+          when 'Not yet recruiting'
+            return_str << "#{reg_prefix}Q76649614"
+          when 'Available'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'Approved for marketing'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'Enrolling by invitation'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'No longer available'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'Unknown status'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'Unknown status'
+            return_str << "#{reg_prefix}Q76651279"
+          when 'Withheld'
+            return_str << "#{reg_prefix}Q76651279"
+          end
           return return_str
       else
         puts "unknown property:  #{prop_code}"

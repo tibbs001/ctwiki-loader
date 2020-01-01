@@ -2,6 +2,34 @@ require 'rails_helper'
 
 describe Util::StudyPrepper do
 
+  it "should create file of quickstatement snaks for a particular property" do
+    stub_request(:post, "https://query.wikidata.org/sparql").
+         with(
+           body: {"query"=>"SELECT ?item ?nct_id WHERE {\n           ?item p:P31/ps:P31/wdt:P279* wd:Q30612.\n           FILTER NOT EXISTS {?item wdt:PXXXX ?object}\n             ?item wdt:P3098 ?nct_id .  }"},
+           headers: {
+       	  'Accept'=>'application/sparql-results+json, application/sparql-results+xml, text/boolean, text/tab-separated-values;q=0.8, text/csv;q=0.2, */*;q=0.1',
+       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+       	  'Connection'=>'keep-alive',
+       	  'Content-Type'=>'application/x-www-form-urlencoded',
+       	  'Keep-Alive'=>'120',
+       	  'User-Agent'=>'ctwiki-loader (https://github.com/tibbs001/ctwiki-loader) sheri.tibbs@duke.edu'
+           }).
+    to_return(status: 200, body: [], headers: {})
+
+    allow_any_instance_of(Util::WikiDataManager).to receive(:ids_for_studies_without_prop).and_return( [{"NCT00011414"=>"Q58846708"}] )
+    #allow(Ctgov::Study).to receive(:get_for).and_return(Ctgov::Study.new)
+
+    Util::StudyPrepper.new.assign_existing_studies_missing_prop('PXXXX')
+    quickstatement_file_name="public/assign_PXXXX.txt"
+    content = ''
+    f = File.open(quickstatement_file_name, "r")
+    f.each_line do |line|
+      content += line
+    end
+    expect(File.exists? quickstatement_file_name).to eq(true)
+    expect(content).to include("\nQ58846708\tPXXXX\tQ76651189")  # Q76651189 represents overall_status 'completed'
+  end
+
   it "should retrieve source data from the correct tables" do
     stub_request(:post, "https://query.wikidata.org/sparql").
          with(

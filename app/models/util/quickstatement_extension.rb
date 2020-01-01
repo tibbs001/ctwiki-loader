@@ -1,7 +1,7 @@
 module Util
   module QuickstatementExtension
 
-    attr_accessor :delimiters
+    attr_accessor :delimiters, :subject
 
     def new_line
       @delimiters[:new_line] || '||'
@@ -26,7 +26,7 @@ module Util
     def subject
       #  should be 'LAST' when we're loading a set of quickstatements for an object.
       # Should be the study's QCode when we're creating just one quickstatement per study
-      'LAST'
+      @subject || 'LAST'
     end
 
     def prefix
