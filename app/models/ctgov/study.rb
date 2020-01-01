@@ -80,6 +80,7 @@ module Ctgov
        'P4844',  # interventions
        'P6099',  # phase
        'PXXXX',  # overall_status
+       'P21',    # gender
       ]
     end
 
@@ -165,6 +166,13 @@ module Ctgov
             return_str << "#{reg_prefix}Q76651279"
           end
           return return_str
+        when 'P21'  # gender
+          if gender_based and ! gender.blank?
+            return_str=''
+            return_str << "#{reg_prefix}Q6581072" if gender.include? 'female'
+            return_str << "#{reg_prefix}Q6581097" if gender.include? 'male'
+            return return_str
+          end
       else
         puts "unknown property:  #{prop_code}"
       end
@@ -322,6 +330,14 @@ module Ctgov
 
     def maximum_age
       eligibility.maximum_age
+    end
+
+    def gender_based
+      eligibility.gender_based
+    end
+
+    def gender
+      eligibility.gender.downcase
     end
 
   end

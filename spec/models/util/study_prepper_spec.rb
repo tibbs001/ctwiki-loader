@@ -115,6 +115,7 @@ describe Util::StudyPrepper do
     expect(content).to include("NCT00001899")
     expect(content).to include("NCT00011414")
     expect(content).to include("NCT00055575")
+    expect(content).to include("LAST	P31	Q30612")
     expect(content).to include("en:\"Immunologic and Virologic Characterization of HIV-Infected Patients After Cessation of Highly Active Antiretroviral Therapy (HAART)\"")
     expect(content.scan(/(?=CREATE)/).count).to eq(3)
   end
