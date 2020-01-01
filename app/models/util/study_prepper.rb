@@ -16,8 +16,10 @@ module Util
         mgr.ids_for_studies_without_prop(code).each {|hash|
           nct_id = hash.keys.first
           study = source_model_name.get_for(nct_id, lookup_mgr)
-          study.subject = hash.values.first
-          f << study.quickstatement_for(code) if study
+          if study
+            study.subject = hash.values.first
+            f << study.quickstatement_for(code)
+          end
         }
       end
     end
