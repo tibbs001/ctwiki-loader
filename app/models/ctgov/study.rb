@@ -169,8 +169,8 @@ module Ctgov
         when 'P21'  # gender
           if gender_based and ! gender.blank?
             return_str=''
-            return_str << "#{reg_prefix}Q6581072" if gender.include? 'female'
-            return_str << "#{reg_prefix}Q6581097" if gender.include? 'male'
+            return_str << "#{reg_prefix}Q6581072" if gender.include? 'Female'
+            return_str << "#{reg_prefix}Q6581097" if gender.include? 'Male'
             return return_str
           end
       else
@@ -337,7 +337,7 @@ module Ctgov
     end
 
     def gender
-      eligibility.gender.downcase
+      eligibility.gender
     end
 
   end

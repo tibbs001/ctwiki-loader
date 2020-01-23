@@ -1,6 +1,8 @@
 module Util
   class StudyPrepper < Util::Prepper
 
+    # Util::StudyPrepper.new({:start_num=>'3000'}).run
+    #
     def self.source_model_name
       # to do  figure this out later - needed by both class and instance methods - eliminate the duplication
       Ctgov::Study
