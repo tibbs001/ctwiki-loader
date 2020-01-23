@@ -21,9 +21,13 @@ module Lookup
           if result
             obj = self.create_entry_for(result)
             obj.populate_other_attribs
-            obj.types = mgr.types_for_qcode(obj.qcode)
-            obj.save!
-            already_loaded << result[:downcase_name]
+            type = mgr.types_for_qcode(obj.qcode)
+            # most hits are articles, but we don't want to link to them in any of these lookups
+            if ! ["scholarly article","article","academic article"].include? type
+              obj.types = type
+              obj.save!
+              already_loaded << result[:downcase_name]
+            end
           else
             self.create_non_qcode_entry_for(term)
             could_not_resolve << term
