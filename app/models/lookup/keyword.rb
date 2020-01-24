@@ -9,7 +9,7 @@ module Lookup
 
     def self.names_to_ignore
       ['e-do', 'sade-free rate','0177','11-041','11-101','11-104','11-105','11-106','11-108','1000 days', '11-150',
-       '11q','11-136','qqwqb','12-116','12-117','12-121','12-124','11q','124-i','18fdg','10 mg','10q23.3','11q-deleted relapsed/refractory chronic lymphocytic leukaemia',
+       '11q','11-136','qqwqb','12-116','12-117','12-121','12-124','11q','124-i','14-101','18fdg','10 mg','10q23.3','11q-deleted relapsed/refractory chronic lymphocytic leukaemia',
        '24-hr diet recall','24 hour urine','24-hour dietary recall','24-hour dietary recalls','24-hour energy intake','24-hour pad test','24-hour urine','24-hout urine',
       '24-h recall','24-h urine composition''24-week follow-up','2nd line','2nd trimester','30 day mortality', '30-day mortality', '30 day readmission rate','3d acquisition',
       '3d guide','95gy in 35 fractions','97-127','abcsg','ablc','abnormal fasting glucose','abnormal gait','academic stress'
@@ -34,6 +34,7 @@ module Lookup
        'army general',
        'artillery guns',
        'artwork',
+       'asteroid',
        'aviation squadron',
        'book',
        'brand of footwear',
