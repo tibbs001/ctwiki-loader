@@ -23,7 +23,7 @@ module Lookup
             obj.populate_other_attribs
             type = mgr.types_for_qcode(obj.qcode)
             # most hits are articles, but we don't want to link to them in any of these lookups
-            self.create_non_qcode_entry_for(term) if ["scholarly article","article","academic article"].include? type
+            self.create_non_qcode_entry_for(term) if ["periodical", "scholarly article","article","academic article"].include? type
             obj.types = type
             obj.save!
             already_loaded << result[:downcase_name]
@@ -118,6 +118,7 @@ module Lookup
        'article',
        'artistic style',
        'assurer',
+       'asteroid',
        'baby food brand',
        'biochemist',
        'businessman',
@@ -161,10 +162,13 @@ module Lookup
        'metro station',
        'missionary',
        'mountain',
+       'music festival',
        'musician',
        'operating systems',
+       'palace in greece',
        'patient',
        'painting',
+       'periodical',
        'philosopher',
        'physician',
        'player',
@@ -195,6 +199,7 @@ module Lookup
        'village in',
        'wikinews article',
        'wikimedia list article',
+       'Wikimedia disambiguation page',
        'writer',
        'zoroaster',
       ]

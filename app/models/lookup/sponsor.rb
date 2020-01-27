@@ -47,7 +47,6 @@ module Lookup
       {
         'US Department of Housing and Urban Development' => 'Q811595',
         'Scott Pruitt'                             =>  'Q168751',   # Scott is faculty at Duke University
-        'SI-BONE, Inc.'                            => 'Q2878400',   # added this entity
         'National Cancer Institute (NCI)'          => 'Q664846',
         'GlaxoSmithKline'                          => 'Q212322',
         'Pfizer'                                   => 'Q206921',
@@ -114,14 +113,18 @@ module Lookup
         'kenneth hargreaves'            ,  # 'q6390187 british army officer
         'kevin davy'                    ,  # 'q6396118 british musician
         'krystal parker'                ,  # 'q6439758 british footballer
+        'labor and welfare'             ,  # Q67654332  item of collection or exhibiti
         'lucy holmes, md'               ,  # 'q6698364 australian singer
         'mary knudson, m.d.'            ,  # 'q58051223 anthropologist
         'michael gallagher'             ,  # 'q6830494 british miner, politician and
         'michael levy'                  ,  # 'q337010 british baron
         'nicholas kenyon'               ,  # 'q7025709 british journalist
         'oliver strohm'                 ,  # 'q686257 austrian ski jumper
+        'paul mathew, md'               ,  # Q75694105 paul mathew, md
         'sa ambulance service'          ,  # 'q7388884 australian ambulance service
+        'sciton'                        ,  # Q14869348  genus of insects
         'shashi bhatt, md'              ,  # 'q13487172 badminton player
+        'statens byggeforskningsinstitut', # Q12336891
         'abdulkadir tunc'               ,  # 'q15043411 turkish actor
         'adam friedman'                 ,  # 'q2823944 american television producer a
         'airfan'                        ,  # 'q55760547 association football player
