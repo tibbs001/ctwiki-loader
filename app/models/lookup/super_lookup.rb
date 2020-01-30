@@ -16,14 +16,19 @@ module Lookup
         existing = where("name = ?", term)
         if existing.size == 0
           if !already_loaded.include?(term.downcase)
-            result = search_for_qcode(term)
+            begin
+              result = search_for_qcode(term)
+            rescue
+              #  having problems where we seem to have queried too many times and we're locked out.  In this case, just quit (for now)
+              exit
+            end
           end
           if result
             obj = self.create_entry_for(result)
             obj.populate_other_attribs
             type = mgr.types_for_qcode(obj.qcode)
             # most hits are articles, but we don't want to link to them in any of these lookups
-            self.create_non_qcode_entry_for(term) if ["periodical", "scholarly article","article","academic article"].include? type
+            self.create_non_qcode_entry_for(term) if ["review article, scholarly article", "periodical", "scholarly article","article","academic article"].include? type
             obj.types = type
             obj.save!
             already_loaded << result[:downcase_name]

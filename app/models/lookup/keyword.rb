@@ -12,7 +12,9 @@ module Lookup
        '11q','11-136','qqwqb','12-116','12-117','12-121','12-124','11q','124-i','14-101','18fdg','10 mg','10q23.3','11q-deleted relapsed/refractory chronic lymphocytic leukaemia',
        '24-hr diet recall','24 hour urine','24-hour dietary recall','24-hour dietary recalls','24-hour energy intake','24-hour pad test','24-hour urine','24-hout urine',
       '24-h recall','24-h urine composition''24-week follow-up','2nd line','2nd trimester','30 day mortality', '30-day mortality', '30 day readmission rate','3d acquisition',
-      '3d guide','30 mg','95gy in 35 fractions','5 years','97-127','abcsg','ablc','abnormal fasting glucose','abnormal gait','academic stress','acupression','iatta', 'abdominal operation','ict support','accelerated healing','adaptable','admissions','i-cam','abstain','acld','abuse report'>
+      '3d guide','30 mg','95gy in 35 fractions','5 years','97-127','abcsg','ablc','abnormal fasting glucose','abnormal gait','academic stress','acupression','iatta', 'abdominal operation','ict support','accelerated healing','adaptable','admissions','i-cam','abstain','acld','abuse report','healthy meals','da-90','creative arts',
+      'gsk pandemic candidate vaccine','gorham','everest','g72','cravings','hattr','frost injury','gow-gates nerve block','cup of tea','cramps','especialista',
+      'food records', 'gargle','hcmv infection','gluten immunogenic peptides','current disease','congenital long qt','concurrent chemoradiation therapy'
       ]
     end
 
@@ -122,8 +124,10 @@ module Lookup
         '68ga-dotanoc pet'                           => 'Q83445886',
         '68ga-dotanoc pet/ct'                        => 'Q83445886',
         '68ga-dotanoc'                              => 'Q83445886',
+        'ga68-citrate'                              => 'Q27288064',
         '6-aminocaproic acid'                       =>'Q27132370',
-        'abdominal'  => 'Q9597',
+        'abdominal'                                 => 'Q9597',
+        'frmi'                                      => 'Q903809',
       }
     end
   end

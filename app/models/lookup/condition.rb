@@ -7,7 +7,8 @@ module Lookup
     end
 
     def self.populate
-      self.destroy_all
+      #self.destroy_all  # too slow!  does this one row at a time.
+      Lookup::Condition.connection.execute('truncate table lookup.conditions;')
       new.populate
     end
 
