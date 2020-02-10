@@ -47,7 +47,7 @@ module Lookup
     end
 
     def self.names_to_ignore
-      ['ud-genomed kft.']
+      ['ud-genomed kft.', 'sydney children''s hospital, randwick', 'clinical hospital #15 clinical hospital #15 named after o.m.filatov, moscow, russia']
     end
 
     def self.possible_descriptions

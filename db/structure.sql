@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.5
--- Dumped by pg_dump version 11.5
+-- Dumped from database version 12.1
+-- Dumped by pg_dump version 12.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -31,52 +31,10 @@ CREATE SCHEMA lookup;
 
 
 --
--- Name: mesh_archive; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA mesh_archive;
-
-
---
--- Name: proj_cdek_standard_orgs; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_cdek_standard_orgs;
-
-
---
--- Name: proj_results_reporting; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_results_reporting;
-
-
---
--- Name: proj_tag; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_tag;
-
-
---
--- Name: proj_tag_nephrology; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA proj_tag_nephrology;
-
-
---
 -- Name: pubmed; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA pubmed;
-
-
---
--- Name: support; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA support;
 
 
 --
@@ -323,7 +281,7 @@ CREATE FUNCTION ctgov.study_summaries_for_condition(character varying) RETURNS T
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: browse_conditions; Type: TABLE; Schema: ctgov; Owner: -
@@ -2061,15 +2019,6 @@ ALTER SEQUENCE ctgov.result_groups_id_seq OWNED BY ctgov.result_groups.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: ctgov; Owner: -
---
-
-CREATE TABLE ctgov.schema_migrations (
-    version character varying NOT NULL
-);
-
-
---
 -- Name: sponsors_id_seq; Type: SEQUENCE; Schema: ctgov; Owner: -
 --
 
@@ -2195,24 +2144,26 @@ ALTER SEQUENCE ctgov.study_references_id_seq OWNED BY ctgov.study_references.id;
 
 
 --
--- Name: y2010_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
+-- Name: authors; Type: TABLE; Schema: lookup; Owner: -
 --
 
-CREATE TABLE mesh_archive.y2010_mesh_terms (
-    id bigint NOT NULL,
-    qualifier character varying,
-    tree_number character varying,
-    description character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
+CREATE TABLE lookup.authors (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
 );
 
 
 --
--- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+-- Name: authors_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
 --
 
-CREATE SEQUENCE mesh_archive.y2010_mesh_terms_id_seq
+CREATE SEQUENCE lookup.authors_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2221,29 +2172,35 @@ CREATE SEQUENCE mesh_archive.y2010_mesh_terms_id_seq
 
 
 --
--- Name: y2010_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+-- Name: authors_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
 --
 
-ALTER SEQUENCE mesh_archive.y2010_mesh_terms_id_seq OWNED BY mesh_archive.y2010_mesh_terms.id;
+ALTER SEQUENCE lookup.authors_id_seq OWNED BY lookup.authors.id;
 
 
 --
--- Name: y2016_mesh_headings; Type: TABLE; Schema: mesh_archive; Owner: -
+-- Name: conditions; Type: TABLE; Schema: lookup; Owner: -
 --
 
-CREATE TABLE mesh_archive.y2016_mesh_headings (
-    id bigint NOT NULL,
-    qualifier character varying,
-    heading character varying,
-    subcategory character varying
+CREATE TABLE lookup.conditions (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    preferred_name character varying,
+    name character varying,
+    downcase_name character varying,
+    lookup character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
 );
 
 
 --
--- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+-- Name: conditions_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
 --
 
-CREATE SEQUENCE mesh_archive.y2016_mesh_headings_id_seq
+CREATE SEQUENCE lookup.conditions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2252,31 +2209,35 @@ CREATE SEQUENCE mesh_archive.y2016_mesh_headings_id_seq
 
 
 --
--- Name: y2016_mesh_headings_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+-- Name: conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
 --
 
-ALTER SEQUENCE mesh_archive.y2016_mesh_headings_id_seq OWNED BY mesh_archive.y2016_mesh_headings.id;
+ALTER SEQUENCE lookup.conditions_id_seq OWNED BY lookup.conditions.id;
 
 
 --
--- Name: y2016_mesh_terms; Type: TABLE; Schema: mesh_archive; Owner: -
+-- Name: countries; Type: TABLE; Schema: lookup; Owner: -
 --
 
-CREATE TABLE mesh_archive.y2016_mesh_terms (
-    id bigint NOT NULL,
-    qualifier character varying,
-    tree_number character varying,
-    description character varying,
-    mesh_term character varying,
-    downcase_mesh_term character varying
+CREATE TABLE lookup.countries (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    iso2 character varying,
+    osm_relid character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
 );
 
 
 --
--- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE; Schema: mesh_archive; Owner: -
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
 --
 
-CREATE SEQUENCE mesh_archive.y2016_mesh_terms_id_seq
+CREATE SEQUENCE lookup.countries_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2285,28 +2246,257 @@ CREATE SEQUENCE mesh_archive.y2016_mesh_terms_id_seq
 
 
 --
--- Name: y2016_mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: mesh_archive; Owner: -
+-- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
 --
 
-ALTER SEQUENCE mesh_archive.y2016_mesh_terms_id_seq OWNED BY mesh_archive.y2016_mesh_terms.id;
+ALTER SEQUENCE lookup.countries_id_seq OWNED BY lookup.countries.id;
 
 
 --
--- Name: cdek_organizations; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: interventions; Type: TABLE; Schema: lookup; Owner: -
 --
 
-CREATE TABLE proj_cdek_standard_orgs.cdek_organizations (
-    id bigint NOT NULL,
+CREATE TABLE lookup.interventions (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    preferred_name character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: interventions_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.interventions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: interventions_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.interventions_id_seq OWNED BY lookup.interventions.id;
+
+
+--
+-- Name: journals; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.journals (
+    id integer NOT NULL,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: journals_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.journals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: journals_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.journals_id_seq OWNED BY lookup.journals.id;
+
+
+--
+-- Name: keywords; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.keywords (
+    id integer NOT NULL,
+    qcode character varying,
+    preferred_name character varying,
+    name character varying,
+    types character varying,
+    downcase_name character varying,
+    lookup character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: keywords_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.keywords_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: keywords_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.keywords_id_seq OWNED BY lookup.keywords.id;
+
+
+--
+-- Name: organizations; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.organizations (
+    id integer NOT NULL,
+    preferred_name character varying,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    qs_world_univ_id character varying,
+    arwu_univ_id character varying,
+    times_higher_ed_id character varying,
+    grid_id character varying,
+    country character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.organizations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.organizations_id_seq OWNED BY lookup.organizations.id;
+
+
+--
+-- Name: publications; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.publications (
+    id integer NOT NULL,
+    qcode character varying,
+    min_or_max character varying,
+    preferred_name character varying,
+    name character varying,
+    downcase_name character varying,
+    pmid character varying,
+    lookup character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.publications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.publications_id_seq OWNED BY lookup.publications.id;
+
+
+--
+-- Name: sponsors; Type: TABLE; Schema: lookup; Owner: -
+--
+
+CREATE TABLE lookup.sponsors (
+    id integer NOT NULL,
+    preferred_name character varying,
+    qcode character varying,
+    types character varying,
+    name character varying,
+    downcase_name character varying,
+    wiki_description character varying,
+    looks_suspicious character varying
+);
+
+
+--
+-- Name: sponsors_id_seq; Type: SEQUENCE; Schema: lookup; Owner: -
+--
+
+CREATE SEQUENCE lookup.sponsors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sponsors_id_seq; Type: SEQUENCE OWNED BY; Schema: lookup; Owner: -
+--
+
+ALTER SEQUENCE lookup.sponsors_id_seq OWNED BY lookup.sponsors.id;
+
+
+--
+-- Name: author_affiliations; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.author_affiliations (
+    id integer NOT NULL,
+    "pubmed.author_id" integer,
+    pmid character varying,
+    qcode character varying,
+    isni character varying,
+    grid character varying,
     name character varying,
     downcase_name character varying
 );
 
 
 --
--- Name: cdek_organizations_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: author_affiliations_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
 --
 
-CREATE SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq
+CREATE SEQUENCE pubmed.author_affiliations_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2315,244 +2505,36 @@ CREATE SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq
 
 
 --
--- Name: cdek_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: author_affiliations_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
 --
 
-ALTER SEQUENCE proj_cdek_standard_orgs.cdek_organizations_id_seq OWNED BY proj_cdek_standard_orgs.cdek_organizations.id;
+ALTER SEQUENCE pubmed.author_affiliations_id_seq OWNED BY pubmed.author_affiliations.id;
 
 
 --
--- Name: cdek_synonyms; Type: TABLE; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: authors; Type: TABLE; Schema: pubmed; Owner: -
 --
 
-CREATE TABLE proj_cdek_standard_orgs.cdek_synonyms (
-    id bigint NOT NULL,
+CREATE TABLE pubmed.authors (
+    id integer NOT NULL,
+    "pubmed.publication_id" integer,
+    pmid character varying,
+    qcode character varying,
+    orcid character varying,
+    validated boolean,
+    last_name character varying,
+    first_name character varying,
+    initials character varying,
     name character varying,
-    preferred_name character varying,
-    downcase_name character varying,
-    downcase_preferred_name character varying
+    downcase_name character varying
 );
 
 
 --
--- Name: cdek_synonyms_id_seq; Type: SEQUENCE; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: authors_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
 --
 
-CREATE SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: cdek_synonyms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER SEQUENCE proj_cdek_standard_orgs.cdek_synonyms_id_seq OWNED BY proj_cdek_standard_orgs.cdek_synonyms.id;
-
-
---
--- Name: analyzed_studies; Type: TABLE; Schema: proj_results_reporting; Owner: -
---
-
-CREATE TABLE proj_results_reporting.analyzed_studies (
-    id bigint NOT NULL,
-    nct_id character varying,
-    url character varying,
-    brief_title character varying,
-    start_month character varying,
-    start_year integer,
-    overall_status character varying,
-    p_completion_month character varying,
-    p_completion_year integer,
-    completion_month character varying,
-    completion_year integer,
-    verification_month character varying,
-    verification_year integer,
-    p_comp_mn integer,
-    p_comp_yr integer,
-    received_year integer,
-    mntopcom integer,
-    enrollment integer,
-    number_of_arms integer,
-    allocation character varying,
-    masking character varying,
-    phase character varying,
-    primary_purpose character varying,
-    sponsor_name character varying,
-    agency_class character varying,
-    collaborator_names character varying,
-    funding character varying,
-    responsible_party_type character varying,
-    responsible_party_organization character varying,
-    us_coderc character varying,
-    oversight character varying,
-    behavioral character varying,
-    biological character varying,
-    device character varying,
-    dietsup character varying,
-    drug character varying,
-    genetic character varying,
-    procedure character varying,
-    radiation character varying,
-    otherint character varying,
-    intervg1 character varying,
-    results character varying,
-    resultsreceived_month character varying,
-    resultsreceived_year character varying,
-    firstreceived_results_dt date,
-    t2result integer,
-    t2result_imp integer,
-    t2resmod integer,
-    results12 character varying,
-    delayed character varying,
-    dr_received_dt date,
-    mn2delay boolean,
-    delayed12 boolean
-);
-
-
---
--- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_results_reporting; Owner: -
---
-
-CREATE SEQUENCE proj_results_reporting.analyzed_studies_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_results_reporting; Owner: -
---
-
-ALTER SEQUENCE proj_results_reporting.analyzed_studies_id_seq OWNED BY proj_results_reporting.analyzed_studies.id;
-
-
---
--- Name: tagged_terms; Type: TABLE; Schema: proj_tag; Owner: -
---
-
-CREATE TABLE proj_tag.tagged_terms (
-    id bigint NOT NULL,
-    project_id integer,
-    identifier character varying,
-    tag character varying,
-    term character varying,
-    year character varying,
-    term_type character varying
-);
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag; Owner: -
---
-
-CREATE SEQUENCE proj_tag.tagged_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag; Owner: -
---
-
-ALTER SEQUENCE proj_tag.tagged_terms_id_seq OWNED BY proj_tag.tagged_terms.id;
-
-
---
--- Name: analyzed_studies; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE TABLE proj_tag_nephrology.analyzed_studies (
-    id bigint NOT NULL,
-    nct_id character varying,
-    brief_title character varying,
-    lead_sponsor character varying
-);
-
-
---
--- Name: analyzed_studies_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: analyzed_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER SEQUENCE proj_tag_nephrology.analyzed_studies_id_seq OWNED BY proj_tag_nephrology.analyzed_studies.id;
-
-
---
--- Name: tagged_terms; Type: TABLE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE TABLE proj_tag_nephrology.tagged_terms (
-    id bigint NOT NULL,
-    term character varying,
-    term_type character varying
-);
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE; Schema: proj_tag_nephrology; Owner: -
---
-
-CREATE SEQUENCE proj_tag_nephrology.tagged_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tagged_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER SEQUENCE proj_tag_nephrology.tagged_terms_id_seq OWNED BY proj_tag_nephrology.tagged_terms.id;
-
-
---
--- Name: load_events; Type: TABLE; Schema: support; Owner: -
---
-
-CREATE TABLE support.load_events (
-    id integer NOT NULL,
-    event_type character varying,
-    status character varying,
-    description text,
-    problems text,
-    should_add integer,
-    should_change integer,
-    processed integer,
-    load_time character varying,
-    completed_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: load_events_id_seq; Type: SEQUENCE; Schema: support; Owner: -
---
-
-CREATE SEQUENCE support.load_events_id_seq
+CREATE SEQUENCE pubmed.authors_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -2562,35 +2544,30 @@ CREATE SEQUENCE support.load_events_id_seq
 
 
 --
--- Name: load_events_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: authors_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
 --
 
-ALTER SEQUENCE support.load_events_id_seq OWNED BY support.load_events.id;
+ALTER SEQUENCE pubmed.authors_id_seq OWNED BY pubmed.authors.id;
 
 
 --
--- Name: sanity_checks; Type: TABLE; Schema: support; Owner: -
+-- Name: chemicals; Type: TABLE; Schema: pubmed; Owner: -
 --
 
-CREATE TABLE support.sanity_checks (
+CREATE TABLE pubmed.chemicals (
     id integer NOT NULL,
-    table_name character varying,
-    nct_id character varying,
-    column_name character varying,
-    check_type character varying,
-    row_count integer,
-    description text,
-    most_current boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    pmid character varying,
+    registry_number character varying,
+    ui character varying,
+    name character varying
 );
 
 
 --
--- Name: sanity_checks_id_seq; Type: SEQUENCE; Schema: support; Owner: -
+-- Name: chemicals_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
 --
 
-CREATE SEQUENCE support.sanity_checks_id_seq
+CREATE SEQUENCE pubmed.chemicals_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -2600,31 +2577,32 @@ CREATE SEQUENCE support.sanity_checks_id_seq
 
 
 --
--- Name: sanity_checks_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: chemicals_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
 --
 
-ALTER SEQUENCE support.sanity_checks_id_seq OWNED BY support.sanity_checks.id;
+ALTER SEQUENCE pubmed.chemicals_id_seq OWNED BY pubmed.chemicals.id;
 
 
 --
--- Name: study_xml_records; Type: TABLE; Schema: support; Owner: -
+-- Name: grants; Type: TABLE; Schema: pubmed; Owner: -
 --
 
-CREATE TABLE support.study_xml_records (
+CREATE TABLE pubmed.grants (
     id integer NOT NULL,
-    nct_id character varying,
-    content xml,
-    created_study_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    pmid character varying,
+    grant_id character varying,
+    acronym character varying,
+    agency character varying,
+    country character varying,
+    country_qcode character varying
 );
 
 
 --
--- Name: study_xml_records_id_seq; Type: SEQUENCE; Schema: support; Owner: -
+-- Name: grants_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
 --
 
-CREATE SEQUENCE support.study_xml_records_id_seq
+CREATE SEQUENCE pubmed.grants_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -2634,10 +2612,172 @@ CREATE SEQUENCE support.study_xml_records_id_seq
 
 
 --
--- Name: study_xml_records_id_seq; Type: SEQUENCE OWNED BY; Schema: support; Owner: -
+-- Name: grants_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
 --
 
-ALTER SEQUENCE support.study_xml_records_id_seq OWNED BY support.study_xml_records.id;
+ALTER SEQUENCE pubmed.grants_id_seq OWNED BY pubmed.grants.id;
+
+
+--
+-- Name: mesh_terms; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.mesh_terms (
+    id integer NOT NULL,
+    pmid character varying,
+    ui character varying,
+    name character varying,
+    major_topic boolean,
+    qualifier_name character varying,
+    qualifier_ui character varying,
+    qualifier_major_topic character varying
+);
+
+
+--
+-- Name: mesh_terms_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.mesh_terms_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mesh_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.mesh_terms_id_seq OWNED BY pubmed.mesh_terms.id;
+
+
+--
+-- Name: other_ids; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.other_ids (
+    id integer NOT NULL,
+    pmid character varying,
+    id_type character varying,
+    id_value character varying
+);
+
+
+--
+-- Name: other_ids_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.other_ids_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: other_ids_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.other_ids_id_seq OWNED BY pubmed.other_ids.id;
+
+
+--
+-- Name: publications; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.publications (
+    id integer NOT NULL,
+    pmid character varying,
+    issn character varying,
+    volume character varying,
+    issue character varying,
+    iso_abbreviation character varying,
+    published_in character varying,
+    completion_date date,
+    revision_date date,
+    publication_date date,
+    publication_date_str character varying,
+    publication_year integer,
+    publication_month integer,
+    publication_day integer,
+    title character varying,
+    pagination character varying,
+    abstract character varying,
+    country character varying,
+    country_qcode character varying,
+    language character varying,
+    medline_ta character varying,
+    nlm_unique_id character varying,
+    issn_linking character varying,
+    journal_qcode character varying,
+    name character varying
+);
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.publications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.publications_id_seq OWNED BY pubmed.publications.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+--
+-- Name: types; Type: TABLE; Schema: pubmed; Owner: -
+--
+
+CREATE TABLE pubmed.types (
+    id integer NOT NULL,
+    pmid character varying,
+    ui character varying,
+    name character varying
+);
+
+
+--
+-- Name: types_id_seq; Type: SEQUENCE; Schema: pubmed; Owner: -
+--
+
+CREATE SEQUENCE pubmed.types_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: types_id_seq; Type: SEQUENCE OWNED BY; Schema: pubmed; Owner: -
+--
+
+ALTER SEQUENCE pubmed.types_id_seq OWNED BY pubmed.types.id;
 
 
 --
@@ -2956,87 +3096,122 @@ ALTER TABLE ONLY ctgov.study_references ALTER COLUMN id SET DEFAULT nextval('ctg
 
 
 --
--- Name: y2010_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
+-- Name: authors id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2010_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2010_mesh_terms_id_seq'::regclass);
-
-
---
--- Name: y2016_mesh_headings id; Type: DEFAULT; Schema: mesh_archive; Owner: -
---
-
-ALTER TABLE ONLY mesh_archive.y2016_mesh_headings ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_headings_id_seq'::regclass);
+ALTER TABLE ONLY lookup.authors ALTER COLUMN id SET DEFAULT nextval('lookup.authors_id_seq'::regclass);
 
 
 --
--- Name: y2016_mesh_terms id; Type: DEFAULT; Schema: mesh_archive; Owner: -
+-- Name: conditions id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2016_mesh_terms ALTER COLUMN id SET DEFAULT nextval('mesh_archive.y2016_mesh_terms_id_seq'::regclass);
-
-
---
--- Name: cdek_organizations id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_organizations_id_seq'::regclass);
+ALTER TABLE ONLY lookup.conditions ALTER COLUMN id SET DEFAULT nextval('lookup.conditions_id_seq'::regclass);
 
 
 --
--- Name: cdek_synonyms id; Type: DEFAULT; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: countries id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms ALTER COLUMN id SET DEFAULT nextval('proj_cdek_standard_orgs.cdek_synonyms_id_seq'::regclass);
-
-
---
--- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_results_reporting; Owner: -
---
-
-ALTER TABLE ONLY proj_results_reporting.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_results_reporting.analyzed_studies_id_seq'::regclass);
+ALTER TABLE ONLY lookup.countries ALTER COLUMN id SET DEFAULT nextval('lookup.countries_id_seq'::regclass);
 
 
 --
--- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag; Owner: -
+-- Name: interventions id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_tag.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag.tagged_terms_id_seq'::regclass);
-
-
---
--- Name: analyzed_studies id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.analyzed_studies_id_seq'::regclass);
+ALTER TABLE ONLY lookup.interventions ALTER COLUMN id SET DEFAULT nextval('lookup.interventions_id_seq'::regclass);
 
 
 --
--- Name: tagged_terms id; Type: DEFAULT; Schema: proj_tag_nephrology; Owner: -
+-- Name: journals id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_tag_nephrology.tagged_terms ALTER COLUMN id SET DEFAULT nextval('proj_tag_nephrology.tagged_terms_id_seq'::regclass);
-
-
---
--- Name: load_events id; Type: DEFAULT; Schema: support; Owner: -
---
-
-ALTER TABLE ONLY support.load_events ALTER COLUMN id SET DEFAULT nextval('support.load_events_id_seq'::regclass);
+ALTER TABLE ONLY lookup.journals ALTER COLUMN id SET DEFAULT nextval('lookup.journals_id_seq'::regclass);
 
 
 --
--- Name: sanity_checks id; Type: DEFAULT; Schema: support; Owner: -
+-- Name: keywords id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY support.sanity_checks ALTER COLUMN id SET DEFAULT nextval('support.sanity_checks_id_seq'::regclass);
+ALTER TABLE ONLY lookup.keywords ALTER COLUMN id SET DEFAULT nextval('lookup.keywords_id_seq'::regclass);
 
 
 --
--- Name: study_xml_records id; Type: DEFAULT; Schema: support; Owner: -
+-- Name: organizations id; Type: DEFAULT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY support.study_xml_records ALTER COLUMN id SET DEFAULT nextval('support.study_xml_records_id_seq'::regclass);
+ALTER TABLE ONLY lookup.organizations ALTER COLUMN id SET DEFAULT nextval('lookup.organizations_id_seq'::regclass);
+
+
+--
+-- Name: publications id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.publications ALTER COLUMN id SET DEFAULT nextval('lookup.publications_id_seq'::regclass);
+
+
+--
+-- Name: sponsors id; Type: DEFAULT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.sponsors ALTER COLUMN id SET DEFAULT nextval('lookup.sponsors_id_seq'::regclass);
+
+
+--
+-- Name: author_affiliations id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.author_affiliations ALTER COLUMN id SET DEFAULT nextval('pubmed.author_affiliations_id_seq'::regclass);
+
+
+--
+-- Name: authors id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.authors ALTER COLUMN id SET DEFAULT nextval('pubmed.authors_id_seq'::regclass);
+
+
+--
+-- Name: chemicals id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.chemicals ALTER COLUMN id SET DEFAULT nextval('pubmed.chemicals_id_seq'::regclass);
+
+
+--
+-- Name: grants id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.grants ALTER COLUMN id SET DEFAULT nextval('pubmed.grants_id_seq'::regclass);
+
+
+--
+-- Name: mesh_terms id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.mesh_terms ALTER COLUMN id SET DEFAULT nextval('pubmed.mesh_terms_id_seq'::regclass);
+
+
+--
+-- Name: other_ids id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.other_ids ALTER COLUMN id SET DEFAULT nextval('pubmed.other_ids_id_seq'::regclass);
+
+
+--
+-- Name: publications id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.publications ALTER COLUMN id SET DEFAULT nextval('pubmed.publications_id_seq'::regclass);
+
+
+--
+-- Name: types id; Type: DEFAULT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.types ALTER COLUMN id SET DEFAULT nextval('pubmed.types_id_seq'::regclass);
 
 
 --
@@ -3400,99 +3575,608 @@ ALTER TABLE ONLY ctgov.study_references
 
 
 --
--- Name: y2010_mesh_terms y2010_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2010_mesh_terms
-    ADD CONSTRAINT y2010_mesh_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: y2016_mesh_headings y2016_mesh_headings_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
---
-
-ALTER TABLE ONLY mesh_archive.y2016_mesh_headings
-    ADD CONSTRAINT y2016_mesh_headings_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
 
 
 --
--- Name: y2016_mesh_terms y2016_mesh_terms_pkey; Type: CONSTRAINT; Schema: mesh_archive; Owner: -
+-- Name: conditions conditions_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY mesh_archive.y2016_mesh_terms
-    ADD CONSTRAINT y2016_mesh_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: cdek_organizations cdek_organizations_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
---
-
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_organizations
-    ADD CONSTRAINT cdek_organizations_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.conditions
+    ADD CONSTRAINT conditions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cdek_synonyms cdek_synonyms_pkey; Type: CONSTRAINT; Schema: proj_cdek_standard_orgs; Owner: -
+-- Name: countries countries_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_cdek_standard_orgs.cdek_synonyms
-    ADD CONSTRAINT cdek_synonyms_pkey PRIMARY KEY (id);
-
-
---
--- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_results_reporting; Owner: -
---
-
-ALTER TABLE ONLY proj_results_reporting.analyzed_studies
-    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
 
 
 --
--- Name: tagged_terms tagged_terms_pkey; Type: CONSTRAINT; Schema: proj_tag; Owner: -
+-- Name: interventions interventions_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_tag.tagged_terms
-    ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: analyzed_studies analyzed_studies_pkey; Type: CONSTRAINT; Schema: proj_tag_nephrology; Owner: -
---
-
-ALTER TABLE ONLY proj_tag_nephrology.analyzed_studies
-    ADD CONSTRAINT analyzed_studies_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.interventions
+    ADD CONSTRAINT interventions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: tagged_terms tagged_terms_pkey; Type: CONSTRAINT; Schema: proj_tag_nephrology; Owner: -
+-- Name: journals journals_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY proj_tag_nephrology.tagged_terms
-    ADD CONSTRAINT tagged_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: load_events load_events_pkey; Type: CONSTRAINT; Schema: support; Owner: -
---
-
-ALTER TABLE ONLY support.load_events
-    ADD CONSTRAINT load_events_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.journals
+    ADD CONSTRAINT journals_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sanity_checks sanity_checks_pkey; Type: CONSTRAINT; Schema: support; Owner: -
+-- Name: keywords keywords_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY support.sanity_checks
-    ADD CONSTRAINT sanity_checks_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.keywords
+    ADD CONSTRAINT keywords_pkey PRIMARY KEY (id);
 
 
 --
--- Name: study_xml_records study_xml_records_pkey; Type: CONSTRAINT; Schema: support; Owner: -
+-- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
 --
 
-ALTER TABLE ONLY support.study_xml_records
-    ADD CONSTRAINT study_xml_records_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lookup.organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: publications publications_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sponsors sponsors_pkey; Type: CONSTRAINT; Schema: lookup; Owner: -
+--
+
+ALTER TABLE ONLY lookup.sponsors
+    ADD CONSTRAINT sponsors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: author_affiliations author_affiliations_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.author_affiliations
+    ADD CONSTRAINT author_affiliations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chemicals chemicals_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.chemicals
+    ADD CONSTRAINT chemicals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: grants grants_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.grants
+    ADD CONSTRAINT grants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mesh_terms mesh_terms_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.mesh_terms
+    ADD CONSTRAINT mesh_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: other_ids other_ids_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.other_ids
+    ADD CONSTRAINT other_ids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: publications publications_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: types types_pkey; Type: CONSTRAINT; Schema: pubmed; Owner: -
+--
+
+ALTER TABLE ONLY pubmed.types
+    ADD CONSTRAINT types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_baseline_counts_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_counts_on_nct_id ON ctgov.baseline_counts USING btree (nct_id);
+
+
+--
+-- Name: index_baseline_measurements_on_category; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_measurements_on_category ON ctgov.baseline_measurements USING btree (category);
+
+
+--
+-- Name: index_baseline_measurements_on_classification; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_measurements_on_classification ON ctgov.baseline_measurements USING btree (classification);
+
+
+--
+-- Name: index_baseline_measurements_on_dispersion_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_measurements_on_dispersion_type ON ctgov.baseline_measurements USING btree (dispersion_type);
+
+
+--
+-- Name: index_baseline_measurements_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_measurements_on_nct_id ON ctgov.baseline_measurements USING btree (nct_id);
+
+
+--
+-- Name: index_baseline_measurements_on_param_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_baseline_measurements_on_param_type ON ctgov.baseline_measurements USING btree (param_type);
+
+
+--
+-- Name: index_brief_summaries_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_brief_summaries_on_nct_id ON ctgov.brief_summaries USING btree (nct_id);
+
+
+--
+-- Name: index_browse_conditions_on_downcase_mesh_term; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_conditions_on_downcase_mesh_term ON ctgov.browse_conditions USING btree (downcase_mesh_term);
+
+
+--
+-- Name: index_browse_conditions_on_mesh_term; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_conditions_on_mesh_term ON ctgov.browse_conditions USING btree (mesh_term);
+
+
+--
+-- Name: index_browse_conditions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_conditions_on_nct_id ON ctgov.browse_conditions USING btree (nct_id);
+
+
+--
+-- Name: index_browse_interventions_on_downcase_mesh_term; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_interventions_on_downcase_mesh_term ON ctgov.browse_interventions USING btree (downcase_mesh_term);
+
+
+--
+-- Name: index_browse_interventions_on_mesh_term; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_interventions_on_mesh_term ON ctgov.browse_interventions USING btree (mesh_term);
+
+
+--
+-- Name: index_browse_interventions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_browse_interventions_on_nct_id ON ctgov.browse_interventions USING btree (nct_id);
+
+
+--
+-- Name: index_calculated_values_on_actual_duration; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_calculated_values_on_actual_duration ON ctgov.calculated_values USING btree (actual_duration);
+
+
+--
+-- Name: index_calculated_values_on_months_to_report_results; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_calculated_values_on_months_to_report_results ON ctgov.calculated_values USING btree (months_to_report_results);
+
+
+--
+-- Name: index_calculated_values_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_calculated_values_on_nct_id ON ctgov.calculated_values USING btree (nct_id);
+
+
+--
+-- Name: index_calculated_values_on_number_of_facilities; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_calculated_values_on_number_of_facilities ON ctgov.calculated_values USING btree (number_of_facilities);
+
+
+--
+-- Name: index_central_contacts_on_contact_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_central_contacts_on_contact_type ON ctgov.central_contacts USING btree (contact_type);
+
+
+--
+-- Name: index_central_contacts_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_central_contacts_on_nct_id ON ctgov.central_contacts USING btree (nct_id);
+
+
+--
+-- Name: index_conditions_on_downcase_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_conditions_on_downcase_name ON ctgov.conditions USING btree (downcase_name);
+
+
+--
+-- Name: index_conditions_on_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_conditions_on_name ON ctgov.conditions USING btree (name);
+
+
+--
+-- Name: index_conditions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_conditions_on_nct_id ON ctgov.conditions USING btree (nct_id);
+
+
+--
+-- Name: index_countries_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_countries_on_nct_id ON ctgov.countries USING btree (nct_id);
+
+
+--
+-- Name: index_design_group_interventions_on_design_group_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_group_interventions_on_design_group_id ON ctgov.design_group_interventions USING btree (design_group_id);
+
+
+--
+-- Name: index_design_group_interventions_on_intervention_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_group_interventions_on_intervention_id ON ctgov.design_group_interventions USING btree (intervention_id);
+
+
+--
+-- Name: index_design_group_interventions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_group_interventions_on_nct_id ON ctgov.design_group_interventions USING btree (nct_id);
+
+
+--
+-- Name: index_design_groups_on_group_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_groups_on_group_type ON ctgov.design_groups USING btree (group_type);
+
+
+--
+-- Name: index_design_groups_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_groups_on_nct_id ON ctgov.design_groups USING btree (nct_id);
+
+
+--
+-- Name: index_design_outcomes_on_measure; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_outcomes_on_measure ON ctgov.design_outcomes USING btree (measure);
+
+
+--
+-- Name: index_design_outcomes_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_outcomes_on_nct_id ON ctgov.design_outcomes USING btree (nct_id);
+
+
+--
+-- Name: index_design_outcomes_on_outcome_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_design_outcomes_on_outcome_type ON ctgov.design_outcomes USING btree (outcome_type);
+
+
+--
+-- Name: index_designs_on_caregiver_masked; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_designs_on_caregiver_masked ON ctgov.designs USING btree (caregiver_masked);
+
+
+--
+-- Name: index_designs_on_investigator_masked; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_designs_on_investigator_masked ON ctgov.designs USING btree (investigator_masked);
+
+
+--
+-- Name: index_designs_on_masking; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_designs_on_masking ON ctgov.designs USING btree (masking);
+
+
+--
+-- Name: index_designs_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_designs_on_nct_id ON ctgov.designs USING btree (nct_id);
+
+
+--
+-- Name: index_designs_on_outcomes_assessor_masked; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_designs_on_outcomes_assessor_masked ON ctgov.designs USING btree (outcomes_assessor_masked);
+
+
+--
+-- Name: index_designs_on_subject_masked; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_designs_on_subject_masked ON ctgov.designs USING btree (subject_masked);
+
+
+--
+-- Name: index_detailed_descriptions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_detailed_descriptions_on_nct_id ON ctgov.detailed_descriptions USING btree (nct_id);
+
+
+--
+-- Name: index_documents_on_document_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_documents_on_document_id ON ctgov.documents USING btree (document_id);
+
+
+--
+-- Name: index_documents_on_document_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_documents_on_document_type ON ctgov.documents USING btree (document_type);
+
+
+--
+-- Name: index_documents_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_documents_on_nct_id ON ctgov.documents USING btree (nct_id);
+
+
+--
+-- Name: index_drop_withdrawals_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_drop_withdrawals_on_nct_id ON ctgov.drop_withdrawals USING btree (nct_id);
+
+
+--
+-- Name: index_drop_withdrawals_on_period; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_drop_withdrawals_on_period ON ctgov.drop_withdrawals USING btree (period);
+
+
+--
+-- Name: index_eligibilities_on_gender; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_eligibilities_on_gender ON ctgov.eligibilities USING btree (gender);
+
+
+--
+-- Name: index_eligibilities_on_healthy_volunteers; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_eligibilities_on_healthy_volunteers ON ctgov.eligibilities USING btree (healthy_volunteers);
+
+
+--
+-- Name: index_eligibilities_on_maximum_age; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_eligibilities_on_maximum_age ON ctgov.eligibilities USING btree (maximum_age);
+
+
+--
+-- Name: index_eligibilities_on_minimum_age; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_eligibilities_on_minimum_age ON ctgov.eligibilities USING btree (minimum_age);
+
+
+--
+-- Name: index_eligibilities_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_eligibilities_on_nct_id ON ctgov.eligibilities USING btree (nct_id);
+
+
+--
+-- Name: index_facilities_on_city; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_city ON ctgov.facilities USING btree (city);
+
+
+--
+-- Name: index_facilities_on_country; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_country ON ctgov.facilities USING btree (country);
+
+
+--
+-- Name: index_facilities_on_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_name ON ctgov.facilities USING btree (name);
+
+
+--
+-- Name: index_facilities_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_nct_id ON ctgov.facilities USING btree (nct_id);
+
+
+--
+-- Name: index_facilities_on_state; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_state ON ctgov.facilities USING btree (state);
+
+
+--
+-- Name: index_facilities_on_status; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facilities_on_status ON ctgov.facilities USING btree (status);
+
+
+--
+-- Name: index_facility_contacts_on_contact_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facility_contacts_on_contact_type ON ctgov.facility_contacts USING btree (contact_type);
+
+
+--
+-- Name: index_facility_contacts_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facility_contacts_on_nct_id ON ctgov.facility_contacts USING btree (nct_id);
+
+
+--
+-- Name: index_facility_investigators_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_facility_investigators_on_nct_id ON ctgov.facility_investigators USING btree (nct_id);
+
+
+--
+-- Name: index_id_information_on_id_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_id_information_on_id_type ON ctgov.id_information USING btree (id_type);
+
+
+--
+-- Name: index_id_information_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_id_information_on_nct_id ON ctgov.id_information USING btree (nct_id);
+
+
+--
+-- Name: index_intervention_other_names_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_intervention_other_names_on_nct_id ON ctgov.intervention_other_names USING btree (nct_id);
+
+
+--
+-- Name: index_interventions_on_intervention_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_interventions_on_intervention_type ON ctgov.interventions USING btree (intervention_type);
+
+
+--
+-- Name: index_interventions_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_interventions_on_nct_id ON ctgov.interventions USING btree (nct_id);
+
+
+--
+-- Name: index_ipd_information_types_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_ipd_information_types_on_nct_id ON ctgov.ipd_information_types USING btree (nct_id);
+
+
+--
+-- Name: index_keywords_on_downcase_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_keywords_on_downcase_name ON ctgov.keywords USING btree (downcase_name);
+
+
+--
+-- Name: index_keywords_on_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_keywords_on_name ON ctgov.keywords USING btree (name);
+
+
+--
+-- Name: index_keywords_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_keywords_on_nct_id ON ctgov.keywords USING btree (nct_id);
+
+
+--
+-- Name: index_links_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_links_on_nct_id ON ctgov.links USING btree (nct_id);
 
 
 --
@@ -3531,6 +4215,272 @@ CREATE INDEX index_mesh_terms_on_qualifier ON ctgov.mesh_terms USING btree (qual
 
 
 --
+-- Name: index_milestones_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_milestones_on_nct_id ON ctgov.milestones USING btree (nct_id);
+
+
+--
+-- Name: index_milestones_on_period; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_milestones_on_period ON ctgov.milestones USING btree (period);
+
+
+--
+-- Name: index_outcome_analyses_on_dispersion_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_analyses_on_dispersion_type ON ctgov.outcome_analyses USING btree (dispersion_type);
+
+
+--
+-- Name: index_outcome_analyses_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_analyses_on_nct_id ON ctgov.outcome_analyses USING btree (nct_id);
+
+
+--
+-- Name: index_outcome_analyses_on_param_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_analyses_on_param_type ON ctgov.outcome_analyses USING btree (param_type);
+
+
+--
+-- Name: index_outcome_analysis_groups_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_analysis_groups_on_nct_id ON ctgov.outcome_analysis_groups USING btree (nct_id);
+
+
+--
+-- Name: index_outcome_counts_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_counts_on_nct_id ON ctgov.outcome_counts USING btree (nct_id);
+
+
+--
+-- Name: index_outcome_measurements_on_category; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_measurements_on_category ON ctgov.outcome_measurements USING btree (category);
+
+
+--
+-- Name: index_outcome_measurements_on_classification; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_measurements_on_classification ON ctgov.outcome_measurements USING btree (classification);
+
+
+--
+-- Name: index_outcome_measurements_on_dispersion_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_measurements_on_dispersion_type ON ctgov.outcome_measurements USING btree (dispersion_type);
+
+
+--
+-- Name: index_outcome_measurements_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcome_measurements_on_nct_id ON ctgov.outcome_measurements USING btree (nct_id);
+
+
+--
+-- Name: index_outcomes_on_dispersion_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcomes_on_dispersion_type ON ctgov.outcomes USING btree (dispersion_type);
+
+
+--
+-- Name: index_outcomes_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcomes_on_nct_id ON ctgov.outcomes USING btree (nct_id);
+
+
+--
+-- Name: index_outcomes_on_param_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_outcomes_on_param_type ON ctgov.outcomes USING btree (param_type);
+
+
+--
+-- Name: index_overall_officials_on_affiliation; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_overall_officials_on_affiliation ON ctgov.overall_officials USING btree (affiliation);
+
+
+--
+-- Name: index_overall_officials_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_overall_officials_on_nct_id ON ctgov.overall_officials USING btree (nct_id);
+
+
+--
+-- Name: index_participant_flows_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE UNIQUE INDEX index_participant_flows_on_nct_id ON ctgov.participant_flows USING btree (nct_id);
+
+
+--
+-- Name: index_pending_results_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_pending_results_on_nct_id ON ctgov.pending_results USING btree (nct_id);
+
+
+--
+-- Name: index_provided_documents_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_provided_documents_on_nct_id ON ctgov.provided_documents USING btree (nct_id);
+
+
+--
+-- Name: index_reported_events_on_event_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_reported_events_on_event_type ON ctgov.reported_events USING btree (event_type);
+
+
+--
+-- Name: index_reported_events_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_reported_events_on_nct_id ON ctgov.reported_events USING btree (nct_id);
+
+
+--
+-- Name: index_reported_events_on_subjects_affected; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_reported_events_on_subjects_affected ON ctgov.reported_events USING btree (subjects_affected);
+
+
+--
+-- Name: index_responsible_parties_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_responsible_parties_on_nct_id ON ctgov.responsible_parties USING btree (nct_id);
+
+
+--
+-- Name: index_responsible_parties_on_organization; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_responsible_parties_on_organization ON ctgov.responsible_parties USING btree (organization);
+
+
+--
+-- Name: index_responsible_parties_on_responsible_party_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_responsible_parties_on_responsible_party_type ON ctgov.responsible_parties USING btree (responsible_party_type);
+
+
+--
+-- Name: index_result_agreements_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_result_agreements_on_nct_id ON ctgov.result_agreements USING btree (nct_id);
+
+
+--
+-- Name: index_result_contacts_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_result_contacts_on_nct_id ON ctgov.result_contacts USING btree (nct_id);
+
+
+--
+-- Name: index_result_contacts_on_organization; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_result_contacts_on_organization ON ctgov.result_contacts USING btree (organization);
+
+
+--
+-- Name: index_result_groups_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_result_groups_on_nct_id ON ctgov.result_groups USING btree (nct_id);
+
+
+--
+-- Name: index_result_groups_on_result_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_result_groups_on_result_type ON ctgov.result_groups USING btree (result_type);
+
+
+--
+-- Name: index_sponsors_on_agency_class; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_sponsors_on_agency_class ON ctgov.sponsors USING btree (agency_class);
+
+
+--
+-- Name: index_sponsors_on_name; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_sponsors_on_name ON ctgov.sponsors USING btree (name);
+
+
+--
+-- Name: index_sponsors_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_sponsors_on_nct_id ON ctgov.sponsors USING btree (nct_id);
+
+
+--
+-- Name: index_studies_on_disposition_first_submitted_date; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_studies_on_disposition_first_submitted_date ON ctgov.studies USING btree (disposition_first_submitted_date);
+
+
+--
+-- Name: index_studies_on_enrollment_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_studies_on_enrollment_type ON ctgov.studies USING btree (enrollment_type);
+
+
+--
+-- Name: index_studies_on_last_known_status; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_studies_on_last_known_status ON ctgov.studies USING btree (last_known_status);
+
+
+--
+-- Name: index_studies_on_last_update_submitted_date; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_studies_on_last_update_submitted_date ON ctgov.studies USING btree (last_update_submitted_date);
+
+
+--
+-- Name: index_studies_on_last_update_submitted_qc_date; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_studies_on_last_update_submitted_qc_date ON ctgov.studies USING btree (last_update_submitted_qc_date);
+
+
+--
 -- Name: index_studies_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
 --
 
@@ -3538,129 +4488,609 @@ CREATE UNIQUE INDEX index_studies_on_nct_id ON ctgov.studies USING btree (nct_id
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: ctgov; Owner: -
+-- Name: index_studies_on_overall_status; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON ctgov.schema_migrations USING btree (version);
-
-
---
--- Name: index_mesh_archive.y2010_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_description" ON mesh_archive.y2010_mesh_terms USING btree (description);
+CREATE INDEX index_studies_on_overall_status ON ctgov.studies USING btree (overall_status);
 
 
 --
--- Name: index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_studies_on_phase; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (downcase_mesh_term);
-
-
---
--- Name: index_mesh_archive.y2010_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_mesh_term" ON mesh_archive.y2010_mesh_terms USING btree (mesh_term);
+CREATE INDEX index_studies_on_phase ON ctgov.studies USING btree (phase);
 
 
 --
--- Name: index_mesh_archive.y2010_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_studies_on_primary_completion_date_type; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2010_mesh_terms_on_qualifier" ON mesh_archive.y2010_mesh_terms USING btree (qualifier);
-
-
---
--- Name: index_mesh_archive.y2016_mesh_headings_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2016_mesh_headings_on_qualifier" ON mesh_archive.y2016_mesh_headings USING btree (qualifier);
+CREATE INDEX index_studies_on_primary_completion_date_type ON ctgov.studies USING btree (primary_completion_date_type);
 
 
 --
--- Name: index_mesh_archive.y2016_mesh_terms_on_description; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_studies_on_results_first_submitted_date; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_description" ON mesh_archive.y2016_mesh_terms USING btree (description);
-
-
---
--- Name: index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_downcase_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (downcase_mesh_term);
+CREATE INDEX index_studies_on_results_first_submitted_date ON ctgov.studies USING btree (results_first_submitted_date);
 
 
 --
--- Name: index_mesh_archive.y2016_mesh_terms_on_mesh_term; Type: INDEX; Schema: mesh_archive; Owner: -
+-- Name: index_studies_on_results_first_submitted_qc_date; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_mesh_term" ON mesh_archive.y2016_mesh_terms USING btree (mesh_term);
-
-
---
--- Name: index_mesh_archive.y2016_mesh_terms_on_qualifier; Type: INDEX; Schema: mesh_archive; Owner: -
---
-
-CREATE INDEX "index_mesh_archive.y2016_mesh_terms_on_qualifier" ON mesh_archive.y2016_mesh_terms USING btree (qualifier);
+CREATE INDEX index_studies_on_results_first_submitted_qc_date ON ctgov.studies USING btree (results_first_submitted_qc_date);
 
 
 --
--- Name: index_support.load_events_on_event_type; Type: INDEX; Schema: support; Owner: -
+-- Name: index_studies_on_source; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_support.load_events_on_event_type" ON support.load_events USING btree (event_type);
-
-
---
--- Name: index_support.load_events_on_status; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.load_events_on_status" ON support.load_events USING btree (status);
+CREATE INDEX index_studies_on_source ON ctgov.studies USING btree (source);
 
 
 --
--- Name: index_support.sanity_checks_on_check_type; Type: INDEX; Schema: support; Owner: -
+-- Name: index_studies_on_study_first_submitted_date; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_support.sanity_checks_on_check_type" ON support.sanity_checks USING btree (check_type);
-
-
---
--- Name: index_support.sanity_checks_on_column_name; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.sanity_checks_on_column_name" ON support.sanity_checks USING btree (column_name);
+CREATE INDEX index_studies_on_study_first_submitted_date ON ctgov.studies USING btree (study_first_submitted_date);
 
 
 --
--- Name: index_support.sanity_checks_on_nct_id; Type: INDEX; Schema: support; Owner: -
+-- Name: index_studies_on_study_first_submitted_qc_date; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_support.sanity_checks_on_nct_id" ON support.sanity_checks USING btree (nct_id);
-
-
---
--- Name: index_support.sanity_checks_on_table_name; Type: INDEX; Schema: support; Owner: -
---
-
-CREATE INDEX "index_support.sanity_checks_on_table_name" ON support.sanity_checks USING btree (table_name);
+CREATE INDEX index_studies_on_study_first_submitted_qc_date ON ctgov.studies USING btree (study_first_submitted_qc_date);
 
 
 --
--- Name: index_support.study_xml_records_on_created_study_at; Type: INDEX; Schema: support; Owner: -
+-- Name: index_studies_on_study_type; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_support.study_xml_records_on_created_study_at" ON support.study_xml_records USING btree (created_study_at);
+CREATE INDEX index_studies_on_study_type ON ctgov.studies USING btree (study_type);
 
 
 --
--- Name: index_support.study_xml_records_on_nct_id; Type: INDEX; Schema: support; Owner: -
+-- Name: index_study_references_on_nct_id; Type: INDEX; Schema: ctgov; Owner: -
 --
 
-CREATE INDEX "index_support.study_xml_records_on_nct_id" ON support.study_xml_records USING btree (nct_id);
+CREATE INDEX index_study_references_on_nct_id ON ctgov.study_references USING btree (nct_id);
+
+
+--
+-- Name: index_study_references_on_pmid; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_study_references_on_pmid ON ctgov.study_references USING btree (pmid);
+
+
+--
+-- Name: index_study_references_on_reference_type; Type: INDEX; Schema: ctgov; Owner: -
+--
+
+CREATE INDEX index_study_references_on_reference_type ON ctgov.study_references USING btree (reference_type);
+
+
+--
+-- Name: index_lookup.authors_on_downcase_name; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_downcase_name" ON lookup.authors USING btree (downcase_name);
+
+
+--
+-- Name: index_lookup.authors_on_name; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_name" ON lookup.authors USING btree (name);
+
+
+--
+-- Name: index_lookup.authors_on_qcode; Type: INDEX; Schema: lookup; Owner: -
+--
+
+CREATE INDEX "index_lookup.authors_on_qcode" ON lookup.authors USING btree (qcode);
+
+
+--
+-- Name: index_pubmed.author_affiliations_on_pubmed.author_id; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX "index_pubmed.author_affiliations_on_pubmed.author_id" ON pubmed.author_affiliations USING btree ("pubmed.author_id");
+
+
+--
+-- Name: index_pubmed.authors_on_pubmed.publication_id; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE INDEX "index_pubmed.authors_on_pubmed.publication_id" ON pubmed.authors USING btree ("pubmed.publication_id");
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: pubmed; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON pubmed.schema_migrations USING btree (version);
+
+
+--
+-- Name: baseline_counts baseline_counts_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.baseline_counts
+    ADD CONSTRAINT baseline_counts_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: baseline_counts baseline_counts_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.baseline_counts
+    ADD CONSTRAINT baseline_counts_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: baseline_measurements baseline_measurements_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.baseline_measurements
+    ADD CONSTRAINT baseline_measurements_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: baseline_measurements baseline_measurements_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.baseline_measurements
+    ADD CONSTRAINT baseline_measurements_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: brief_summaries brief_summaries_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.brief_summaries
+    ADD CONSTRAINT brief_summaries_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: browse_conditions browse_conditions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.browse_conditions
+    ADD CONSTRAINT browse_conditions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: browse_interventions browse_interventions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.browse_interventions
+    ADD CONSTRAINT browse_interventions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: calculated_values calculated_values_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.calculated_values
+    ADD CONSTRAINT calculated_values_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: central_contacts central_contacts_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.central_contacts
+    ADD CONSTRAINT central_contacts_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: conditions conditions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.conditions
+    ADD CONSTRAINT conditions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: countries countries_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.countries
+    ADD CONSTRAINT countries_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: design_group_interventions design_group_interventions_design_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.design_group_interventions
+    ADD CONSTRAINT design_group_interventions_design_group_id_fkey FOREIGN KEY (design_group_id) REFERENCES ctgov.design_groups(id);
+
+
+--
+-- Name: design_group_interventions design_group_interventions_intervention_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.design_group_interventions
+    ADD CONSTRAINT design_group_interventions_intervention_id_fkey FOREIGN KEY (intervention_id) REFERENCES ctgov.interventions(id);
+
+
+--
+-- Name: design_group_interventions design_group_interventions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.design_group_interventions
+    ADD CONSTRAINT design_group_interventions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: design_groups design_groups_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.design_groups
+    ADD CONSTRAINT design_groups_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: design_outcomes design_outcomes_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.design_outcomes
+    ADD CONSTRAINT design_outcomes_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: designs designs_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.designs
+    ADD CONSTRAINT designs_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: detailed_descriptions detailed_descriptions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.detailed_descriptions
+    ADD CONSTRAINT detailed_descriptions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: documents documents_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.documents
+    ADD CONSTRAINT documents_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: drop_withdrawals drop_withdrawals_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.drop_withdrawals
+    ADD CONSTRAINT drop_withdrawals_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: drop_withdrawals drop_withdrawals_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.drop_withdrawals
+    ADD CONSTRAINT drop_withdrawals_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: eligibilities eligibilities_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.eligibilities
+    ADD CONSTRAINT eligibilities_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: facilities facilities_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.facilities
+    ADD CONSTRAINT facilities_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: facility_contacts facility_contacts_facility_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.facility_contacts
+    ADD CONSTRAINT facility_contacts_facility_id_fkey FOREIGN KEY (facility_id) REFERENCES ctgov.facilities(id);
+
+
+--
+-- Name: facility_contacts facility_contacts_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.facility_contacts
+    ADD CONSTRAINT facility_contacts_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: facility_investigators facility_investigators_facility_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.facility_investigators
+    ADD CONSTRAINT facility_investigators_facility_id_fkey FOREIGN KEY (facility_id) REFERENCES ctgov.facilities(id);
+
+
+--
+-- Name: facility_investigators facility_investigators_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.facility_investigators
+    ADD CONSTRAINT facility_investigators_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: id_information id_information_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.id_information
+    ADD CONSTRAINT id_information_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: intervention_other_names intervention_other_names_intervention_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.intervention_other_names
+    ADD CONSTRAINT intervention_other_names_intervention_id_fkey FOREIGN KEY (intervention_id) REFERENCES ctgov.interventions(id);
+
+
+--
+-- Name: intervention_other_names intervention_other_names_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.intervention_other_names
+    ADD CONSTRAINT intervention_other_names_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: interventions interventions_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.interventions
+    ADD CONSTRAINT interventions_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: ipd_information_types ipd_information_types_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.ipd_information_types
+    ADD CONSTRAINT ipd_information_types_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: keywords keywords_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.keywords
+    ADD CONSTRAINT keywords_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: links links_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.links
+    ADD CONSTRAINT links_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: milestones milestones_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.milestones
+    ADD CONSTRAINT milestones_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: milestones milestones_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.milestones
+    ADD CONSTRAINT milestones_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: outcome_analyses outcome_analyses_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_analyses
+    ADD CONSTRAINT outcome_analyses_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: outcome_analyses outcome_analyses_outcome_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_analyses
+    ADD CONSTRAINT outcome_analyses_outcome_id_fkey FOREIGN KEY (outcome_id) REFERENCES ctgov.outcomes(id);
+
+
+--
+-- Name: outcome_analysis_groups outcome_analysis_groups_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_analysis_groups
+    ADD CONSTRAINT outcome_analysis_groups_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: outcome_analysis_groups outcome_analysis_groups_outcome_analysis_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_analysis_groups
+    ADD CONSTRAINT outcome_analysis_groups_outcome_analysis_id_fkey FOREIGN KEY (outcome_analysis_id) REFERENCES ctgov.outcome_analyses(id);
+
+
+--
+-- Name: outcome_analysis_groups outcome_analysis_groups_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_analysis_groups
+    ADD CONSTRAINT outcome_analysis_groups_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: outcome_counts outcome_counts_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_counts
+    ADD CONSTRAINT outcome_counts_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: outcome_counts outcome_counts_outcome_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_counts
+    ADD CONSTRAINT outcome_counts_outcome_id_fkey FOREIGN KEY (outcome_id) REFERENCES ctgov.outcomes(id);
+
+
+--
+-- Name: outcome_counts outcome_counts_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_counts
+    ADD CONSTRAINT outcome_counts_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: outcome_measurements outcome_measurements_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_measurements
+    ADD CONSTRAINT outcome_measurements_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: outcome_measurements outcome_measurements_outcome_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_measurements
+    ADD CONSTRAINT outcome_measurements_outcome_id_fkey FOREIGN KEY (outcome_id) REFERENCES ctgov.outcomes(id);
+
+
+--
+-- Name: outcome_measurements outcome_measurements_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcome_measurements
+    ADD CONSTRAINT outcome_measurements_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: outcomes outcomes_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.outcomes
+    ADD CONSTRAINT outcomes_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: overall_officials overall_officials_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.overall_officials
+    ADD CONSTRAINT overall_officials_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: participant_flows participant_flows_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.participant_flows
+    ADD CONSTRAINT participant_flows_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: pending_results pending_results_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.pending_results
+    ADD CONSTRAINT pending_results_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: provided_documents provided_documents_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.provided_documents
+    ADD CONSTRAINT provided_documents_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: reported_events reported_events_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.reported_events
+    ADD CONSTRAINT reported_events_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: reported_events reported_events_result_group_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.reported_events
+    ADD CONSTRAINT reported_events_result_group_id_fkey FOREIGN KEY (result_group_id) REFERENCES ctgov.result_groups(id);
+
+
+--
+-- Name: responsible_parties responsible_parties_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.responsible_parties
+    ADD CONSTRAINT responsible_parties_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: result_agreements result_agreements_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.result_agreements
+    ADD CONSTRAINT result_agreements_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: result_contacts result_contacts_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.result_contacts
+    ADD CONSTRAINT result_contacts_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: result_groups result_groups_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.result_groups
+    ADD CONSTRAINT result_groups_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: sponsors sponsors_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.sponsors
+    ADD CONSTRAINT sponsors_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
+
+
+--
+-- Name: study_references study_references_nct_id_fkey; Type: FK CONSTRAINT; Schema: ctgov; Owner: -
+--
+
+ALTER TABLE ONLY ctgov.study_references
+    ADD CONSTRAINT study_references_nct_id_fkey FOREIGN KEY (nct_id) REFERENCES ctgov.studies(nct_id);
 
 
 --
@@ -3669,31 +5099,9 @@ CREATE INDEX "index_support.study_xml_records_on_nct_id" ON support.study_xml_re
 
 SET search_path TO pubmed, lookup, ctgov, proj_cdek_standard_orgs, proj_tag_nephrology;
 
-INSERT INTO schema_migrations (version) VALUES ('20160630191037');
-
-INSERT INTO schema_migrations (version) VALUES ('20160910000000');
-
-INSERT INTO schema_migrations (version) VALUES ('20160911000000');
-
-INSERT INTO schema_migrations (version) VALUES ('20161011000000');
-
-INSERT INTO schema_migrations (version) VALUES ('20161030000000');
-
-INSERT INTO schema_migrations (version) VALUES ('20170411000122');
-
 INSERT INTO schema_migrations (version) VALUES ('20181201000144');
 
-INSERT INTO schema_migrations (version) VALUES ('20181212000000');
-
 INSERT INTO schema_migrations (version) VALUES ('20181214000144');
-
-INSERT INTO schema_migrations (version) VALUES ('20181230000144');
-
-INSERT INTO schema_migrations (version) VALUES ('20190115184850');
-
-INSERT INTO schema_migrations (version) VALUES ('20190115204850');
-
-INSERT INTO schema_migrations (version) VALUES ('20190301204850');
 
 INSERT INTO schema_migrations (version) VALUES ('20190514000142');
 

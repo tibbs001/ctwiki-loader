@@ -43,8 +43,14 @@ module Util
 #               https://www.wikidata.org/w/api.php?action=wbsearchentities&search=23153596&language=en&format=json
 #               https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q18002781
         puts "#{url}"
-        download = RestClient::Request.execute({ url: url, method: :get, content_type: :json})
-        eval(download)[:search]
+        begin
+          download = RestClient::Request.execute({ url: url, method: :get, content_type: :json})
+          eval(download)[:search]
+        rescue
+          puts "XXXXXXXXXXXXXXXXX ERROR Encountered XXXXXXXXXXXXXXXXXXXXXXXXX"
+          puts "skipping search_string: #{search_string} "
+          return ''
+        end
       end
     end
 
@@ -156,7 +162,7 @@ module Util
       rescue => e
         #  Don't terminate whole process if we have trouble looking for one.
         puts ">>>>>>>>>>>>>>> !!! ERROR looking for #{str}: #{e}"
-        return false
+        exit
       end
     end
 
