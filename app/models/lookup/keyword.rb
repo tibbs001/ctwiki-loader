@@ -24,7 +24,7 @@ module Lookup
       'multi-purpose solution','gene-enviroment interaction','pr+','pr-negative','renal and pancreas transplantation','rating scales',
       'nighttime and daytime blood pressure','oncontrol','responsiveness','mbpm','shock and hypotension (rush) exam','single course','whole fruit',
       'sit to stand repetitions','non-severe','hands off,','scratch off','shift','inhl','relapsed cancer','multi-arm','developing','ncfl','research database',
-      'cd 19','ohca','standards','winter blues', 'flashbacks','metals','stool-based digital melt curve (dmc) assay'
+      'cd 19','ohca','standards','winter blues', 'flashbacks','metals','stool-based digital melt curve (dmc) assay','消融','horizon'
       ]
     end
 
