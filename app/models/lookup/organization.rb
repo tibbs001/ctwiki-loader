@@ -46,6 +46,20 @@ module Lookup
       }
     end
 
+    def self.impossible_descriptions
+      super + [ 'award', 'biological process','bus stop', 'clinical trial', 'Congressional Research Service report','data set',
+                'disease','disease, questionable disease','gene','firefighter','group or class of chemical substances',
+                'human','human settlement','hypothetical technology','item of collection or exhibition','kinship',
+                'legal case','legal case, United States Supreme Court case, United States Supreme Court decision',
+                'legal case, United States Supreme Court decision','literary work','metro station','musical group',
+                'mythological Greek character','non-commercial activity','non-fiction book','profession','protein',
+                'Q1072319, passenger train','Q12806826','Q2945729','Q43371093','rapid transit railway line','relation',
+                'scheduling algorithm','scientific article','scientific journal','ship','spring','stadium','supercomputer',
+                'system','taxon','terrorist organization, guerrilla movement','unisex given name'
+                'neighborhood','neighborhood, land-grant university, public university, sun grant institution, research university, public educational institution of the United States',
+      ]
+    end
+
     def self.names_to_ignore
       ['ud-genomed kft.', 'sydney children''s hospital, randwick', 'clinical hospital #15 clinical hospital #15 named after o.m.filatov, moscow, russia']
     end
