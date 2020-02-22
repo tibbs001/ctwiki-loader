@@ -55,7 +55,7 @@ module Lookup
                 'mythological Greek character','non-commercial activity','non-fiction book','profession','protein',
                 'Q1072319, passenger train','Q12806826','Q2945729','Q43371093','rapid transit railway line','relation',
                 'scheduling algorithm','scientific article','scientific journal','ship','spring','stadium','supercomputer',
-                'system','taxon','terrorist organization, guerrilla movement','unisex given name'
+                'system','taxon','terrorist organization, guerrilla movement','unisex given name',
                 'neighborhood','neighborhood, land-grant university, public university, sun grant institution, research university, public educational institution of the United States',
       ]
     end
