@@ -47,21 +47,33 @@ module Lookup
     end
 
     def self.impossible_descriptions
-      super + [ 'award', 'biological process','bus stop', 'clinical trial', 'Congressional Research Service report','data set',
-                'disease','disease, questionable disease','gene','firefighter','group or class of chemical substances',
-                'human','human settlement','hypothetical technology','item of collection or exhibition','kinship',
-                'legal case','legal case, United States Supreme Court case, United States Supreme Court decision',
-                'legal case, United States Supreme Court decision','literary work','metro station','musical group',
-                'mythological Greek character','non-commercial activity','non-fiction book','profession','protein',
-                'Q1072319, passenger train','Q12806826','Q2945729','Q43371093','rapid transit railway line','relation',
-                'scheduling algorithm','scientific article','scientific journal','ship','spring','stadium','supercomputer',
-                'system','taxon','terrorist organization, guerrilla movement','unisex given name',
-                'neighborhood','neighborhood, land-grant university, public university, sun grant institution, research university, public educational institution of the United States',
+      super + [ '1645-1718', '7th century Scottish martyr and saint', 'ability of an individual or organization to guide other individuals, teams, or entire organizations', 
+      'award', 'African Grey Parrot research subject', 'Airport in Pennsylvania', 'American martial artist', 'Argentine lawyer', 'Australian swimmer', 'American cricketer', 
+      'American landscape architect', 'biological process','boxer', 'botanist', 'bus stop', 'clinical trial', 'American software consultant', 'American television journalist', 
+      'Canadian broadcaster', 'Congressional Research Service report','data set','British rowing club','chemical compound','Chilean painter (1936–2011)','Chilean weightlifter',
+      'Chinese photographer', 'Chinese translator', 'Chinese artist','Chinese entomologist','the formation of blood cellular components',
+      'collective term for all approaches to prepare, support, and help individuals, teams, and organizations in making organizational change','cyclist','freestyle skier',
+      'class of chemical compounds', 'cricketer','cultural monument of Panama','culture collection in Asia','dish','Egyptian architect','English cricketer','female parent',
+      'Flemish painter (1612-1661)','graduate academic degree in Education', 'disease','disease, questionable disease','gene','firefighter','group or class of chemical substances',
+      'function responsible for effective communications among participants within an organization','genus of insects', 'genus of plants','German rapper', 'German sculptor',
+      'German speed skater','German left-wing activist','hybrid of citrus fruit','King of Denmark, Norway and Sweden','male given name','patent holder','Peerage person ID=454092',
+'Peerage person ID=532492','people and organizations that have mutually associated toward a common goal or purpose','person, CBDB = 117973','person, CBDB ID = 406026',
+      'Italian journalist','journal', 'human','human settlement','hypothetical technology','item of collection or exhibition','kinship','mythical character','novel by Charles Bukowski',
+      'number','painter', 'person who makes drawings (artist/cartoonist/drafter/illustrator)', 'legal case','legal case, United States Supreme Court case, United States Supreme Court decision',
+      'legal case, United States Supreme Court decision','literary work','metro station','musical group', 'mythological Greek character','non-commercial activity','non-fiction book','profession','protein',
+       'Q1072319, passenger train','Q12806826','Q2945729','Q43371093','rapid transit railway line','relation','President of El Salvador','Qing dynasty person CBDB=351987','Railway line of Beijing Subway',
+       'scheduling algorithm','scientific article','scientific journal','ship','spring','stadium','supercomputer', 'saxophonist', 'subspecialty of internal medicine concerned with the study of neoplasms',
+       'series in the National Archives and Records Administration''s holdings','US-American artist (1909-1992)',
+       'system', 'taxon', 'terrorist organization, guerrilla movement', 'unisex given name', 'Spanish Theologian', 'study of successful organizational change and performance',
+       'Tang dynasty person CBDB = 151668', 'Tang dynasty person CBDB = 193477', 'neighborhood',
+       'the chemical reactions and pathways resulting in the formation of substances; typically the energy-requiring part of metabolism in which simpler substances are transformed into more complex ones',
+       'The executive of Ukraine, consisting of the prime minister and cabinet ministers.','TV presenter','Region of the Czech Republic',
+       'The opposite of nofollow. When there is no impediment, warning or indication discouraging search engines in the act of following a hyperlink.'
       ]
     end
 
     def self.names_to_ignore
-      ['ud-genomed kft.', 'sydney children''s hospital, randwick', 'clinical hospital #15 clinical hospital #15 named after o.m.filatov, moscow, russia']
+      ['biosyn', 'ud-genomed kft.', 'sydney children''s hospital, randwick', 'clinical hospital #15 clinical hospital #15 named after o.m.filatov, moscow, russia']
     end
 
     def self.possible_descriptions
@@ -178,6 +190,7 @@ module Lookup
         'Loyola University Medical Center'         => 'Q6694611',
         'Fred Hutchinson Cancer Research Center'   => 'Q1452369',
         'Montefiore Medical Center'                => 'Q6905066',
+        'University of Toyama'                     => 'Q1147924',
       }
     end
   end
