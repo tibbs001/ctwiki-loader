@@ -132,7 +132,7 @@ module Ctgov
           return_str << "#{reg_prefix}Q42824827" if phase.include? '3'
           return_str << "#{reg_prefix}Q42825046" if phase.include? '4'
           return return_str
-        when 'PXXXX'  # overall_status
+        when 'P-skip-XXXX'  # overall_status
           return_str=''
           return nil if overall_status.blank?
           case overall_status
