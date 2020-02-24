@@ -6,7 +6,7 @@ gem 'sparql-client'
 
 gem "sprockets", ">= 3.7.2"
 gem "nokogiri", ">= 1.10.4"
-gem 'loofah', '~> 2.3.1'
+gem 'loofah', '~> 2.4.0'
 gem 'rails'
 gem "rubyzip", ">= 1.2.2"
 gem 'openssl', '~> 2.0.2'
