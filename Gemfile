@@ -34,8 +34,8 @@ gem 'gon'
 gem 'execjs'
 gem 'therubyracer', '~> 0.12.3'
 gem 'libv8', '~> 3.16.14.15'
-gem 'rack'
-gem 'rack-cors', :require => 'rack/cors'
+gem "rack", ">= 1.6.12"
+gem "rack-cors", ">= 1.0.4"
 gem 'rack-protection', '~> 1.5.5'
 
 # deployment to server
