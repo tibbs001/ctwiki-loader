@@ -5,7 +5,7 @@ ruby "2.4.5"
 gem 'sparql-client'
 
 gem "sprockets", ">= 3.7.2"
-gem 'nokogiri', '~> 1.8.1'
+gem "nokogiri", ">= 1.10.4"
 gem 'loofah', '~> 2.3.1'
 gem 'rails'
 gem "rubyzip", ">= 1.2.2"
