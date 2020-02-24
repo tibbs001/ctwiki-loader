@@ -49,7 +49,7 @@ module Util
         rescue
           puts "XXXXXXXXXXXXXXXXX ERROR Encountered XXXXXXXXXXXXXXXXXXXXXXXXX"
           puts "skipping search_string: #{search_string} "
-          return ''
+          exit
         end
       end
     end
