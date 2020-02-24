@@ -88,7 +88,7 @@ module Ctgov
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code
         when 'Len'
-          return compose_label
+          return compose_label(reg_prefix)
         when 'Den'
           return "#{reg_prefix}\"clinical trial\""     # Description
         when 'P17'    # country
@@ -178,7 +178,7 @@ module Ctgov
       end
     end
 
-    def compose_label
+    def compose_label(reg_prefix)
       if title_duplicated?
         # add the start date to the label if more than one study has this title
         suffix = start_date.strftime("%Y-%m-%d") if start_date
