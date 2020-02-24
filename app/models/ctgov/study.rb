@@ -88,7 +88,7 @@ module Ctgov
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code
         when 'Len'
-          return "#{reg_prefix}\"#{brief_title[0..244]}\""   # Label
+          return compose_label
         when 'Den'
           return "#{reg_prefix}\"clinical trial\""     # Description
         when 'P17'    # country
@@ -176,6 +176,22 @@ module Ctgov
       else
         puts "unknown property:  #{prop_code}"
       end
+    end
+
+    def compose_label
+      if title_duplicated?
+        # add the start date to the label if more than one study has this title
+        suffix = start_date.strftime("%Y-%m-%d") if start_date
+        suffix = study_first_submitted_date.strftime("%Y-%m-%d") if !suffix && study_first_submitted_date
+        label = "#{reg_prefix}\"#{brief_title[0..233]} (#{suffix})\""
+      else
+        label = "#{reg_prefix}\"#{brief_title[0..244]}\""
+      end
+      return label
+    end
+
+    def title_duplicated?
+      Ctgov::Study.where('brief_title=?', brief_title).size > 1
     end
 
     def country_quickstatements
