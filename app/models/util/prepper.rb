@@ -4,16 +4,19 @@ module Util
     attr_accessor :f, :mgr, :lookup_mgr, :start_num, :end_num, :batch_of_ids, :batch_size, :id_qcode_maps, :loaded_ids
 
     def initialize(args={})
+      #  Example launch:  Util::StudyPrepper.run
       #  Example launch:  Util::StudyPrepper.new({:start_num=>'78000'}).run
       #  Example launch:  Util::PubPrepper.new({:start_num=>'8000'}).run
-      @batch_size = args[:batch_size] || 1000
       @start_num = args[:start_num].to_i || 1
+      @batch_size = args[:batch_size] || 1000
       @mgr = Util::WikiDataManager.new
       @lookup_mgr = Util::LookupManager.new
       @id_qcode_maps=get_id_maps
     end
 
     def self.run(args={})
+      # Itereate over all the models that need to get loaded.  Process them in batches of 'batch_size'
+      # Called from a subclass that defines the source_model_name (Ctgov::Study or Pubmed::Publication)
       start_num = args[:start_num] || 0
       batch_size = args[:batch_size] || 1000
       cntr = start_num
