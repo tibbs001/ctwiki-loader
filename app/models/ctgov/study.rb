@@ -62,7 +62,9 @@ module Ctgov
 
     def prop_codes
       ['Len',    # label
-       'Den',    # description
+       'Den',    # English description
+       'Dnl',    # Dutch description
+       'Des',    # Spanish description
        'P17',    # countries
        'P31',    # instance of
        'P248',   # publications
@@ -90,7 +92,11 @@ module Ctgov
         when 'Len'
           return compose_label(reg_prefix)
         when 'Den'
-          return "#{reg_prefix}\"clinical trial\""     # Description
+          return "#{reg_prefix}\"clinical trial\""     # English Description
+        when 'Dnl'
+          return "#{reg_prefix}\"klinisch onderzoek\"" # Dutch Description
+        when 'Des'
+          return "#{reg_prefix}\"ensayo clínico\"" # Spanish Description
         when 'P17'    # country
           return country_quickstatements
         when 'P31'    # instance of
