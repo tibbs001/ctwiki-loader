@@ -4,33 +4,6 @@ require 'sparql/client'
 module Util
   class WikiDataManager
 
-    def get_study_id_maps
-      results={}
-      cmd="SELECT ?item ?nct_id WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q30612.  ?item wdt:P3098 ?nct_id . }"
-      query_results = run_sparql(cmd)
-      query_results.each {|i|
-        label = val = ''
-        i.each_binding { |name, item|
-          label = item.value if name == :nct_id
-          val   = item.value.chomp.split('/').last if name == :item
-        }
-        results[label.to_s] = val
-      }
-      return results
-    end
-
-    def get_pub_id_maps
-      # because there are millions of scholarly articles in wikidata, we will only get the ones specifically referenced by
-      # studies in ClinicalTrials.gov.  Lookup::Publication has iterated over all pmids specified in StudyReference
-      # and defined the qcodes for those that are already in wikidata. Rows in Lookup::Publication without a qcode
-      # represent publications that are referenced in ct.gov but aren't yet in wikidata
-      results = {}
-      Lookup::Publication.where('qcode is not null').pluck(:pmid, :qcode).each {|a|
-        results[a.first] = a.last
-      }
-      return results
-    end
-
     def wiki_api_call(search_string, search_strings_tried, delimiter=nil)
       if !search_strings_tried.include?(search_string)
         search_strings_tried << search_string
@@ -177,10 +150,6 @@ module Util
       return raw_results.select{|x| x[:description] != 'delete me' }
     end
 
-    def study_already_loaded?(nct_id)
-      !qcodes_for_nct_id(nct_id).empty?
-    end
-
     def get_qcode_for_orcid(orcid)
       #cmd = "SELECT DISTINCT  ?item WHERE { ?item p:P31/ps:P31/wdt:P279* wd:Q191067 . ?item wdt:P698 '#{pmid}'. }"
       cmd = "SELECT DISTINCT  ?item where { ?item wdt:P496 '#{orcid}' }"
@@ -199,25 +168,6 @@ module Util
       the_code=nil
       results.first.each_binding {|item| the_code = item.last.value.chomp.split('/').last }
       return the_code
-    end
-
-    def ids_for_studies_without_prop(code)
-      # phase is P6099
-      result = []
-      cmd="SELECT ?item ?nct_id WHERE {
-           ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
-           FILTER NOT EXISTS {?item wdt:#{code} ?phase}
-             ?item wdt:P3098 ?nct_id .  }"
-      result = []
-      run_sparql(cmd).each {|i|
-        label = val = ''
-        i.each_binding { |name, item|
-          label = item.value if name == :nct_id
-          val   = item.value.chomp.split('/').last if name == :item
-        }
-        result << {label.to_s => val }
-      }
-      return result.flatten.uniq
     end
 
     def get_vals_for(prop)
@@ -269,16 +219,6 @@ module Util
         i.each_binding { |name, item| result << item.value } if !i.blank?
       }
       return result.uniq.flatten.join(', ')
-    end
-
-    def qcodes_for_nct_id(nct_id)
-      #existing_nct_id='NCT02856984'
-      cmd = "SELECT ?item WHERE { ?item wdt:P3098 '#{nct_id}' . } "
-      result = []
-      run_sparql(cmd).each {|i|
-        i.each_binding { |name, item| result << item.value.chomp.split('/').last } if !i.blank?
-      }
-      return result.flatten
     end
 
     def run_sparql(cmd)
