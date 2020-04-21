@@ -1,4 +1,5 @@
-class WikiStudyManager < WikiDataManager
+module Util
+  class WikiStudyManager < Util::WikiDataManager
 
     def get_study_id_maps
       results={}
@@ -69,3 +70,4 @@ class WikiStudyManager < WikiDataManager
     end
 
   end
+end

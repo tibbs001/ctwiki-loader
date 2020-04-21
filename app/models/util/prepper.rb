@@ -9,7 +9,7 @@ module Util
       #  Example launch:  Util::PubPrepper.new({:start_num=>'8000'}).run
       @start_num = args[:start_num].to_i || 1
       @batch_size = args[:batch_size] || 1000
-      @mgr = Util::WikiDataManager.new
+      @mgr = Util::WikiStudyManager.new
       @lookup_mgr = Util::LookupManager.new
       @id_qcode_maps=get_id_maps
     end

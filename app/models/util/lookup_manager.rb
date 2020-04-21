@@ -41,11 +41,11 @@ module Util
     end
 
     def load_publications
-      @publications = Util::WikiDataManager.new.get_pub_id_maps
+      @publications = Util::WikiPubManager.new.get_pub_id_maps
     end
 
     def load_studies
-      @studies = Util::WikiDataManager.new.get_study_id_maps
+      @studies = Util::WikiStudyManager.new.get_study_id_maps
     end
 
   end

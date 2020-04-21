@@ -1,4 +1,5 @@
-class WikiPubManager < WikiDataManager
+module Util
+  class WikiPubManager < WikiDataManager
 
     def get_pub_id_maps
       # because there are millions of scholarly articles in wikidata, we will only get the ones specifically referenced by
@@ -22,4 +23,5 @@ class WikiPubManager < WikiDataManager
       return the_code
     end
 
+  end
 end
