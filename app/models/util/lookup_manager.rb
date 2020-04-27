@@ -4,11 +4,11 @@ module Util
     attr_accessor :authors, :countries, :orgs, :studies, :publications, :pubs_not_in_wikidata
 
     def initialize
-#      load_authors
-#      load_countries
-#      load_publications
-#      load_studies
-#      load_orgs
+      load_authors
+      load_countries
+      load_publications
+      load_studies
+      load_orgs
     end
 
     def load_authors
