@@ -46,9 +46,38 @@ module Util
         cntr = cntr + 1
         begin
           if !loaded_ids.include? id
-            obj=source_model_name.get_for(id, @lookup_mgr)
+            obj=qs_creator.get_for(id)
+            obj.lookup_mgr = @lookup_mgr
             obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
             loaded_ids << id
+          end
+        rescue => e
+          loaded_ids << id
+          puts "===== error   ==============="
+          puts e
+          puts "============================="
+          f.close
+        end
+      end
+      f.close
+    end
+
+    def refresh(ids)
+      @loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
+      @f=File.open("public/#{start_num}_refresh_quickstatements.txt", "w+")
+      cntr = 1
+      ids.each do |id|
+        cntr = cntr + 1
+        begin
+          if !loaded_ids.include? id
+            # Simply add it if it doesn't yet exist
+            obj=quickstatement_creator.get_for(id, @lookup_mgr)
+            obj.lookup_manager = @lookup_mgr
+            obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
+            loaded_ids << id
+          else
+            # If it exists, diff the attribs and only update those that are different
+
           end
         rescue => e
           loaded_ids << id

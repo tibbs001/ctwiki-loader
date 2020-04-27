@@ -10,6 +10,10 @@ module Util
       Ctgov::Study
     end
 
+    def qs_creator
+      QsCreator::Study
+    end
+
     def assign_existing_studies_missing_prop(code)
       # method to create a file of single snaks for just one property
       File.open("public/assign_#{code}.txt", "w+") do |f|
