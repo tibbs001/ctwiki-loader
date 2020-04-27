@@ -41,6 +41,7 @@ module Util
       puts "======================================================"
       @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[@start_num..@end_num]
       @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
+      qs_creator.set_delimiters
       cntr = 1
       batch_of_ids.each do |id|
         cntr = cntr + 1

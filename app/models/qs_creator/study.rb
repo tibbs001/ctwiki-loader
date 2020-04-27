@@ -5,8 +5,6 @@ module QsCreator
 
     def self.get_for(id)
       obj = Ctgov::Study.where('nct_id=?', id).first
-      return nil if !obj
-      obj.set_delimiters
       return obj
     end
 
