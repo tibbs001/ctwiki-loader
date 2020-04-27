@@ -11,7 +11,7 @@ module Util
     end
 
     def qs_creator
-      QsCreator::Study
+      QsCreator::Study.new
     end
 
     def assign_existing_studies_missing_prop(code)

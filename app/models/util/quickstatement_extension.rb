@@ -33,12 +33,15 @@ module Util
       return "#{new_line}#{subject}#{tab}"
     end
 
-    def create_all_quickstatements(file)
-      file << 'CREATE'
-      prop_codes.each{ |prop_code|
-        file << quickstatement_for(prop_code)
-      }
-      file << " #{new_line}#{new_line}"
+    def create_all_quickstatements(id, file)
+      obj = get_for(id)
+      if obj and obj.should_be_loaded?
+        file << 'CREATE'
+        prop_codes.each{ |prop_code|
+          file << quickstatement_for(prop_code)
+        }
+        file << " #{new_line}#{new_line}"
+      end
     end
 
     def set_delimiters(args={})
@@ -46,7 +49,6 @@ module Util
       #@delimiters = {:new_line=>'||', :tab=>'|', :space_char=>'%20', :double_quote_char=>'%22', :forward_slash_char=>'%2F'} if @delimiters.blank?
       @delimiters = {:new_line=>'
 ', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if @delimiters.blank?
-      return self
     end
 
     def quickstatement_date(dt, dt_str)

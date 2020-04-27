@@ -41,15 +41,14 @@ module Util
       puts "======================================================"
       @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[@start_num..@end_num]
       @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
-      qs_creator.set_delimiters
       cntr = 1
       batch_of_ids.each do |id|
         cntr = cntr + 1
         begin
           if !loaded_ids.include? id
-            obj=qs_creator.get_for(id)
-            obj.lookup_mgr = @lookup_mgr
-            obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
+            qsc = QsCreator::Study.new
+            qsc.lookup_mgr = @lookup_mgr
+            qsc.create_all_quickstatements(id, f)
             loaded_ids << id
           end
         rescue => e

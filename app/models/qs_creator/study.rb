@@ -1,11 +1,10 @@
 module QsCreator
   class Study
     include Util::QuickstatementExtension
-    attr_accessor :lookup_mgr
+    attr_accessor :lookup_mgr, :study
 
-    def self.get_for(id)
-      obj = Ctgov::Study.where('nct_id=?', id).first
-      return obj
+    def get_for(id)
+      @study = Ctgov::Study.where('nct_id=?', id).first
     end
 
     def prop_codes

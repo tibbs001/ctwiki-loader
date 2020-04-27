@@ -56,7 +56,8 @@ module Ctgov
 
 #   hook method
     def should_be_loaded?
-      !brief_title.include? 'Trial of device that is not approved or cleared by the U.S. FDA'
+      #!brief_title.include? 'Trial of device that is not approved or cleared by the U.S. FDA'
+      true
     end
 
   #  convenience methods
