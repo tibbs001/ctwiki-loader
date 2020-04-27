@@ -31,7 +31,7 @@ module Util
       # Iterate over a collection of objects of a certain type & create a file containing quickstatements
       # that can be loaded into wikidata via the url: https://tools.wmflabs.org/quickstatements/#/batch
 
-      #@loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
+      @loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
       @loaded_ids = []
       @lookup_mgr = Util::LookupManager.new
       @batch_of_ids = args[:batch_of_ids]
@@ -41,7 +41,7 @@ module Util
       puts " Getting studies #{@start_num} - #{@end_num}"
       puts "======================================================"
       @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[@start_num..@end_num]
-      @f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
+      f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       qsc = QsCreator::Study.new
       qsc.lookup_mgr = @lookup_mgr

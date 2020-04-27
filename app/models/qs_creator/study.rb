@@ -154,6 +154,17 @@ module QsCreator
       return label
     end
 
+    def country_quickstatements
+      return_str = ''
+      assigned_qcodes=[]
+      active_countries.each{ |country|
+        qcode = Lookup::Country.qcode_for(country.name)
+        assigned_qcodes << qcode
+        return_str << "#{new_line}#{subject}#{tab}P17#{tab}#{qcode}" if !qcode.blank?
+      }
+      return return_str
+    end
+
     def design_quickstatements
       return_str = ''
       return_str << 'CREATE'
