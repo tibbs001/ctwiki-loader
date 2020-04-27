@@ -3,6 +3,15 @@ module QsCreator
     include Util::QuickstatementExtension
     attr_accessor :lookup_mgr, :study
 
+    def method_missing(name, *args, &block)
+      # if QsCreator can't respond to a method, forward it along to it's study
+      if args.empty?
+        study.send(name.to_s)
+      else
+        study.send(name.to_s, *[args])
+      end
+    end
+
     def get_for(id)
       @study = Ctgov::Study.where('nct_id=?', id).first
     end

@@ -45,6 +45,7 @@ module Util
       cntr = 1
       qsc = QsCreator::Study.new
       qsc.lookup_mgr = @lookup_mgr
+      qsc.set_delimiters
 
       batch_of_ids.each do |id|
         cntr = cntr + 1
