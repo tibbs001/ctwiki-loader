@@ -51,9 +51,8 @@ module Util
             qsc.object = vals.last
             old_stmt = qsc.quickstatement_with_old_subject(code)
             new_stmt = qsc.quickstatement_with_new_subject(code)
-            if old_stmt != new_stmt
-              f << "\n#{-old_stmt}"  # line that will remove old
-              f << "\n#{new_stmt}"   # line that will add new
+            if old_stmt.strip != new_stmt.strip
+              f << "#{new_stmt}#{qsc.datestamp_suffix}"   # line that will add new - includes a date qualifier
             end
           end
         }

@@ -53,6 +53,10 @@ module QsCreator
       quickstatement_for(prop_code)
     end
 
+    def datestamp_suffix
+      "#{tab}P580#{tab}#{last_update_submitted_date}"
+    end
+
     def quickstatement_for(prop_code)
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code
@@ -109,7 +113,7 @@ module QsCreator
           return_str=''
           return nil if overall_status.blank?
           case overall_status
-          when 'Active, not recruiting1'
+          when 'Active, not recruiting'
             return_str << "#{reg_prefix}Q76649790"
           when  'Suspended'
             return_str << "#{reg_prefix}Q76649855"
@@ -117,26 +121,24 @@ module QsCreator
             return_str << "#{reg_prefix}Q76649708"
           when  'Completed'
             return_str << "#{reg_prefix}Q76651189"
-          when 'Withdraewn'
+          when 'Withdrawn'
             return_str << "#{reg_prefix}Q76650124"
           when 'Terminated'
             return_str << "#{reg_prefix}Q76649944"
           when 'Not yet recruiting'
             return_str << "#{reg_prefix}Q76649614"
           when 'Available'
-            return_str << "#{reg_prefix}Q76651279"
+            return_str << "#{reg_prefix}Q92334830"
           when 'Approved for marketing'
-            return_str << "#{reg_prefix}Q76651279"
+            return_str << "#{reg_prefix}Q92334785"
           when 'Enrolling by invitation'
-            return_str << "#{reg_prefix}Q76651279"
+            return_str << "#{reg_prefix}Q92331923"
           when 'No longer available'
-            return_str << "#{reg_prefix}Q76651279"
-          when 'Unknown status'
-            return_str << "#{reg_prefix}Q76651279"
+            return_str << "#{reg_prefix}Q92334851"
           when 'Unknown status'
             return_str << "#{reg_prefix}Q76651279"
           when 'Withheld'
-            return_str << "#{reg_prefix}Q76651279"
+            return_str << "#{reg_prefix}Q92335256"
           end
           return return_str
         when 'P21'  # gender
