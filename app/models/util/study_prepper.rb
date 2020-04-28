@@ -19,10 +19,10 @@ module Util
       File.open("public/assign_#{code}.txt", "w+") do |f|
         mgr.ids_for_studies_without_prop(code).each {|hash|
           nct_id = hash.keys.first
-          study = source_model_name.get_for(nct_id, lookup_mgr)
-          if study
-            study.subject = hash.values.first
-            f << study.quickstatement_for(code)
+          obj=quickstatement_creator.get_for(nct_id, lookup_mgr)
+          if obj
+            obj.subject = hash.values.first
+            f << obj.quickstatement_for(code)
           end
         }
       end

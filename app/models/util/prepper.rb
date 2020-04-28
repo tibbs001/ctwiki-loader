@@ -74,9 +74,12 @@ module Util
         begin
           if !loaded_ids.include? id
             # Simply add it if it doesn't yet exist
-            obj=quickstatement_creator.get_for(id, @lookup_mgr)
-            obj.lookup_manager = @lookup_mgr
-            obj.create_all_quickstatements(f) if obj and obj.should_be_loaded?
+            qsc = QsCreator::Study.new
+            qsc.lookup_mgr = @lookup_mgr
+            qsc.set_delimiters
+
+            qsc.get_for(id)
+            qsc.create_all_quickstatements(f)
             loaded_ids << id
           else
             # If it exists, diff the attribs and only update those that are different
