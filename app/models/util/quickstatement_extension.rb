@@ -1,7 +1,7 @@
 module Util
   module QuickstatementExtension
 
-    attr_accessor :delimiters, :subject
+    attr_accessor :delimiters, :subject, :object
 
     def new_line
       @delimiters[:new_line] || '||'

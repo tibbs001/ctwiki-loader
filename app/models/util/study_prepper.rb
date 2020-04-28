@@ -40,14 +40,21 @@ module Util
       qsc=QsCreator::Study.new
       qsc.set_delimiters
       File.open("public/refresh_#{code}.txt", "w+") { |f|
-        mgr.ids_for_studies_with_prop(code).each { |hash|
+        # go grab the data for all studies with this property
+        # info includes nct_id, qcode, and subj value (currently assuming it's also a qcode)
+        mgr.info_for_studies_with_prop(code).each { |hash|
           nct_id = hash.keys.first
           study = qsc.get_for(nct_id)
           if study
             vals = hash.values.first
             qsc.subject = vals.first
-            f << qsc.quickstatement_to_remove(code, vals.last)  # line that will remove old
-            f << qsc.quickstatement_for(code)   # line that will add new
+            qsc.object = vals.last
+            old_stmt = qsc.quickstatement_with_old_subject(code)
+            new_stmt = qsc.quickstatement_with_new_subject(code)
+            if old_stmt != new_stmt
+              f << "\n#{-old_stmt}"  # line that will remove old
+              f << "\n#{new_stmt}"   # line that will add new
+            end
           end
         }
       }

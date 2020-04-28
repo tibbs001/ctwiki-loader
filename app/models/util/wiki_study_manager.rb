@@ -40,7 +40,7 @@ module Util
       return the_code
     end
 
-    def ids_for_studies_with_prop(code)
+    def info_for_studies_with_prop(code)
       # phase is P6099
       result = []
       cmd="SELECT ?item ?nct_id ?subj WHERE {

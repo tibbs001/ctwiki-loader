@@ -44,8 +44,13 @@ module QsCreator
       ]
     end
 
-    def quickstatement_to_remove(prop_code, obj)
-      "\n-#{subject}#{tab}#{prop_code}#{tab}#{obj}"
+    def quickstatement_with_old_subject(prop_code)
+      # assume object contains value currently in wikidata
+      "#{subject}#{tab}#{prop_code}#{tab}#{object}"
+    end
+
+    def quickstatement_with_new_subject(prop_code)
+      quickstatement_for(prop_code)
     end
 
     def quickstatement_for(prop_code)
