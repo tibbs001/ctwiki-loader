@@ -40,6 +40,26 @@ module Util
       return the_code
     end
 
+    def ids_for_studies_with_prop(code)
+      # phase is P6099
+      result = []
+      cmd="SELECT ?item ?nct_id ?subj WHERE {
+           ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
+           ?item wdt:#{code} ?subj .
+           ?item wdt:P3098   ?nct_id }"
+      run_sparql(cmd).each {|i|
+        nct_id = qcode = subj = ''
+        i.each_binding { |name, item|
+          puts ">>>>>>>>>>>>>>>>>> name: #{name}  item:  #{item.inspect}"
+          nct_id = item.value if name == :nct_id
+          qcode  = item.value.chomp.split('/').last if name == :item
+          subj   = item.value.chomp.split('/').last if name == :subj
+        }
+        result << {nct_id.to_s => qcode, subj }
+      }
+      return result.flatten.uniq
+    end
+
     def ids_for_studies_without_prop(code)
       # phase is P6099
       result = []
@@ -47,7 +67,6 @@ module Util
            ?item p:P31/ps:P31/wdt:P279* wd:Q30612.
            FILTER NOT EXISTS {?item wdt:#{code} ?phase}
              ?item wdt:P3098 ?nct_id .  }"
-      result = []
       run_sparql(cmd).each {|i|
         label = val = ''
         i.each_binding { |name, item|

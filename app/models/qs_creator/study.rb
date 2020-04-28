@@ -44,6 +44,10 @@ module QsCreator
       ]
     end
 
+    def remove_quickstatement_for(prop_code, hash)
+      "-#{hash.values.key}#{tab}#{prop_code}#{tab}#{hash.values.value}"
+    end
+
     def quickstatement_for(prop_code)
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code

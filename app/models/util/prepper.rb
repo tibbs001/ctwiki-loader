@@ -32,7 +32,7 @@ module Util
       # that can be loaded into wikidata via the url: https://tools.wmflabs.org/quickstatements/#/batch
 
       @loaded_ids = id_qcode_maps.keys  # IDs of the objects currently  in wikidata - no need to load these
-      @loaded_ids = []
+      #@loaded_ids = []
       @lookup_mgr = Util::LookupManager.new
       @batch_of_ids = args[:batch_of_ids]
       # @loaded_ids set by the subclass - could be NCT IDs (for studies) or PMIDs (for pubs).
