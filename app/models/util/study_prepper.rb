@@ -34,5 +34,24 @@ module Util
       end
     end
 
+    def refresh_prop(code)
+      # method to create a file of single snaks for just one property
+      # remove the old value and add the new value
+      qsc=QsCreator::Study.new
+      qsc.set_delimiters
+      File.open("public/refresh_#{code}.txt", "w+") { |f|
+        mgr.ids_for_studies_with_prop(code).each { |hash|
+          nct_id = hash.keys.first
+          study = qsc.get_for(nct_id)
+          if study
+            vals = hash.values.first
+            qsc.subject = vals.first
+            f << qsc.quickstatement_to_remove(code, vals.last)  # line that will remove old
+            f << qsc.quickstatement_for(code)   # line that will add new
+          end
+        }
+      }
+    end
+
   end
 end

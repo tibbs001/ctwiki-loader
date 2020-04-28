@@ -44,6 +44,10 @@ module QsCreator
       ]
     end
 
+    def quickstatement_to_remove(prop_code, obj)
+      "\n-#{subject}#{tab}#{prop_code}#{tab}#{obj}"
+    end
+
     def quickstatement_for(prop_code)
       reg_prefix="#{prefix}#{prop_code}#{tab}"
       case prop_code
