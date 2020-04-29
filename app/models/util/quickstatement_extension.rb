@@ -51,11 +51,11 @@ module Util
 ', :tab=>'	', :space_char=>' ', :double_quote_char=>'"', :forward_slash_char=>'/'} if @delimiters.blank?
     end
 
-    def quickstatement_date(dt, dt_str)
+    def quickstatement_date(dt, dt_str=nil)
       # TODO Refine date so it has month precision when the day isn't provided
       # TODO Add qualifiers for Anticipated vs Actual
       #Time values must be in format  +1967-01-17T00:00:00Z/11.  (/11 means day precision)
-      if dt_str.count(' ') == 1  # if only one space in the date string, it must not have a day, so set to month precision.
+      if dt_str && dt_str.count(' ') == 1  # if only one space in the date string, it must not have a day, so set to month precision.
         "#{dt}T00:00:00Z/10"
       else
         "#{dt}T00:00:00Z/11"

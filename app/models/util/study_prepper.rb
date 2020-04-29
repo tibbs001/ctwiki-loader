@@ -35,8 +35,10 @@ module Util
     end
 
     def refresh_prop(code)
-      # method to create a file of single snaks for just one property
-      # remove the old value and add the new value
+      #  This works for P8005 - recruitment status.  Not sure how well it will work for other props.
+      # method to create a file of single statements for just one property
+      # it doesn't remove the old/existing statement
+      # it adds a qualifier to datestamp the date this new property was added to the study:w
       qsc=QsCreator::Study.new
       qsc.set_delimiters
       File.open("public/refresh_#{code}.txt", "w+") { |f|
@@ -52,7 +54,7 @@ module Util
             old_stmt = qsc.quickstatement_with_old_subject(code)
             new_stmt = qsc.quickstatement_with_new_subject(code)
             if old_stmt.strip != new_stmt.strip
-              f << "#{new_stmt}#{qsc.datestamp_suffix}"   # line that will add new - includes a date qualifier
+              f << "#{new_stmt}#{qsc.start_date_qualifier_suffix}"   # line that will add new - includes a date qualifier
             end
           end
         }

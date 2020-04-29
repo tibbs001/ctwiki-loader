@@ -53,8 +53,8 @@ module QsCreator
       quickstatement_for(prop_code)
     end
 
-    def datestamp_suffix
-      "#{tab}P580#{tab}#{last_update_submitted_date}"
+    def start_date_qualifier_suffix
+      "#{tab}P580#{tab}#{quickstatement_date(last_update_submitted_date)}"
     end
 
     def quickstatement_for(prop_code)
