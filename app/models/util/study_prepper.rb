@@ -54,7 +54,9 @@ module Util
             old_stmt = qsc.quickstatement_with_old_subject(code)
             new_stmt = qsc.quickstatement_with_new_subject(code)
             if old_stmt.strip != new_stmt.strip
-              f << "#{new_stmt}#{qsc.start_date_qualifier_suffix}"   # line that will add new - includes a date qualifier
+              f << "-#{old_stmt}"
+              f << "#{new_stmt}"
+              #f << "#{new_stmt}#{qsc.start_date_qualifier_suffix}"   # includes a date qualifier
             end
           end
         }
