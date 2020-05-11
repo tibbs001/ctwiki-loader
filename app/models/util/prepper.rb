@@ -40,7 +40,7 @@ module Util
       puts "======================================================"
       puts " Getting studies #{@start_num} - #{@end_num}"
       puts "======================================================"
-      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids)[@start_num..@end_num]
+      @batch_of_ids ||= (source_model_name.all_ids - loaded_ids - studies_to_investigate)[@start_num..@end_num]
       f=File.open("public/#{start_num}_#{load_type}_quickstatements.txt", "w+")
       cntr = 1
       qsc = QsCreator::Study.new
