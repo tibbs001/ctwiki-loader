@@ -52,7 +52,11 @@ module Nci
       data["other_ids"]          = data["other_ids"].map {|as| Nci::OtherId.new(as.merge({'nct_id'=>nct_id}))}  if data['other_ids']
       data["outcome_measures"]   = data["outcome_measures"].map {|as| Nci::OutcomeMeasure.new(as.merge({'nct_id'=>nct_id}))}  if data['outcome_measures']
       data['sites']              = create_site_objects(nct_id, data['sites']) if data['sites']
-      data['diseases']           = create_disease_objects(nct_id, data['diseases']) if data['diseases']
+
+      data['diseases']           = data['diseases'].map {|d|
+        clean_d=d.except!('synonyms','paths','parents','type')
+        Nci::Disease.new(clean_d.merge({'nct_id'=>nct_id}))
+      } if data['diseases']
 
       if data['eligibility']['structured']
         data["eligibility"] = Nci::Eligibility.new(data['eligibility']['structured'].merge({'nct_id'=>nct_id}))
@@ -64,23 +68,6 @@ module Nci
         }
       end
       super(data)
-    end
-
-    def create_disease_objects(nct_id, disease_data)
-      disease_data.map {|disease|
-        d=disease.except!('paths','type')
-        disease_code = d['disease_code']
-        if d['synonyms']
-          d['synonyms'] = d['synonyms'].uniq.map {|ds|
-            Nci::DiseaseSynonym.new({'nct_id'=>nct_id, 'disease_code'=>disease_code, 'name'=>ds})}
-        end
-        if d['parents']
-          d['parents'] = d['parents'].map {|code|
-            Nci::DiseaseParent.new({'nct_id'=>nct_id, 'disease_code'=>disease_code, 'code'=>code})
-          }
-        end
-        Nci::Disease.new(d.merge({'nct_id'=>nct_id}))
-      }
     end
 
     def create_site_objects(nct_id, site_data)
@@ -105,10 +92,9 @@ module Nci
       file_names=Dir.entries('/aact-files/json_downloads') - ['.','..']
       file_names.each { |file_name|
         data = JSON.parse(File.read("/aact-files/json_downloads/#{file_name}"))['trials']
-        #data = JSON.parse(File.read("/aact-files/json_downloads/20190712-15_nci_1000.json"))['trials']
         data.compact.each{ |study_data|
           begin
-            Nci::Study.create(study_data) if study_data
+            Nci::Study.create(study_data.except('arms')) if study_data
           rescue
             # If one fails, go on to the next.
           end

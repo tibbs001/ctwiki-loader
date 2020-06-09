@@ -6,8 +6,8 @@ module Util
     def initialize
       load_authors
       load_countries
-      load_publications
-      load_studies
+      #load_publications
+      #load_studies
 #      load_orgs
     end
 

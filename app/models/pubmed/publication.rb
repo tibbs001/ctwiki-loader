@@ -76,7 +76,7 @@ module Pubmed
       #'',  # country_qcode
       #'',  # issn linking
       #'',  # grants
-      #'',  # chemicals
+      'P921',  # chemicals
       'P486',  # mesh DCode
       'OtherIds',  # Other IDs
       ]
