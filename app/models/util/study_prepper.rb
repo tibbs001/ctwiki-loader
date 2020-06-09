@@ -38,6 +38,21 @@ module Util
        'NCT04108273', # Brain Plasticity Underlying Acquisition of New Organizational Skills in Children
        'NCT04272489', # Pattern Recognition Prosthetic Control (2020-03-01)
        'NCT04281134', # Development of Adaptive Deep Brain Stimulation for OCD
+       'NCT04367389', # "Internet-based Physical Activity Promotion and Exercise Prescription for People With Multiple Sclerosis
+       'NCT00215358', # Study in Patients With Asthma (2002-07-31)
+       'NCT00215384', # Study in Patients With COPD (2005-09-13)
+       'NCT00250601', # An Eight-week Study to Evaluate the Efficacy and Safety of Saredutant in Patients With Depression (2005-04-30)
+       'NCT00789178', # Cognitive and Memory Function in Patients With Fibromyalgia
+       'NCT01925339', # Esthetic Outcomes of Immediately Placed Implants Receiving Immediate Provisionalization and Delayed Restoration
+       'NCT02920190', # Antigen-Lipid-Driven Monoclonal Gammopathies Targeting Epicardial Fat
+       'NCT04083599', # GEN1042 Safety Trial in Subjects With Malignant Solid Tumors
+       'NCT04367389',
+       'NCT00250601',
+       'NCT00215358',
+       'NCT00215384',
+       'NCT00789178',
+       'NCT01925339',
+       'NCT04083599'
       ]
     end
 
