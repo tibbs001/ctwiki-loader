@@ -13,8 +13,12 @@ module Util
 
     def erase_props_for(ids_and_vals)
       # expect ids_and_vals to be a collection of arrays like: [qcode, nct_id, prop_code, val]
-      File.open("public/erase_#{ids_and_vals.first[2]}.txt", "w+") do |f|
-        ids_and_vals.each{ |array| f << "\n-#{array.first}\t#{array[2]}\t#{unqualified(array.last)}" }
+      if ids_and_vals.size > 0
+        File.open("public/erase_#{ids_and_vals.first[2]}.txt", "w+") do |f|
+          ids_and_vals.each{ |array| f << "\n-#{array.first}\t#{array[2]}\t#{unqualified(array.last)}" }
+        end
+      else
+        puts "No such property found associated with any clinical trials."
       end
     end
 
