@@ -47,9 +47,9 @@ module Lookup
     end
 
     def self.impossible_descriptions
-      super + [ '1645-1718', '7th century Scottish martyr and saint', 'ability of an individual or organization to guide other individuals, teams, or entire organizations', 
-      'award', 'African Grey Parrot research subject', 'Airport in Pennsylvania', 'American martial artist', 'Argentine lawyer', 'Australian swimmer', 'American cricketer', 
-      'American landscape architect', 'biological process','boxer', 'botanist', 'bus stop', 'clinical trial', 'American software consultant', 'American television journalist', 
+      super + [ '1645-1718', '7th century Scottish martyr and saint', 'ability of an individual or organization to guide other individuals, teams, or entire organizations',
+      'award', 'African Grey Parrot research subject', 'Airport in Pennsylvania', 'American martial artist', 'Argentine lawyer', 'Australian swimmer', 'American cricketer',
+      'American landscape architect', 'biological process','boxer', 'botanist', 'bus stop', 'clinical trial', 'American software consultant', 'American television journalist',
       'Canadian broadcaster', 'Congressional Research Service report','data set','British rowing club','chemical compound','Chilean painter (1936–2011)','Chilean weightlifter',
       'Chinese photographer', 'Chinese translator', 'Chinese artist','Chinese entomologist','the formation of blood cellular components',
       'collective term for all approaches to prepare, support, and help individuals, teams, and organizations in making organizational change','cyclist','freestyle skier',
@@ -68,7 +68,8 @@ module Lookup
        'Tang dynasty person CBDB = 151668', 'Tang dynasty person CBDB = 193477', 'neighborhood',
        'the chemical reactions and pathways resulting in the formation of substances; typically the energy-requiring part of metabolism in which simpler substances are transformed into more complex ones',
        'The executive of Ukraine, consisting of the prime minister and cabinet ministers.','TV presenter','Region of the Czech Republic',
-       'The opposite of nofollow. When there is no impediment, warning or indication discouraging search engines in the act of following a hyperlink.'
+       'The opposite of nofollow. When there is no impediment, warning or indication discouraging search engines in the act of following a hyperlink.',
+       'the second xiangya hospital of csu'
       ]
     end
 
@@ -113,7 +114,6 @@ module Lookup
         'Mayo Clinic'                               => 'Q1130172',
         'Massachusetts General Hospital'            => 'Q126412',
         'Sanofi-Aventis Administrative Office'      => 'Q158205',
-        'Duke University Medical Center'            => 'Q168751',
         'Washington University School of Medicine'  => 'Q7972509',
         'ImClone Investigational Site'              => 'Q6001772',
         'Memorial Sloan Kettering Cancer Center'    => 'Q1808012',
@@ -180,7 +180,6 @@ module Lookup
         'University of California, San Francisco'  => 'Q1061104',
         'Assistance Publique - Hôpitaux de Paris'  => 'Q2867205',
         'National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)' => 'Q29220409',
-        'Duke University'                          => 'Q168751',
         'Novartis'                                 => 'Q507154',
         'Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)' => 'Q5409765',
         'University of Pittsburgh'                 => 'Q235034',
@@ -191,6 +190,30 @@ module Lookup
         'Fred Hutchinson Cancer Research Center'   => 'Q1452369',
         'Montefiore Medical Center'                => 'Q6905066',
         'University of Toyama'                     => 'Q1147924',
+
+        'Duke University'                          => 'Q168751',
+        'Duke University Medical Center'           => 'Q30279912',
+        'Duke University Hospital'                 => 'Q5312894',
+        'Duke University Health System'            => 'Q5312891',
+        'Duke Cancer Institute'                    => 'Q4892499',
+        'Duke Raleigh Hospital'                    => 'Q50036571',
+        'Duke University School of Medicine'       => 'Q4119601',
+        'Duke Eye center'                          => 'Q96149612',
+        'Duke Cancer Center'                       => 'Q96149477',
+        'Duke University Eye Center'               => 'Q96149612',
+        'Duke Human Vaccine Institute - Duke Vaccine and Trials Unit' => 'Q96150080',
+        'Duke Health'                              => 'Q5312891',
+        'Duke Child and Family Study Center'       => 'Q96150744',
+        'Duke University Medical Center, Duke Cancer Institute' => 'Q4892499',
+        'Duke University Health Systems'           => 'Q5312891',
+        'Duke University Hospital Medical Center'  => 'Q30279912',
+        'Duke Clinical Research Institute'         => 'Q56474016',
+        'Preston Robert Tisch Brain Tumor Center at Duke University' => 'Q96150792',
+        'Duke Medical Center'                      => 'Q30279912',
+        "Duke Children's Hospital"                 => 'Q30279914',
+        'Duke University Cancer Center'            => 'Q96149477',
+        'Duke UMC 3, Duke University Medical Center' => 'Q30279912',
+        'The Preston Robert Tisch Brain Tumor Center at Duke' => 'Q96150792',
       }
     end
   end

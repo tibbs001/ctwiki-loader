@@ -39,6 +39,7 @@ module QsCreator
        'P3098',  # nct id
        'P4844',  # interventions
        'P6099',  # phase
+       'P6153',  # facility
        'P8005',  # recruitment status (overall_status)
        'P21',    # gender
       ]
@@ -99,6 +100,8 @@ module QsCreator
           return min_max_age_quickstatements
         when 'P3098'  # NCT ID
           return "#{reg_prefix}\"#{nct_id}\""
+        when 'P6153'   # facilities
+          return facility_quickstatements
         when 'P4844'   # interventions
           return intervention_quickstatements
         when 'P6099'  # phase
@@ -181,6 +184,15 @@ module QsCreator
       return_str << 'CREATE'
       return_str << "#{new_line}#{subject}#{tab}P31#{tab}Q1438035"   # instance of research design
       return_str << "#{new_line}#{subject}#{tab}?????#{tab}en:\"#{design.intervention_for_wiki}\""
+      return return_str
+    end
+
+    def main_orgs_quickstatements
+      return_str = ''
+      overall_official.each{ |org|
+        qcode = Lookup::Organization.qcode_for(org.affiliation)
+        return_str << "#{new_line}#{subject}#{tab}P6153#{tab}#{qcode}" if !qcode.blank?
+      }
       return return_str
     end
 
