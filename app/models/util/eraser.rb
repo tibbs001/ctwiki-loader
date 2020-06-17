@@ -5,15 +5,21 @@ module Util
 
     # erase property P854  (link to https://www.ncbi.nlm.nih.gov/pubmed/?term)
     # erase property P698  mistakenly links to pmid string.
-    def erase_prop(code)
-      erase_props_for(wiki_mgr.get_vals_for(code))
+    # erase property P21:  -Q90692439	P21	Q6581072
+    def erase_prop(prop)
+      vals = wiki_mgr.get_vals_for(prop)
+      erase_props_for(wiki_mgr.get_vals_for(prop))
     end
 
     def erase_props_for(ids_and_vals)
       # expect ids_and_vals to be a collection of arrays like: [qcode, nct_id, prop_code, val]
       File.open("public/erase_#{ids_and_vals.first[2]}.txt", "w+") do |f|
-        ids_and_vals.each{ |array| f << "\n-#{array.first}\t#{array[2]}\t#{array.last}" }
+        ids_and_vals.each{ |array| f << "\n-#{array.first}\t#{array[2]}\t#{unqualified(array.last)}" }
       end
+    end
+
+    def unqualified(url)
+      url.split('/').last
     end
 
     def initialize
