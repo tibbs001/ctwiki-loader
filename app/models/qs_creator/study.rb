@@ -144,13 +144,6 @@ module QsCreator
             return_str << "#{reg_prefix}Q92335256"
           end
           return return_str
-        when 'P21'  # gender
-          if gender_based and ! gender.blank?
-            return_str=''
-            return_str << "#{reg_prefix}Q6581072" if gender.include? 'Female'
-            return_str << "#{reg_prefix}Q6581097" if gender.include? 'Male'
-            return return_str
-          end
       else
         puts "unknown property:  #{prop_code}"
       end
