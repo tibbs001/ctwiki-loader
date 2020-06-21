@@ -251,7 +251,7 @@ module Lookup
         'Duke University Cancer Center'            => 'Q96149477',
         'Duke UMC 3, Duke University Medical Center' => 'Q30279912',
         'Preston Robert Tisch Brain Tumor Center at Duke University' => 'Q96150792',
-        'The Preston Robert Tisch Brain Tumor Center at Duke' => 'Q96150792' => 'Q96150792',
+        'The Preston Robert Tisch Brain Tumor Center at Duke' => 'Q96150792',
         'Duke University Health System Preston Robert Tisch Brain Tumor Center' => 'Q96150792',
         'Duke University Medical Center Preston Robert Tisch Brain Tumor Center' => 'Q96150792',
         'Duke University Medical Center, Preston Robert Tisch Brain Tumor Center' => 'Q96150792',
