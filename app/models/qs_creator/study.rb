@@ -94,7 +94,9 @@ module QsCreator
         when 'P1132'  # number of participants
           return "#{reg_prefix}#{enrollment}" if enrollment
         when 'P8363'  # study type
-          return "#{reg_prefix}#{study_type}"
+          return "#{reg_prefix}Q78089383" if study_type == 'Interventional'
+          return "#{reg_prefix}Q78089804" if study_type == 'Observational'
+          return "#{reg_prefix}Q407954"   if study_type == 'Expanded Access'
         when 'P1476'  # title
           return "#{reg_prefix}en:\"#{official_title}\"" if official_title
         when 'P1813'  # acronym
