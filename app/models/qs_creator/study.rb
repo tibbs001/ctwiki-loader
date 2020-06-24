@@ -27,6 +27,7 @@ module QsCreator
        'P31',    # instance of
        'P248',   # publications
        'P580',   # start date
+       'P8363',  # study type
        'P582',   # primary completion date
        'P767',   # collaborators
        'P859',   # sponsors
@@ -92,6 +93,8 @@ module QsCreator
           return condition_quickstatements
         when 'P1132'  # number of participants
           return "#{reg_prefix}#{enrollment}" if enrollment
+        when 'P8363'  # study type
+          return "#{reg_prefix}#{study_type}"
         when 'P1476'  # title
           return "#{reg_prefix}en:\"#{official_title}\"" if official_title
         when 'P1813'  # acronym
