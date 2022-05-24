@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.2.11.1)
       actionpack (= 4.2.11.1)
@@ -134,7 +134,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.8.0)
     minitest (5.13.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
@@ -144,8 +144,9 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.1.0)
     netrc (0.11.0)
-    nokogiri (1.10.8)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.13.6)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
     normalize-rails (4.1.1)
     openssl (2.0.9)
     pg (0.21.0)
@@ -161,6 +162,7 @@ GEM
     public_suffix (2.0.5)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
+    racc (1.6.0)
     rack (1.6.13)
     rack-cors (1.0.6)
       rack (>= 1.6.0)
