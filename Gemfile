@@ -10,7 +10,7 @@ gem 'loofah', '~> 2.3.1'
 gem 'rails'
 gem "rubyzip", ">= 1.2.2"
 gem 'openssl', '~> 2.0.2'
-gem 'rails-html-sanitizer', '~> 1.0.4'
+gem 'rails-html-sanitizer', '~> 1.4.3'
 gem "rack-timeout"
 gem "faraday"
 gem "autoprefixer-rails"
