@@ -1,4 +1,4 @@
-class CreatePubmedAuthorsTable < ActiveRecord::Migration
+class CreatePubmedAuthorsTable < ActiveRecord::Migration[7.0]
 
   def change
 

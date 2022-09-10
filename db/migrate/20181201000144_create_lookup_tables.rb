@@ -1,4 +1,4 @@
-class CreateLookupTables < ActiveRecord::Migration
+class CreateLookupTables < ActiveRecord::Migration[7.0]
   def change
 
     create_table 'lookup.countries' do |t|

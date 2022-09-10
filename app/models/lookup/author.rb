@@ -12,7 +12,7 @@ module Lookup
     end
 
     def self.all_labels
-      Pubmed::Author.uniq.pluck(:orcid).compact
+      Pubmed::Author.pluck(:orcid).compact
     end
 
     def self.search_for_qcode(orcid)

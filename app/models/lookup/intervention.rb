@@ -98,6 +98,9 @@ module Lookup
 
     def self.names_to_ignore
        ['1  pf',
+        '(r)-n-((4-methoxy-6-methyl-2-oxo-1,2-dihydropyridin-3-yl)methyl)-2-methyl-1-(1-(1-(2,2,2-trifluoroethyl)piperidin-4-yl)ethyl)-1h-indole-3-carboxamide',
+        '(s)-2-ethyl-8-methyl-1-thia-4,8-diazaspiro(4.5)decan-3-one',
+        'n(1),n(11)-diethylnorspermine',
         'acoustic',
         'aline ha',
         'biological agents',

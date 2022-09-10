@@ -1,4 +1,4 @@
-class CreateAuthorLookupTable < ActiveRecord::Migration
+class CreateAuthorLookupTable < ActiveRecord::Migration[7.0]
   def change
 
     create_table 'lookup.authors' do |t|

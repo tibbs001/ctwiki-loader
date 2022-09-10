@@ -34,12 +34,12 @@ Note: all external dependencies are freely available; it just takes some time/ef
 
 ## Getting started
 
-Install:
-* ruby 2.4.5 (You need ruby/rails installed locally since this app is not yet containerized)
-* rails 4.2.11.1
+* Install:
+** ruby 2.4.5 (You need ruby/rails installed locally since this app is not yet containerized)
+** rails 4.2.11.1
 
-
-
+* (Need to create a separate database or schema for this because we cannot write to the AACT database we're referencing)
+* Run migrations to create the lookup tables  (bundle exec rake db:migrate)  
 
 ### These commands will populate the lookup tables so that relationships can be defined.
 

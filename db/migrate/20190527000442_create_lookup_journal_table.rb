@@ -1,4 +1,4 @@
-class CreateLookupJournalTable < ActiveRecord::Migration
+class CreateLookupJournalTable < ActiveRecord::Migration[7.0]
 
   def change
 

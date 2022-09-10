@@ -21,7 +21,7 @@ module Lookup
 
     def populate
       mgr = Util::WikiDataManager.new
-      existing_qcodes = Lookup::Publication.where('qcode is not null')
+      existing_qcodes = Lookup::Publication.where('qcode is not null').to_a
       study_ref_ids_yet_to_load.each {|val|
         ref = Ctgov::StudyReference.find(val['id'])
         qcode = mgr.get_qcode_for_pmid(ref.pmid)

@@ -42,7 +42,6 @@ module QsCreator
        'P6099',  # phase
        'P6153',  # facility
        'P8005',  # recruitment status (overall_status)
-       'P21',    # gender
       ]
     end
 

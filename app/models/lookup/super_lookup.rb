@@ -45,7 +45,7 @@ module Lookup
     end
 
     def self.all_labels
-      (self.source_data.constantize.uniq.pluck(self.label).compact.map{|n|n.downcase})
+      (self.source_data.constantize.pluck(self.label).compact.map{|n|n.downcase})
     end
 
     def self.unregistered_names(model_type=self.source_data.constantize)

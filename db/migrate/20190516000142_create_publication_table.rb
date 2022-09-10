@@ -1,4 +1,4 @@
-class CreatePublicationTable < ActiveRecord::Migration
+class CreatePublicationTable < ActiveRecord::Migration[7.0]
 
   def change
 
@@ -9,7 +9,6 @@ class CreatePublicationTable < ActiveRecord::Migration
       t.string  'issue'
       t.string  'iso_abbreviation'
       t.string  'published_in'
-      t.string  'iso_abbreviation'
       t.date    'completion_date'
       t.date    'revision_date'
       t.date    'publication_date'

@@ -1,4 +1,4 @@
-class CreatePublicationLookupTables < ActiveRecord::Migration
+class CreatePublicationLookupTables < ActiveRecord::Migration[7.0]
 
   def change
 
