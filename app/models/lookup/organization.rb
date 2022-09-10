@@ -240,7 +240,6 @@ module Lookup
         'Duke University Hospital Medical Center'  => 'Q30279912',
         'Duke Clinical Research Institute'         => 'Q56474016',
         'Duke Medical Center'                      => 'Q30279912',
-        "Duke Children's Hospital"                 => 'Q30279914',
         "Duke Children"                            => 'Q30279914',
         "Duke Children's Health Center"            => 'Q30279914',
         "Duke Children's Health Center, Pediatric Infectious Diseases" => 'Q30279914',

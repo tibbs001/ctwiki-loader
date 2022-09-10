@@ -41,6 +41,8 @@ module Util
           file << quickstatement_for(prop_code)
         }
         file << " #{new_line}#{new_line}"
+      else
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>> #{id} should not be loaded!!!"
       end
     end
 

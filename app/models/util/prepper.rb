@@ -21,6 +21,7 @@ module Util
       batch_size = args[:batch_size] || 1000
       cntr = start_num
       until cntr > source_model_name.count do
+        puts "........................................................................... cntr: #{cntr} source_model_name.count: #{source_model_name.count}"
         new({:start_num => cntr, :batch_size => batch_size}).run
         cntr = cntr + batch_size
         sleep(1.minute)
@@ -53,6 +54,8 @@ module Util
           if !loaded_ids.include? id
             qsc.create_all_quickstatements(id, f)
             loaded_ids << id
+          else
+            puts "........................................................................... Already loaded!!! cntr: #{cntr} ID: #{id}"
           end
         rescue => e
           loaded_ids << id
